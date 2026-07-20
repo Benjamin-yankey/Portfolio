@@ -138,18 +138,41 @@
   padding: clamp(96px, 14vh, 160px) 0 clamp(64px, 10vh, 120px);
 }
 
-@utility animate-spin-slow {
-  animation: spin-slow 22s linear infinite;
+@utility animate-marquee-left {
+  animation-name: marquee-left;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-@keyframes spin-slow {
+@utility animate-marquee-right {
+  animation-name: marquee-right;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Each row renders its segment twice back-to-back; translating by exactly
+   -50% of the (two-segment-wide) row shifts it by one segment's width,
+   which loops seamlessly since both segments are identical. */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
   to {
-    transform: rotate(360deg);
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-spin-slow {
+  .animate-marquee-left,
+  .animate-marquee-right {
     animation: none;
   }
 }
