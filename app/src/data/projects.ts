@@ -1,0 +1,61 @@
+export interface Project {
+  num: string
+  title: string
+  summary: string
+  tags: string[]
+  problem: string
+  solution: string
+  role: string
+  metric: string
+}
+
+export const projects: Project[] = [
+  {
+    num: '01',
+    title: 'Zero-Downtime Deployment Pipeline',
+    summary: 'Re-engineered the release process to eliminate downtime windows entirely.',
+    tags: ['Jenkins', 'ArgoCD', 'Kubernetes'],
+    problem:
+      'Weekly deploys required a scheduled maintenance window and a manual rollback plan, causing customer-facing downtime and on-call fatigue every release cycle.',
+    solution:
+      'Migrated from a monolithic Jenkins pipeline to a GitOps model on ArgoCD, introducing progressive delivery — canary and blue/green rollouts — gated by automated health checks on Kubernetes.',
+    role: 'Led the migration end-to-end: pipeline redesign, rollout strategy, and rollback tooling, in collaboration with two backend teams.',
+    metric: 'Reduced deployment time by 70% and eliminated release-window downtime entirely.',
+  },
+  {
+    num: '02',
+    title: 'Multi-Cloud Infrastructure-as-Code Framework',
+    summary: 'Standardized provisioning across AWS and Azure under one Terraform framework.',
+    tags: ['Terraform', 'AWS', 'Azure'],
+    problem:
+      'Infrastructure was hand-provisioned differently per cloud, leading to configuration drift, inconsistent environments, and slow onboarding for new services.',
+    solution:
+      'Designed a modular Terraform framework with shared conventions, remote state management, and reusable modules abstracted across AWS and Azure providers.',
+    role: 'Owned framework architecture and module design; wrote adoption guidelines used by three product teams.',
+    metric: 'Cut new-environment provisioning time from days to under two hours.',
+  },
+  {
+    num: '03',
+    title: 'Observability Stack Overhaul',
+    summary: 'Rebuilt monitoring from scattered dashboards into one coherent signal.',
+    tags: ['Prometheus', 'Grafana', 'Loki'],
+    problem:
+      "Incidents were often discovered by customers before engineers; existing dashboards didn't correlate metrics, logs, and traces in one place.",
+    solution:
+      'Deployed Prometheus and Loki behind unified Grafana dashboards, with alert thresholds tuned to user impact and runbooks linked directly from every alert.',
+    role: 'Designed the alerting taxonomy and led rollout across five services, training on-call engineers on the new dashboards.',
+    metric: 'Cut mean-time-to-detect incidents by 65%.',
+  },
+  {
+    num: '04',
+    title: 'Self-Healing Kubernetes Cluster',
+    summary: 'Automated recovery from the failures that used to page someone at 2 a.m.',
+    tags: ['Kubernetes', 'Helm', 'ArgoCD'],
+    problem:
+      'Common node and pod failures required manual remediation, consuming on-call hours on repetitive, entirely scriptable fixes.',
+    solution:
+      'Built Helm-packaged operators and ArgoCD-managed self-healing policies covering automatic pod rescheduling, node cordoning, and resource-pressure eviction.',
+    role: 'Designed and implemented the self-healing policies; documented failure classes and escalation paths for the remaining edge cases.',
+    metric: 'Reduced manual incident intervention by 80%.',
+  },
+]
