@@ -1,4 +1,5 @@
 import { navItems } from './data/nav'
+import { scrollToSection } from './lib/scrollToSection'
 import { useOverlayNav } from './hooks/useOverlayNav'
 import { useScrollSpy } from './hooks/useScrollSpy'
 import { TopBar } from './components/TopBar'
@@ -14,19 +15,14 @@ import { Footer } from './components/Footer'
 const SECTION_IDS = navItems.map((item) => item.target)
 
 function App() {
-  const { isOpen, toggle, close } = useOverlayNav()
+  const { isOpen, open, toggle, close } = useOverlayNav()
   const activeId = useScrollSpy(SECTION_IDS)
 
   function handleNavigate(target: string) {
     close()
     // Same 300ms delay as the source: let the overlay finish closing before
     // the page scrolls, so the motion doesn't fight itself.
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    window.setTimeout(() => {
-      document
-        .getElementById(target)
-        ?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' })
-    }, 300)
+    window.setTimeout(() => scrollToSection(target), 300)
   }
 
   return (
@@ -51,7 +47,7 @@ function App() {
       />
 
       <main>
-        <Hero />
+        <Hero onOpenMenu={open} onNavigate={scrollToSection} />
         <Projects />
         <Skills />
         <Experience />

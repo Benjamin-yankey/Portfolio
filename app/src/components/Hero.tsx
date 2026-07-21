@@ -2,7 +2,12 @@ import { site } from '../data/site'
 import { HeroBadge } from './HeroBadge'
 import { HeroMarquee } from './HeroMarquee'
 
-export function Hero() {
+interface HeroProps {
+  onOpenMenu: () => void
+  onNavigate: (target: string) => void
+}
+
+export function Hero({ onOpenMenu, onNavigate }: Readonly<HeroProps>) {
   return (
     <section
       id="home"
@@ -18,7 +23,7 @@ export function Hero() {
       </h1>
       <HeroMarquee />
       <div className="relative z-10">
-        <HeroBadge />
+        <HeroBadge onOpenMenu={onOpenMenu} onNavigate={onNavigate} />
       </div>
     </section>
   )
