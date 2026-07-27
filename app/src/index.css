@@ -138,6 +138,73 @@
   padding: clamp(96px, 14vh, 160px) 0 clamp(64px, 10vh, 120px);
 }
 
+/* ---------- 3D depth ----------
+   Two halves of one system: `scene-3d` establishes the vanishing point on a
+   *container*, `plane-3d` is the surface inside it that actually rotates.
+   The rotation values come from usePointerTilt, which writes --tilt-x /
+   --tilt-y / --lift onto the scene element and lets them inherit down.
+
+   There is deliberately no CSS transition on `plane-3d`: the hook already
+   eases every frame in JS, and a transition on top would lag behind the
+   cursor and double-smooth the motion into mush. Elements that animate
+   *without* the hook (the reveal below) do get a transition. */
+@utility scene-3d {
+  perspective: var(--scene-perspective, 1200px);
+  perspective-origin: 50% 50%;
+}
+
+@utility plane-3d {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+    translate3d(0, 0, var(--lift, 0px));
+  will-change: transform;
+}
+
+/* Child layers of a plane-3d, floated at their own depths so they separate
+   from the surface as it turns — this parallax between layers is what sells
+   the tilt as real depth rather than a skew.
+
+   --layer-z rests at 0 and is raised by a `group-hover:[--layer-z:…]`
+   variant at the call site, never inline. That is not a stylistic choice:
+   perspective scales a raised layer by perspective/(perspective - z), so a
+   layer left permanently at 34px is permanently ~4% too large and its left
+   edge sits several pixels outside the column it is supposed to line up
+   with. Resting flat keeps every static layout pixel-identical to the
+   design, and spends the depth only while the pointer is actually there. */
+@utility layer-3d {
+  transform: translateZ(var(--layer-z, 0px));
+  transition: transform 500ms var(--ease-editorial);
+}
+
+/* Scroll-reveal with depth: content swings up from below the viewer and
+   settles flush. `perspective()` as a transform *function* (rather than the
+   `scene-3d` property) gives each element its own vanishing point, so Reveal
+   stays a single polymorphic tag — no wrapper div, which would be invalid
+   between a <ul> and its <li> children. */
+@utility reveal-3d {
+  transform: perspective(1400px) translate3d(0, var(--reveal-y, 30px), var(--reveal-z, -160px))
+    rotateX(var(--reveal-rot, 10deg));
+  transform-origin: 50% 100%;
+}
+
+@utility reveal-3d-in {
+  --reveal-y: 0px;
+  --reveal-z: 0px;
+  --reveal-rot: 0deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plane-3d {
+    transform: none;
+  }
+  .layer-3d {
+    transform: none;
+  }
+  .reveal-3d {
+    transform: none;
+  }
+}
+
 @utility animate-marquee-left {
   animation-name: marquee-left;
   animation-timing-function: linear;
@@ -167,6 +234,18 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+/* The WebGL hero mounts well after first paint, so it has to arrive rather
+   than appear — a canvas popping in at full strength on an already-settled
+   page reads as a glitch. */
+@keyframes scene-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

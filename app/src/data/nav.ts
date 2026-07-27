@@ -1,14 +1,14 @@
 export interface NavItem {
   label: string
-  target: string
+  path: string
 }
 
-/** Order also drives the section render order in App and the scroll-spy list. */
+/** Order also drives the nav overlay order and the route list in App. */
 export const navItems: NavItem[] = [
-  { label: 'Home', target: 'home' },
-  { label: 'Projects', target: 'projects' },
-  { label: 'Skills', target: 'skills' },
-  { label: 'Experience', target: 'experience' },
-  { label: 'Journal', target: 'journal' },
-  { label: 'Contact', target: 'contact' },
+  { label: 'Home', path: '/' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Experience', path: '/experience' },
+  { label: 'Journal', path: '/journal' },
+  { label: 'Contact', path: '/contact' },
 ]

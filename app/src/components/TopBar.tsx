@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { site } from "../data/site";
 
 interface TopBarProps {
@@ -9,13 +10,13 @@ interface TopBarProps {
 export function TopBar({ isOpen, onToggle }: Readonly<TopBarProps>) {
   return (
     <header className="fixed inset-x-0 top-0 z-[60] flex items-center justify-between bg-cream px-6 py-5 sm:px-14 sm:py-6">
-      <a
-        href="#home"
+      <Link
+        to="/"
         className="font-serif text-xl leading-none tracking-[0.04em]"
         style={{ fontWeight: 500 }}
       >
         {site.wordmark}
-      </a>
+      </Link>
 
       <button
         type="button"

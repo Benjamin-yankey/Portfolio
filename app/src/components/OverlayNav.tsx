@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import type { NavItem } from '../data/nav'
 import { site } from '../data/site'
 import { GitHubIcon, LinkedInIcon, EmailIcon } from './icons/SocialIcons'
@@ -6,8 +7,8 @@ import { GitHubIcon, LinkedInIcon, EmailIcon } from './icons/SocialIcons'
 interface OverlayNavProps {
   isOpen: boolean
   navItems: NavItem[]
-  activeId: string
-  onNavigate: (target: string) => void
+  activePath: string
+  onNavigate: (path: string) => void
 }
 
 const EASE = 'cubic-bezier(.22,.61,.36,1)'
@@ -22,7 +23,7 @@ const EASE = 'cubic-bezier(.22,.61,.36,1)'
  * That's awkward to express with paired Tailwind utility classes, so it's
  * set directly via inline style.
  */
-export function OverlayNav({ isOpen, navItems, activeId, onNavigate }: Readonly<OverlayNavProps>) {
+export function OverlayNav({ isOpen, navItems, activePath, onNavigate }: Readonly<OverlayNavProps>) {
   const navStyle: CSSProperties = {
     transition: `opacity .55s ${EASE}, transform .55s ${EASE}, visibility 0s linear ${isOpen ? '0s' : '.55s'}`,
     visibility: isOpen ? 'visible' : 'hidden',
@@ -40,22 +41,22 @@ export function OverlayNav({ isOpen, navItems, activeId, onNavigate }: Readonly<
     >
       <ul className="text-center">
         {navItems.map((item, index) => (
-          <li key={item.target} className="overflow-hidden">
-            <a
-              href={`#${item.target}`}
+          <li key={item.path} className="overflow-hidden">
+            <Link
+              to={item.path}
               onClick={(event) => {
                 event.preventDefault()
-                onNavigate(item.target)
+                onNavigate(item.path)
               }}
               className={[
                 'block py-[0.06em] font-serif text-[clamp(2.4rem,8vw,5.2rem)] leading-[1.08] font-normal transition-transform duration-700 ease-editorial',
-                activeId === item.target ? 'text-ink' : 'text-muted-faint',
+                activePath === item.path ? 'text-ink' : 'text-muted-faint',
                 isOpen ? 'translate-y-0' : 'translate-y-[110%]',
               ].join(' ')}
               style={{ transitionDelay: isOpen ? `${index * 60 + 60}ms` : '0ms' }}
             >
               {item.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

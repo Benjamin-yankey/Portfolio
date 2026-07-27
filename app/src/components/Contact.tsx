@@ -3,7 +3,7 @@ import { Reveal } from './Reveal'
 
 export function Contact() {
   return (
-    <section id="contact" className="section text-center">
+    <section className="section text-center">
       <div className="container-page">
         <p className="eyebrow mb-0 text-center">05 — Contact</p>
         <Reveal as="h2" className="mt-6 mb-6 font-serif text-[clamp(3rem,9vw,6.4rem)] leading-none">

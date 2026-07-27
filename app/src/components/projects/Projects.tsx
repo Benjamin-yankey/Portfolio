@@ -9,11 +9,11 @@ export function Projects() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section id="projects" className="section border-b border-line-soft">
+    <section className="section">
       <div className="container-page">
         <SectionHeading title="Selected work" index="01 — Projects" />
 
-        <Reveal as="ul" className="border-t border-line">
+        <Reveal as="ul" depth className="border-t border-line">
           {projects.map((project, index) => (
             <ProjectItem
               key={project.num}

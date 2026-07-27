@@ -4,7 +4,7 @@ import { SectionHeading } from './SectionHeading'
 
 export function Journal() {
   return (
-    <section id="journal" className="section border-b border-line-soft">
+    <section className="section">
       <div className="container-page">
         <SectionHeading title="Journal" index="04 — Journal" />
 
