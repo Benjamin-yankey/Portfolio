@@ -27,7 +27,7 @@ export function HeroBadge() {
           style={{ '--layer-z': '-40px' } as CSSProperties}
         />
         <img
-          src="/images/portrait-cutout.webp"
+          src={`${import.meta.env.BASE_URL}images/portrait-cutout.webp`}
           alt="Benjamin Yankey"
           className="relative h-full w-full object-cover drop-shadow-[0_20px_32px_rgba(26,26,26,0.25)]"
         />
