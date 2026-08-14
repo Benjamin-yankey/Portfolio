@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
+import { Splash } from './components/Splash'
 import { Hero } from './components/Hero'
 import { Projects } from './components/projects/Projects'
 import { Skills } from './components/Skills'
@@ -11,8 +12,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Splash />} />
         <Route element={<Layout />}>
-          <Route index element={<Hero />} />
+          <Route path="home" element={<Hero />} />
           <Route path="projects" element={<Projects />} />
           <Route path="skills" element={<Skills />} />
           <Route path="experience" element={<Experience />} />

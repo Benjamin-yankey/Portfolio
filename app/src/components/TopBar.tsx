@@ -11,7 +11,7 @@ export function TopBar({ isOpen, onToggle }: Readonly<TopBarProps>) {
   return (
     <header className="fixed inset-x-0 top-0 z-[60] flex items-center justify-between bg-cream px-6 py-5 sm:px-14 sm:py-6">
       <Link
-        to="/"
+        to="/home"
         className="font-serif text-xl leading-none tracking-[0.04em]"
         style={{ fontWeight: 500 }}
       >

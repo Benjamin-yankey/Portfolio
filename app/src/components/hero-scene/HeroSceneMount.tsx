@@ -1,37 +1,12 @@
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { isCapableDevice, supportsWebGL } from '../../lib/webgl'
 
 // three + @react-three/fiber are roughly half a megabyte — an order of
 // magnitude more than the rest of the site put together. Splitting them into
 // their own chunk here means the initial bundle never pays for them; the
 // import isn't even requested until the checks below pass.
 const HeroScene = lazy(() => import('./HeroScene'))
-
-/** Cheap feature probe: build a throwaway context and immediately drop it. */
-function supportsWebGL() {
-  try {
-    const canvas = document.createElement('canvas')
-    const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl')
-    if (!gl) return false
-    gl.getExtension('WEBGL_lose_context')?.loseContext()
-    return true
-  } catch {
-    return false
-  }
-}
-
-/**
- * Desktop only, and deliberately so. The scene's cost is a ~235 kB chunk
- * plus a GPU redraw every frame for as long as the hero is on screen —
- * spent on a phone that is likely metered and on battery, for an effect
- * whose pointer interaction can't even be used without a cursor. The CSS
- * hero is the whole experience on touch, and it loses nothing by it.
- */
-function isCapableDevice() {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return false
-  const cores = navigator.hardwareConcurrency
-  return cores === undefined || cores >= 4
-}
 
 /**
  * Decides whether the WebGL hero gets to exist at all, and delays it until

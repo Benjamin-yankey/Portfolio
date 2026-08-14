@@ -255,3 +255,26 @@
     animation: none;
   }
 }
+
+/* The hero code card's trailing cursor: a plain terminal blink, not a
+   decorative flourish — signals "still running" rather than "finished". */
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cursor-blink {
+    animation: none;
+  }
+}

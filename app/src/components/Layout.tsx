@@ -6,14 +6,7 @@ import { useOverlayNav } from '../hooks/useOverlayNav'
 import { TopBar } from './TopBar'
 import { OverlayNav } from './OverlayNav'
 import { Footer } from './Footer'
-
-/** Context handed to whichever page is routed into the `<Outlet>`. Only Hero
- *  currently reads it (for the badge's "open nav" button and its in-panel
- *  route links) — every other page is a plain route with no chrome to control. */
-export interface PageContext {
-  openMenu: () => void
-  goTo: (path: string) => void
-}
+import { PaperGrain } from './PaperGrain'
 
 /**
  * Shared page chrome: the paper-grain overlay, fixed top bar, full-screen
@@ -22,7 +15,7 @@ export interface PageContext {
  * `<Outlet>` and this is the only thing that persists across navigations.
  */
 export function Layout() {
-  const { isOpen, open, toggle, close } = useOverlayNav()
+  const { isOpen, toggle, close } = useOverlayNav()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -35,7 +28,12 @@ export function Layout() {
 
   useEffect(() => {
     const current = navItems.find((item) => item.path === location.pathname)
-    document.title = current && current.path !== '/' ? `${current.label} — ${site.wordmark}` : `${site.wordmark} — ${site.role}`
+    // The hub route (Home) gets the site's "front door" title; every other
+    // page gets its own name ahead of the wordmark.
+    document.title =
+      current && current.path !== navItems[0].path
+        ? `${current.label} — ${site.wordmark}`
+        : `${site.wordmark} — ${site.role}`
   }, [location.pathname])
 
   function handleNavigate(path: string) {
@@ -51,16 +49,7 @@ export function Layout() {
 
   return (
     <>
-      {/* Subtle paper-grain texture over the whole page, matching the
-          source's `body::before` overlay. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[2] opacity-50 mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.03 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
-        }}
-      />
+      <PaperGrain />
 
       <TopBar isOpen={isOpen} onToggle={toggle} />
       <OverlayNav
@@ -71,7 +60,7 @@ export function Layout() {
       />
 
       <main>
-        <Outlet context={{ openMenu: open, goTo: navigate } satisfies PageContext} />
+        <Outlet />
       </main>
 
       <Footer />

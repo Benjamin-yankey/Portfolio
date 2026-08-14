@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import type { Mesh, ShaderMaterial } from 'three'
 import { Color, DoubleSide, Vector2 } from 'three'
+import { FrameRateGuard } from '../FrameRateGuard'
 
 // Segment counts set the wireframe's line density. High enough to read as a
 // surveyed grid, low enough that the whole mesh stays a few thousand verts —
@@ -116,46 +117,6 @@ function Terrain() {
       />
     </mesh>
   )
-}
-
-const WARMUP_SECONDS = 1
-const SAMPLE_SECONDS = 2
-const MIN_ACCEPTABLE_FPS = 30
-
-interface FrameRateGuardProps {
-  onTooSlow: () => void
-}
-
-/**
- * Measures the scene's actual frame rate once and, if the machine can't
- * keep up, asks to be removed.
- *
- * The static capability checks in HeroSceneMount can't see this: a browser
- * that reports WebGL support may still be rasterizing in software (a VM, a
- * blocklisted driver), where this wireframe's fill cost drops the whole page
- * to single-digit frames. A portfolio that stutters is worse than one
- * without a background effect, so the effect is what gives way.
- */
-function FrameRateGuard({ onTooSlow }: Readonly<FrameRateGuardProps>) {
-  const elapsed = useRef(0)
-  const frames = useRef(0)
-  const settled = useRef(false)
-
-  useFrame((_, delta) => {
-    if (settled.current) return
-    elapsed.current += delta
-
-    // Skip the first second: shader compilation and the initial upload make
-    // the opening frames unrepresentative of the steady state.
-    if (elapsed.current < WARMUP_SECONDS) return
-    frames.current++
-    if (elapsed.current < WARMUP_SECONDS + SAMPLE_SECONDS) return
-
-    settled.current = true
-    if (frames.current / SAMPLE_SECONDS < MIN_ACCEPTABLE_FPS) onTooSlow()
-  })
-
-  return null
 }
 
 interface HeroSceneProps {
