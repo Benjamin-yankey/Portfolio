@@ -1,7 +1,7 @@
 import { type SubmitEvent, useState } from 'react'
 import { site } from '../data/site'
 import { projects } from '../data/projects'
-import { certifications } from '../data/skills'
+import { certifications, skillCategories } from '../data/skills'
 import { githubStats } from '../data/githubStats'
 import { EmailIcon, GitHubIcon, LinkedInIcon } from './icons/SocialIcons'
 import { Reveal } from './Reveal'
@@ -80,6 +80,21 @@ export function Contact() {
             </div>
           ))}
         </Reveal>
+
+        {skillCategories.length > 0 && (
+          <Reveal as="div" className="mb-[clamp(40px,5vw,64px)]">
+            <span className="mb-3 block text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">
+              Topics I can help with
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {skillCategories.map((category) => (
+                <span key={category.title} className="tag-pill">
+                  {category.title}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+        )}
 
         <div className="grid grid-cols-[1fr_1.3fr] gap-[clamp(28px,4vw,56px)] max-[860px]:grid-cols-1">
           <Reveal as="div" depth className="flex flex-col gap-4">
