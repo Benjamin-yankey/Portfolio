@@ -15,6 +15,7 @@ export interface Site {
   footerCopy: string
   portrait: string
   heroVideo?: string
+  contactImage?: string
   availabilityStatus?: string
   location?: string
   engagementTypes?: string[]

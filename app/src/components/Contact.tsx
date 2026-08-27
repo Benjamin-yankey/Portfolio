@@ -3,14 +3,14 @@ import { site } from '../data/site'
 import { projects } from '../data/projects'
 import { certifications, skillCategories } from '../data/skills'
 import { githubStats } from '../data/githubStats'
-import { EmailIcon, GitHubIcon, LinkedInIcon } from './icons/SocialIcons'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
-const INFO_CARDS = [
-  { label: 'Email', value: site.email, href: `mailto:${site.email}`, Icon: EmailIcon },
-  { label: 'GitHub', value: 'Benjamin-yankey', href: site.github, Icon: GitHubIcon },
-  { label: 'LinkedIn', value: 'benjamin-yankey', href: site.linkedin, Icon: LinkedInIcon },
+const CONTACT_GRID = [
+  { label: 'Email', linkText: site.email, href: `mailto:${site.email}` },
+  { label: 'GitHub', linkText: 'View profile', href: site.github },
+  { label: 'LinkedIn', linkText: 'View profile', href: site.linkedin },
+  ...(site.resumeHref ? [{ label: 'Résumé', linkText: 'Download PDF', href: site.resumeHref, download: true }] : []),
 ]
 
 const STATS = [
@@ -43,10 +43,38 @@ export function Contact() {
   }
 
   return (
-    <section className="section">
-      <div className="container-page">
-        <SectionHeading title="Let's build something great" index="06 — Contact" />
+    <>
+      {/* Full-bleed split hero — sits outside `container-page` deliberately,
+          same pattern as GithubExploreMount, so the two halves reach the
+          viewport edges. Starts at the true top of the page; the fixed
+          TopBar (bg-cream, z-60) overlays its first ~120px, so the eyebrow
+          and headline carry enough top padding to clear it rather than
+          sitting behind it. */}
+      <section className="grid grid-cols-2 max-[760px]:grid-cols-1">
+        <Reveal
+          as="div"
+          depth
+          className="flex flex-col justify-center gap-6 bg-ink px-[clamp(24px,6vw,72px)] pt-[140px] pb-[clamp(56px,8vw,96px)] text-cream max-[760px]:pt-[120px]"
+        >
+          <span className="text-[11px] font-semibold tracking-[0.18em] text-cream/60 uppercase">
+            Contact
+          </span>
+          <h1 className="font-serif text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.08]">
+            Let's build something great
+          </h1>
+        </Reveal>
+        <div className="relative min-h-[360px] max-[760px]:min-h-[280px]">
+          <img
+            src={site.contactImage || site.portrait}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover grayscale"
+          />
+        </div>
+      </section>
 
+      <section className="section">
+      <div className="container-page">
         <Reveal
           as="p"
           className="mb-6 max-w-[62ch] text-[0.98rem] leading-[1.7] text-ink-soft"
@@ -96,52 +124,44 @@ export function Contact() {
           </Reveal>
         )}
 
-        <div className="grid grid-cols-[1fr_1.3fr] gap-[clamp(28px,4vw,56px)] max-[860px]:grid-cols-1">
-          <Reveal as="div" depth className="flex flex-col gap-4">
-            {site.engagementTypes && site.engagementTypes.length > 0 && (
-              <div className="mb-1">
-                <span className="mb-2 block text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">
-                  Open to
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {site.engagementTypes.map((type) => (
-                    <span key={type} className="tag-pill">
-                      {type}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+        <SectionHeading title="Contact us" index="06 — Contact" />
 
-            {INFO_CARDS.map(({ label, value, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                className="group flex items-center gap-4 rounded-2xl border border-line bg-white/40 p-5 transition-colors duration-300 ease-editorial hover:bg-white/70"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink text-cream transition-transform duration-300 ease-editorial group-hover:-translate-y-0.5">
-                  <Icon size={18} />
+        {site.engagementTypes && site.engagementTypes.length > 0 && (
+          <Reveal as="div" className="mb-10">
+            <span className="mb-2 block text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">
+              Open to
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {site.engagementTypes.map((type) => (
+                <span key={type} className="tag-pill">
+                  {type}
                 </span>
-                <span>
-                  <span className="block text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">
-                    {label}
-                  </span>
-                  <span className="block font-serif text-[1.05rem]">{value}</span>
-                </span>
-              </a>
-            ))}
-
-            {site.resumeHref && (
-              <a
-                href={site.resumeHref}
-                download
-                className="mt-2 inline-flex w-fit items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-[350ms] ease-editorial hover:-translate-y-1 hover:bg-ink-soft"
-              >
-                Download résumé <span aria-hidden="true">↓</span>
-              </a>
-            )}
+              ))}
+            </div>
           </Reveal>
+        )}
 
+        <Reveal
+          as="div"
+          depth
+          className="mb-[clamp(48px,6vw,80px)] grid grid-cols-4 gap-x-[clamp(24px,4vw,48px)] gap-y-10 max-[760px]:grid-cols-2 max-[420px]:grid-cols-1"
+        >
+          {CONTACT_GRID.map(({ label, linkText, href, download }) => (
+            <div key={label} className="min-w-0">
+              <h3 className="mb-3 font-serif text-[1.3rem]">{label}</h3>
+              <a
+                href={href}
+                download={download}
+                title={linkText}
+                className="inline-flex max-w-full items-center overflow-hidden rounded-full border border-line px-5 py-2.5 text-[0.85rem] font-semibold tracking-[0.02em] text-ink-soft transition-all duration-300 ease-editorial hover:-translate-y-0.5 hover:border-ink hover:bg-ink hover:text-cream"
+              >
+                <span className="truncate">{linkText}</span>
+              </a>
+            </div>
+          ))}
+        </Reveal>
+
+        <div className="max-w-[720px]">
           <Reveal
             as="form"
             depth
@@ -216,6 +236,7 @@ export function Contact() {
           </Reveal>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   )
 }
