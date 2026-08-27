@@ -18,8 +18,18 @@ export function Journal() {
               <a
                 key={entry.title}
                 href={entry.href}
-                className="grid grid-cols-[120px_1fr] gap-[clamp(20px,4vw,48px)] border-b border-line py-[clamp(28px,3.6vw,40px)] transition-opacity duration-300 ease-editorial hover:opacity-65 max-[860px]:grid-cols-1 max-[860px]:gap-1.5"
+                className={[
+                  'grid items-start gap-[clamp(20px,4vw,48px)] border-b border-line py-[clamp(28px,3.6vw,40px)] transition-opacity duration-300 ease-editorial hover:opacity-65 max-[860px]:grid-cols-1 max-[860px]:gap-1.5',
+                  entry.image ? 'grid-cols-[72px_120px_1fr]' : 'grid-cols-[120px_1fr]',
+                ].join(' ')}
               >
+                {entry.image && (
+                  <img
+                    src={entry.image}
+                    alt=""
+                    className="aspect-square w-full rounded-lg object-cover max-[860px]:hidden"
+                  />
+                )}
                 <span className="pt-1 text-[0.85rem] text-muted">{entry.date}</span>
                 <div>
                   <h3 className="mb-2 font-serif text-[clamp(1.3rem,2.6vw,1.9rem)]">

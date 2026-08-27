@@ -12,5 +12,6 @@ export const navItems: NavItem[] = [
   { label: 'Skills', path: '/skills' },
   { label: 'Experience', path: '/experience' },
   { label: 'Journal', path: '/journal' },
+  { label: 'Gallery', path: '/gallery' },
   { label: 'Contact', path: '/contact' },
 ]

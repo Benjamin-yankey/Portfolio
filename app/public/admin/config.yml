@@ -40,6 +40,8 @@ collections:
           - { label: "Resume link (leave blank to hide the download button)", name: resumeHref, widget: string, required: false }
           - { label: "Contact section subtext", name: contactSub, widget: text }
           - { label: "Footer copyright line", name: footerCopy, widget: string }
+          - { label: "Portrait photo", name: portrait, widget: image }
+          - { label: "Hero video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit). When set, replaces the portrait photo with a looping background video.", name: heroVideo, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/projects.json"
         label: "Projects"
@@ -58,6 +60,8 @@ collections:
               - { label: "Solution", name: solution, widget: text }
               - { label: "Role", name: role, widget: text }
               - { label: "Key detail / outcome", name: keyDetail, widget: text }
+              - { label: "Screenshot", name: image, widget: image, required: false }
+              - { label: "Demo video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/experience.json"
         label: "Experience"
@@ -106,6 +110,21 @@ collections:
               - { label: "Title", name: title, widget: string }
               - { label: "Excerpt", name: excerpt, widget: text }
               - { label: "Link", name: href, widget: string }
+              - { label: "Cover image", name: image, widget: image, required: false }
+
+      - file: "app/src/content/gallery.json"
+        label: "Gallery"
+        name: gallery
+        fields:
+          - label: "Items"
+            name: items
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Caption", name: caption, widget: text, required: false }
+              - { label: "Image", name: image, widget: image, required: false }
+              - { label: "Video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/github-projects.json"
         label: "GitHub Repositories"

@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { usePointerTilt } from '../hooks/usePointerTilt'
+import { site } from '../data/site'
 
 /**
  * The hero's portrait: background-removed, standing directly in the scene
@@ -26,11 +27,22 @@ export function HeroBadge() {
           className="layer-3d absolute inset-6 rounded-[50%] bg-ink/10 blur-2xl"
           style={{ '--layer-z': '-40px' } as CSSProperties}
         />
-        <img
-          src={`${import.meta.env.BASE_URL}images/portrait-cutout.webp`}
-          alt="Benjamin Yankey"
-          className="relative h-full w-full object-cover drop-shadow-[0_20px_32px_rgba(26,26,26,0.25)]"
-        />
+        {site.heroVideo ? (
+          <video
+            src={site.heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="relative h-full w-full object-cover drop-shadow-[0_20px_32px_rgba(26,26,26,0.25)]"
+          />
+        ) : (
+          <img
+            src={site.portrait}
+            alt={site.name}
+            className="relative h-full w-full object-cover drop-shadow-[0_20px_32px_rgba(26,26,26,0.25)]"
+          />
+        )}
       </div>
     </div>
   )

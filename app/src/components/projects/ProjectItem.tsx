@@ -94,6 +94,19 @@ export function ProjectItem({ project, isOpen, onToggle }: Readonly<ProjectItemP
             <div className="grid grid-cols-[48px_1fr] gap-[clamp(16px,3vw,40px)] pb-[clamp(32px,4vw,48px)] max-[860px]:grid-cols-1">
               <span aria-hidden="true" className="max-[860px]:hidden" />
               <div>
+                {(project.video || project.image) && (
+                  <div className="mb-6 max-w-[880px] overflow-hidden rounded-2xl border border-line">
+                    {project.video ? (
+                      <video src={project.video} controls playsInline className="aspect-video w-full object-cover" />
+                    ) : (
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="aspect-video w-full object-cover"
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="grid max-w-[880px] grid-cols-3 gap-7 max-[860px]:grid-cols-1">
                   <div>
                     <h4 className="mb-2.5 text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">

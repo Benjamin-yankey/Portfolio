@@ -13,6 +13,8 @@ export interface Site {
   resumeHref: string
   contactSub: string
   footerCopy: string
+  portrait: string
+  heroVideo?: string
 }
 
 export const site: Site = content

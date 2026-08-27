@@ -5,6 +5,7 @@ export interface JournalEntry {
   title: string
   excerpt: string
   href: string
+  image?: string
 }
 
 export const journalEntries: JournalEntry[] = content.items

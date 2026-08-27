@@ -9,6 +9,8 @@ export interface Project {
   solution: string
   role: string
   keyDetail: string
+  image?: string
+  video?: string
 }
 
 export const projects: Project[] = content.items

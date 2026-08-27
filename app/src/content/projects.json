@@ -2,17 +2,17 @@
   "items": [
     {
       "num": "01",
-      "title": "Zero-Downtime Deployment Pipeline",
       "summary": "Re-engineered the release process to eliminate downtime windows entirely.",
+      "keyDetail": "Reduced deployment time by 70% and eliminated release-window downtime entirely.",
+      "role": "Led the migration end-to-end: pipeline redesign, rollout strategy, and rollback tooling, in collaboration with two backend teams.",
+      "title": "Zero-Downtime Deployment Pipeline",
       "tags": [
         "Jenkins",
         "ArgoCD",
         "Kubernetes"
       ],
-      "problem": "Weekly deploys required a scheduled maintenance window and a manual rollback plan, causing customer-facing downtime and on-call fatigue every release cycle.",
       "solution": "Migrated from a monolithic Jenkins pipeline to a GitOps model on ArgoCD, introducing progressive delivery — canary and blue/green rollouts — gated by automated health checks on Kubernetes.",
-      "role": "Led the migration end-to-end: pipeline redesign, rollout strategy, and rollback tooling, in collaboration with two backend teams.",
-      "keyDetail": "Reduced deployment time by 70% and eliminated release-window downtime entirely."
+      "problem": "Weekly deploys required a scheduled maintenance window and a manual rollback plan, causing customer-facing downtime and on-call fatigue every release cycle."
     },
     {
       "num": "02",

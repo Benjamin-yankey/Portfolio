@@ -36,7 +36,7 @@ export function Contact() {
   return (
     <section className="section">
       <div className="container-page">
-        <SectionHeading title="Let's build something great" index="05 — Contact" />
+        <SectionHeading title="Let's build something great" index="06 — Contact" />
 
         <Reveal
           as="p"
