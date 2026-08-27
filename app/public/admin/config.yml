@@ -127,6 +127,8 @@ collections:
             fields:
               - { label: "Title", name: title, widget: string }
               - { label: "Caption", name: caption, widget: text, required: false }
+              - { label: "Category (e.g. Project, Conference, Workspace — used for the filter chips)", name: category, widget: string, required: false }
+              - { label: "Date (e.g. Jun 2025)", name: date, widget: string, required: false }
               - { label: "Image", name: image, widget: image, required: false }
               - { label: "Video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
 
