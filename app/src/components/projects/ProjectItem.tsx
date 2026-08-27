@@ -115,7 +115,7 @@ export function ProjectItem({ project, isOpen, onToggle }: Readonly<ProjectItemP
                   </div>
                 </div>
                 <p className="mt-6.5 border-t border-line-soft pt-5.5 font-serif text-[clamp(1.3rem,2.4vw,1.7rem)] italic">
-                  {project.metric}
+                  {project.keyDetail}
                 </p>
               </div>
             </div>

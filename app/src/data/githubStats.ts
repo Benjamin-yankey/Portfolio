@@ -9,6 +9,6 @@ export const githubStats = {
   username: 'Benjamin-yankey',
   repositories: githubProjects.length,
   followers: 1,
-  stars: 0,
+  starred: 0,
   memberSince: 2022,
 }

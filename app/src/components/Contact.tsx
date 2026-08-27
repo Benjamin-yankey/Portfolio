@@ -65,12 +65,14 @@ export function Contact() {
               </a>
             ))}
 
-            <a
-              href={site.resumeHref}
-              className="mt-2 inline-flex w-fit items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-[350ms] ease-editorial hover:-translate-y-1 hover:bg-ink-soft"
-            >
-              Download résumé <span aria-hidden="true">↓</span>
-            </a>
+            {site.resumeHref && (
+              <a
+                href={site.resumeHref}
+                className="mt-2 inline-flex w-fit items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-[350ms] ease-editorial hover:-translate-y-1 hover:bg-ink-soft"
+              >
+                Download résumé <span aria-hidden="true">↓</span>
+              </a>
+            )}
           </Reveal>
 
           <Reveal

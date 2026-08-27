@@ -4,12 +4,20 @@ import type { Group, Mesh, ShaderMaterial } from 'three'
 import { Color, DoubleSide, Vector3 } from 'three'
 import type { Project } from '../../data/projects'
 import { FrameRateGuard } from '../FrameRateGuard'
+import { writeAnchor } from '../scene-billboard/anchor'
 import { waveHeight, WAVE_HEIGHT_GLSL } from './waveHeight'
 import { buildMarkerPositions, isArrived, lerp, setWalkTarget, WALK_SPEED, MARKER_RADIUS, type Point, type RoamState } from './roam'
 
 const INK = '#1a1a1a'
 const GROUND_SEGMENTS_X = 18
 const GROUND_SEGMENTS_Z = 12
+/** Height above the figure's feet that the billboard is anchored to — just
+ *  clear of the sphere head (centred at 1.5, radius 0.3) plus a little air
+ *  for the tether. */
+const BILLBOARD_Y = 2.15
+/** Screen-space floor for the billboard's anchor, in CSS px — roughly the
+ *  card's own rendered height, so it always has room to hang above. */
+const CARD_CLEARANCE = 190
 
 interface GroundProps {
   markers: Point[]
@@ -145,18 +153,21 @@ interface AvatarProps {
   markers: Point[]
   roamRef: React.RefObject<RoamState>
   onNearChange: (index: number | null) => void
+  billboardRef: React.RefObject<HTMLDivElement | null>
 }
 
 /** The visitor's stand-in — sphere head, capsule body, two hip-pivoted legs
  *  — walking toward wherever was last clicked. Owns the frame loop for its
- *  own transform, the proximity check against every marker, and the
- *  third-person camera, since all three are defined in terms of the same
+ *  own transform, the proximity check against every marker, the
+ *  third-person camera, and the screen-space anchor for the billboard that
+ *  rides above its head, since all four are defined in terms of the same
  *  live position. */
-function Avatar({ markers, roamRef, onNearChange }: Readonly<AvatarProps>) {
+function Avatar({ markers, roamRef, onNearChange, billboardRef }: Readonly<AvatarProps>) {
   const group = useRef<Group>(null)
   const leftHip = useRef<Group>(null)
   const rightHip = useRef<Group>(null)
   const camTarget = useRef(new Vector3())
+  const anchor = useRef(new Vector3())
 
   useFrame((state, delta) => {
     const roam = roamRef.current
@@ -204,6 +215,16 @@ function Avatar({ markers, roamRef, onNearChange }: Readonly<AvatarProps>) {
       roam.nearIndex = near
       onNearChange(near)
     }
+
+    // Carry the billboard. The card hangs *upward* from this anchor and the
+    // panel clips its overflow, so the anchor is floored to leave the card
+    // room on a short viewport: the tether stretches instead of the copy
+    // disappearing off the top edge, and a card slightly detached from the
+    // head still reads where a half-cropped one doesn't.
+    anchor.current.set(roam.x, y + BILLBOARD_Y, roam.z)
+    writeAnchor(billboardRef.current, anchor.current, state.camera, state.size, {
+      clearance: CARD_CLEARANCE,
+    })
   })
 
   return (
@@ -237,17 +258,25 @@ interface ExploreSceneProps {
   roamRef: React.RefObject<RoamState>
   onNearChange: (index: number | null) => void
   onTooSlow: () => void
+  billboardRef: React.RefObject<HTMLDivElement | null>
 }
 
 /**
  * The Explore toy: a small wireframe ground with one marker per project —
  * click or tap anywhere to walk the figure there, camera follows from
- * behind. There's no autoplay and no script; the only thing that moves the
- * avatar is a pointer event, so it's a toy to poke at rather than a video
- * to watch. Lazily loaded and gated by capability checks (see
+ * behind, and walking into a marker raises a summary card above the
+ * figure's head. There's no autoplay and no script; the only thing that
+ * moves the avatar is a pointer event, so it's a toy to poke at rather than
+ * a video to watch. Lazily loaded and gated by capability checks (see
  * ExploreSceneMount) since this is inside the splash page's first paint.
  */
-export default function ExploreScene({ projects, roamRef, onNearChange, onTooSlow }: Readonly<ExploreSceneProps>) {
+export default function ExploreScene({
+  projects,
+  roamRef,
+  onNearChange,
+  onTooSlow,
+  billboardRef,
+}: Readonly<ExploreSceneProps>) {
   const markers = useMemo(() => buildMarkerPositions(projects.length), [projects.length])
 
   return (
@@ -263,7 +292,12 @@ export default function ExploreScene({ projects, roamRef, onNearChange, onTooSlo
       {projects.map((project, i) => (
         <Marker key={project.num} index={i} position={markers[i]} roamRef={roamRef} />
       ))}
-      <Avatar markers={markers} roamRef={roamRef} onNearChange={onNearChange} />
+      <Avatar
+        markers={markers}
+        roamRef={roamRef}
+        onNearChange={onNearChange}
+        billboardRef={billboardRef}
+      />
 
       <FrameRateGuard onTooSlow={onTooSlow} />
     </Canvas>

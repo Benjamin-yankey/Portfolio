@@ -17,20 +17,27 @@ import {
 import type { Group, Mesh } from 'three'
 import type { GithubProject } from '../../data/githubProjects'
 import { FrameRateGuard } from '../FrameRateGuard'
+import { writeAnchor } from '../scene-billboard/anchor'
 import { waveHeight } from '../explore/waveHeight'
 import { lerp } from '../explore/roam'
 import { createKeyState, type CarState, type KeyState } from './carState'
 import { createVillagerState, type VillagerState } from './villagerState'
 import { colorForIndex } from './palette'
 import { mergeColoredGeometries } from './mergeGeometry'
+import { VILLAGERS } from './villagers'
 import {
   buildGridPositions,
+  buildHedgePositions,
   buildRoadNetwork,
   buildStreetlightPositions,
   buildTreePositions,
+  carDriveBounds,
   computeFieldBounds,
+  expandBounds,
+  GROUND_MARGIN,
   CAR_COLLISION_RADIUS,
   HOUSE_RADIUS,
+  PERIMETER_INSET,
   type FieldBounds,
   type Obstacle,
   type Point,
@@ -54,8 +61,30 @@ const CAR_LIGHT_COLOR = '#fef6d8'
 const CAR_SCALE = 1.3
 const MARKER_RADIUS = 1.7
 const TREE_COUNT = 18
-const VILLAGER_COUNT = 6
-const VILLAGER_COLORS = ['#d97757', '#4c8bf5', '#2f9e6e', '#a35bd1']
+const HEDGE_COLOR = '#2f6b34'
+/** World height of the anchor each card hangs from, measured from the
+ *  subject's own base. Both sit just clear of the tallest part of the thing
+ *  they label — the roof apex, the villager's head — so the card's bottom
+ *  edge lands on the subject at *any* camera distance. That's why neither
+ *  uses a tether: a fixed pixel tether only stays attached when the camera
+ *  holds a constant distance, which is true of the splash avatar and false
+ *  of anything you can drive up to. */
+const HOUSE_CARD_Y = 1.2
+const VILLAGER_LABEL_Y = 1.28
+/** Screen-space floors, in CSS px, for how high up the panel each card's
+ *  anchor may go. Houses near the horizon project close to the panel's top
+ *  edge, where the page's fixed top bar floats over this panel and would
+ *  hide them outright — so each is held far enough down to clear that bar
+ *  plus its own height. It detaches the card from a distant house, which is
+ *  the lesser problem: a card slightly adrift still reads, one behind the
+ *  header doesn't read at all. */
+const HOUSE_CARD_CLEARANCE = 220
+/** Name tags clamp rather than cull. Villagers deep in the field project up
+ *  near the horizon, so culling above a line meant a tag vanished precisely
+ *  when its villager walked away from the car — which reads as a bug, not as
+ *  distance. Clamped, the tag stays put at the top of the panel and keeps
+ *  naming its resident however far off it wanders. */
+const VILLAGER_LABEL_CLEARANCE = 132
 
 // Simple arcade physics, not a simulation: acceleration/braking on
 // forward-back, constant-rate turning on left-right regardless of speed.
@@ -66,6 +95,17 @@ const MAX_SPEED = 9
 const REVERSE_MAX_SPEED = 5
 const FRICTION = 6
 const TURN_SPEED = 2.6
+
+/** Third-person camera: how far behind the car it trails, and how high it
+ *  rides. GROUND_MARGIN must stay larger than CAM_TRAIL — see the camera
+ *  block in Car for why. */
+const CAM_TRAIL = 5.5
+/** Tuned by eye, and sensitive in both directions: 3.8 tips the horizon out
+ *  of frame entirely from the field's southern edge, while 2.9 flattens the
+ *  view enough that residents off to either side fall outside the frustum and
+ *  lose their name tags. The hedge is cleared by keeping the car a full
+ *  body-length inside it and the hedge itself low — not by lifting this. */
+const CAM_HEIGHT = 3.4
 
 function groundHeight(x: number, z: number) {
   return waveHeight(x, z, 0) * AMPLITUDE_SCALE
@@ -250,11 +290,25 @@ interface MarkerProps {
   position: Point
   project: GithubProject
   carRef: React.RefObject<CarState>
+  hoveredIndex: number | null
+  onHoverChange: (index: number | null) => void
 }
 
-/** A project's house in the village — pulses gently while the car is
- *  parked outside it, opens the real repo on GitHub when clicked. */
-function Marker({ index, position, project, carRef }: Readonly<MarkerProps>) {
+/** A project's house in the village — pulses gently while the car is parked
+ *  outside it *or* while the pointer is over it, opens the real repo on
+ *  GitHub when clicked.
+ *
+ *  Hover is what makes the village readable without driving: the houses are
+ *  the content, and a visitor who never touches the keyboard can still point
+ *  at one and find out which repo it is. */
+function Marker({
+  index,
+  position,
+  project,
+  carRef,
+  hoveredIndex,
+  onHoverChange,
+}: Readonly<MarkerProps>) {
   const mesh = useRef<Mesh>(null)
   const geometry = useMemo(() => buildHouseGeometry(new Color(colorForIndex(index))), [index])
 
@@ -262,7 +316,7 @@ function Marker({ index, position, project, carRef }: Readonly<MarkerProps>) {
     const y = groundHeight(position.x, position.z)
     if (mesh.current) {
       mesh.current.position.set(position.x, y, position.z)
-      const active = carRef.current.nearIndex === index
+      const active = carRef.current.nearIndex === index || hoveredIndex === index
       const t = state.clock.getElapsedTime()
       const targetScale = active ? 1.18 + Math.sin(t * 3) * 0.05 : 1
       const s = lerp(mesh.current.scale.x, targetScale, 0.15)
@@ -275,10 +329,61 @@ function Marker({ index, position, project, carRef }: Readonly<MarkerProps>) {
   }
 
   return (
-    <mesh ref={mesh} geometry={geometry} onClick={handleClick}>
+    <mesh
+      ref={mesh}
+      geometry={geometry}
+      onClick={handleClick}
+      onPointerOver={(event) => {
+        // Without this the pointer also "enters" every house behind this one
+        // along the same ray, and the last one wins.
+        event.stopPropagation()
+        onHoverChange(index)
+      }}
+      onPointerOut={() => onHoverChange(null)}
+    >
       <meshLambertMaterial vertexColors />
     </mesh>
   )
+}
+
+interface HouseCardAnchorProps {
+  cardRef: React.RefObject<HTMLDivElement | null>
+  markers: Point[]
+  hoveredIndex: number | null
+  carRef: React.RefObject<CarState>
+}
+
+/** Carries the repo card to whichever house is currently active — the one
+ *  the pointer is over, or failing that the one the car is parked at. One
+ *  anchor rather than one per house: only ever a single house is active, so
+ *  there's no reason for sixty-odd cards to exist, let alone be projected
+ *  every frame.
+ *
+ *  Hover wins over proximity. Pointing at a house is a deliberate act;
+ *  being parked near one is a leftover from wherever the driver stopped.
+ *
+ *  Resolving the active house here rather than taking a position from the
+ *  mount keeps `carRef.current.nearIndex` honest — it's mutated inside the
+ *  frame loop, so reading it during render would see last frame's value.
+ *  The last position is held when nothing is active, so the card fades out
+ *  where it stood instead of sliding to the origin mid-transition. */
+function HouseCardAnchor({ cardRef, markers, hoveredIndex, carRef }: Readonly<HouseCardAnchorProps>) {
+  const anchor = useRef(new Vector3())
+  const held = useRef<Point | null>(null)
+
+  useFrame((state) => {
+    const active = hoveredIndex ?? carRef.current.nearIndex
+    if (active !== null && markers[active]) held.current = markers[active]
+    const at = held.current
+    if (!at) return
+
+    anchor.current.set(at.x, groundHeight(at.x, at.z) + HOUSE_CARD_Y, at.z)
+    writeAnchor(cardRef.current, anchor.current, state.camera, state.size, {
+      clearance: HOUSE_CARD_CLEARANCE,
+    })
+  })
+
+  return null
 }
 
 interface TreesProps {
@@ -313,50 +418,108 @@ function Trees({ trees }: Readonly<TreesProps>) {
   )
 }
 
+interface HedgeProps {
+  posts: Point[]
+}
+
+/** The hedge ring that closes the village in. Every post merged into one
+ *  geometry, same reasoning as the trees — a couple of hundred boxes for one
+ *  draw call. Each post is set slightly *into* the ground so the hilly
+ *  terrain never opens a gap underneath the run.
+ *
+ *  Kept deliberately low. The camera trails the car by more than the car's
+ *  inset from the hedge, so when parked at the edge the camera is outside the
+ *  ring looking in — and a taller hedge sits right on that sight line and
+ *  hides the car behind it. Low enough to see over, tall enough to read as a
+ *  wall. */
+function Hedge({ posts }: Readonly<HedgeProps>) {
+  const geometry = useMemo(() => {
+    const color = new Color(HEDGE_COLOR)
+    return mergeColoredGeometries(
+      posts.map((p) => {
+        const box = new BoxGeometry(1.05, 0.55, 1.05)
+        box.translate(p.x, groundHeight(p.x, p.z) + 0.2, p.z)
+        return { geometry: box, color }
+      }),
+    )
+  }, [posts])
+
+  return (
+    <mesh geometry={geometry}>
+      <meshLambertMaterial vertexColors />
+    </mesh>
+  )
+}
+
+/** Head and torso only. The legs are separate meshes now (they have to
+ *  swing independently), so this is what's left to merge — two parts into
+ *  one draw call, still worth doing across six residents. */
 function buildPersonGeometry(color: Color): BufferGeometry {
-  const shade = color.clone().multiplyScalar(0.75)
   const head = new SphereGeometry(0.15, 10, 10)
   head.translate(0, 1.0, 0)
   const body = new CapsuleGeometry(0.14, 0.38, 2, 8)
   body.translate(0, 0.62, 0)
-  const legLeft = new BoxGeometry(0.1, 0.4, 0.1)
-  legLeft.translate(-0.07, 0.2, 0)
-  const legRight = new BoxGeometry(0.1, 0.4, 0.1)
-  legRight.translate(0.07, 0.2, 0)
 
   return mergeColoredGeometries([
     { geometry: head, color },
     { geometry: body, color },
-    { geometry: legLeft, color: shade },
-    { geometry: legRight, color: shade },
   ])
 }
+
+/** One box, shared by every leg of every villager. The hip group above it
+ *  supplies the position and the swing, so the geometry itself is identical
+ *  in all twelve places it appears and there is no reason to build it more
+ *  than once. Offset so it hangs *below* its pivot. */
+const LEG_GEOMETRY = new BoxGeometry(0.1, 0.4, 0.1)
+LEG_GEOMETRY.translate(0, -0.2, 0)
+
+const LEG_SWING = 0.5
+const LEG_SWING_RATE = 9
 
 interface VillagerProps {
   color: string
   start: Point
   bounds: FieldBounds
   obstacles: Obstacle[]
+  /** DOM node for this villager's name tag, moved from inside the frame
+   *  loop rather than through React state — see writeAnchor. */
+  labelRef: React.RefObject<HTMLDivElement | null>
 }
 
 /** A resident wandering the village on its own — picks a random clear spot,
- *  walks there, picks another. One merged mesh per villager (no separate
- *  animated legs): with everything else already in this scene, the
- *  articulated-walk version the splash toy uses would be six more draw
- *  calls for a detail only visible up close. */
-function Villager({ color, start, bounds, obstacles }: Readonly<VillagerProps>) {
-  const mesh = useRef<Mesh>(null)
+ *  walks there, picks another — with hip-pivoted legs that swing while it
+ *  moves, the same articulation the splash avatar uses, and a name tag
+ *  riding above its head.
+ *
+ *  This costs three draw calls per villager (merged head/torso plus two
+ *  legs) where a single merged mesh would cost one. That's the trade for
+ *  legs that actually walk instead of a figure sliding along the ground;
+ *  across six residents it's twelve extra calls in a scene that already
+ *  draws one per house. */
+function Villager({ color, start, bounds, obstacles, labelRef }: Readonly<VillagerProps>) {
+  const group = useRef<Group>(null)
+  const leftHip = useRef<Group>(null)
+  const rightHip = useRef<Group>(null)
   const state = useRef<VillagerState>(createVillagerState(start.x, start.z))
   const geometry = useMemo(() => buildPersonGeometry(new Color(color)), [color])
+  const shade = useMemo(() => new Color(color).multiplyScalar(0.75).getStyle(), [color])
   const speed = useRef(0.9 + Math.random() * 0.5)
+  const anchor = useRef(new Vector3())
 
   useFrame((frame, delta) => {
     const s = state.current
     const dx = s.targetX - s.x
     const dz = s.targetZ - s.z
     const dist = Math.hypot(dx, dz)
+    const walking = dist >= 0.15
 
-    if (dist < 0.15) {
+    if (walking) {
+      const step = Math.min(dist, speed.current * delta)
+      s.x += (dx / dist) * step
+      s.z += (dz / dist) * step
+      s.dirX = dx / dist
+      s.dirZ = dz / dist
+    } else {
       for (let tries = 0; tries < 8; tries++) {
         const nx = bounds.minX + Math.random() * bounds.width
         const nz = bounds.minZ + Math.random() * bounds.length
@@ -366,26 +529,47 @@ function Villager({ color, start, bounds, obstacles }: Readonly<VillagerProps>) 
           break
         }
       }
-    } else {
-      const step = Math.min(dist, speed.current * delta)
-      s.x += (dx / dist) * step
-      s.z += (dz / dist) * step
-      s.dirX = dx / dist
-      s.dirZ = dz / dist
     }
 
     const y = groundHeight(s.x, s.z)
-    if (mesh.current) {
-      const bob = Math.sin(frame.clock.getElapsedTime() * 5 + start.x) * 0.02
-      mesh.current.position.set(s.x, y + bob, s.z)
-      mesh.current.rotation.y = Math.atan2(s.dirX, s.dirZ)
+    const clock = frame.clock.getElapsedTime()
+
+    if (group.current) {
+      const bob = Math.sin(clock * 5 + start.x) * 0.02
+      group.current.position.set(s.x, y + bob, s.z)
+      group.current.rotation.y = Math.atan2(s.dirX, s.dirZ)
+
+      // `start.x` offsets the phase per villager, so six residents on screen
+      // aren't stepping in lockstep like a chorus line.
+      const swing = walking ? Math.sin(clock * LEG_SWING_RATE + start.x) * LEG_SWING : 0
+      if (leftHip.current) leftHip.current.rotation.x = lerp(leftHip.current.rotation.x, swing, 0.3)
+      if (rightHip.current) {
+        rightHip.current.rotation.x = lerp(rightHip.current.rotation.x, -swing, 0.3)
+      }
     }
+
+    anchor.current.set(s.x, y + VILLAGER_LABEL_Y, s.z)
+    writeAnchor(labelRef.current, anchor.current, frame.camera, frame.size, {
+      clearance: VILLAGER_LABEL_CLEARANCE,
+    })
   })
 
   return (
-    <mesh ref={mesh} geometry={geometry}>
-      <meshLambertMaterial vertexColors />
-    </mesh>
+    <group ref={group}>
+      <mesh geometry={geometry}>
+        <meshLambertMaterial vertexColors />
+      </mesh>
+      <group ref={leftHip} position={[-0.07, 0.4, 0]}>
+        <mesh geometry={LEG_GEOMETRY}>
+          <meshLambertMaterial color={shade} />
+        </mesh>
+      </group>
+      <group ref={rightHip} position={[0.07, 0.4, 0]}>
+        <mesh geometry={LEG_GEOMETRY}>
+          <meshLambertMaterial color={shade} />
+        </mesh>
+      </group>
+    </group>
   )
 }
 
@@ -394,6 +578,7 @@ interface CarProps {
   keysRef: React.RefObject<KeyState>
   markers: Point[]
   obstacles: Obstacle[]
+  driveBounds: ReturnType<typeof carDriveBounds>
   onNearChange: (index: number | null) => void
 }
 
@@ -402,7 +587,14 @@ interface CarProps {
  *  houses and trees rather than driving through them. Driven with the
  *  keyboard rather than followed with the pointer; the camera trails
  *  behind and above, same as every other toy on this site. */
-function Car({ carRef, keysRef, markers, obstacles, onNearChange }: Readonly<CarProps>) {
+function Car({
+  carRef,
+  keysRef,
+  markers,
+  obstacles,
+  driveBounds,
+  onNearChange,
+}: Readonly<CarProps>) {
   const group = useRef<Group>(null)
   const wheelRefs = [useRef<Mesh>(null), useRef<Mesh>(null), useRef<Mesh>(null), useRef<Mesh>(null)]
   const camTarget = useRef(new Vector3())
@@ -425,8 +617,12 @@ function Car({ carRef, keysRef, markers, obstacles, onNearChange }: Readonly<Car
     if (collidesWithObstacles(nextX, nextZ, obstacles, CAR_COLLISION_RADIUS)) {
       car.speed = 0
     } else {
-      car.x = nextX
-      car.z = nextZ
+      // Clamped per axis rather than rejected as a pair: driving into the
+      // hedge at an angle then slides along it, which is what a wall should
+      // feel like. Rejecting the whole step would instead stop the car dead
+      // on any diagonal contact.
+      car.x = Math.min(Math.max(nextX, driveBounds.minX), driveBounds.maxX)
+      car.z = Math.min(Math.max(nextZ, driveBounds.minZ), driveBounds.maxZ)
     }
 
     const y = groundHeight(car.x, car.z)
@@ -441,12 +637,22 @@ function Car({ carRef, keysRef, markers, obstacles, onNearChange }: Readonly<Car
       if (ref.current) ref.current.rotation.x -= wheelSpin
     })
 
-    const behind = 5.5
-    const height = 3.4
+    // A plain trailing camera, deliberately unconstrained. Two tempting
+    // "fixes" were both worse and are recorded here so they don't come back:
+    //
+    // Clamping the camera's *position* to the field converges it onto the car
+    // at the boundary, and a camera sitting on its own lookAt target yields a
+    // degenerate view matrix that throws every projected billboard offscreen.
+    // Shortening the trail instead pulls the camera in close and steep, which
+    // tips the whole village up out of frame.
+    //
+    // Nothing is needed: the ground reaches GROUND_MARGIN past the hedge,
+    // which is comfortably further than the trail can ever overhang it, so
+    // there is always land under the camera and the void is never in shot.
     camTarget.current.set(
-      car.x - Math.sin(car.heading) * behind,
-      y + height,
-      car.z - Math.cos(car.heading) * behind,
+      car.x - Math.sin(car.heading) * CAM_TRAIL,
+      y + CAM_HEIGHT,
+      car.z - Math.cos(car.heading) * CAM_TRAIL,
     )
     state.camera.position.lerp(camTarget.current, 0.08)
     state.camera.lookAt(car.x, y + 0.6, car.z)
@@ -574,6 +780,12 @@ interface GithubExploreSceneProps {
   onNearChange: (index: number | null) => void
   onFirstInput: () => void
   onTooSlow: () => void
+  /** The single repo card, moved to whichever house is active. */
+  houseCardRef: React.RefObject<HTMLDivElement | null>
+  /** One name tag per villager, in VILLAGERS order. */
+  villagerLabelRefs: React.RefObject<HTMLDivElement | null>[]
+  hoveredIndex: number | null
+  onHoverChange: (index: number | null) => void
 }
 
 /**
@@ -592,12 +804,22 @@ export default function GithubExploreScene({
   onNearChange,
   onFirstInput,
   onTooSlow,
+  houseCardRef,
+  villagerLabelRefs,
+  hoveredIndex,
+  onHoverChange,
 }: Readonly<GithubExploreSceneProps>) {
   const markers = useMemo(() => buildGridPositions(projects.length), [projects.length])
   const bounds = useMemo(() => computeFieldBounds(markers), [markers])
   const roads = useMemo(() => buildRoadNetwork(projects.length, bounds), [projects.length, bounds])
   const streetlights = useMemo(() => buildStreetlightPositions(roads), [roads])
   const trees = useMemo(() => buildTreePositions(bounds, markers, TREE_COUNT), [bounds, markers])
+  const hedge = useMemo(() => buildHedgePositions(bounds), [bounds])
+  const driveBounds = useMemo(() => carDriveBounds(bounds), [bounds])
+  /** Land past the hedge, so the trailing camera never overhangs the edge of
+   *  the world. Only the ground uses this — the village itself, its roads and
+   *  its residents all stay inside `bounds`. */
+  const groundBounds = useMemo(() => expandBounds(bounds, GROUND_MARGIN), [bounds])
   const keysRef = useDriveControls(activeRef, onFirstInput)
 
   const houseObstacles = useMemo<Obstacle[]>(
@@ -606,10 +828,30 @@ export default function GithubExploreScene({
   )
   const obstacles = useMemo(() => [...houseObstacles, ...trees], [houseObstacles, trees])
 
+  /** Residents wander the field inset by the hedge, not the raw bounds —
+   *  otherwise they pick targets inside the hedge run and walk through it. */
+  const villagerBounds = useMemo<FieldBounds>(() => {
+    const inset = PERIMETER_INSET + 0.8
+    const minX = bounds.minX + inset
+    const maxX = bounds.maxX - inset
+    const minZ = bounds.minZ + inset
+    const maxZ = bounds.maxZ - inset
+    return {
+      minX,
+      maxX,
+      minZ,
+      maxZ,
+      centerX: (minX + maxX) / 2,
+      centerZ: (minZ + maxZ) / 2,
+      width: maxX - minX,
+      length: maxZ - minZ,
+    }
+  }, [bounds])
+
   const villagerStarts = useMemo(() => {
-    return Array.from({ length: VILLAGER_COUNT }, (_, i) => {
+    return Array.from({ length: VILLAGERS.length }, (_, i) => {
       const road = roads[i % roads.length]
-      const t = (i + 1) / (VILLAGER_COUNT + 1)
+      const t = (i + 1) / (VILLAGERS.length + 1)
       return { x: road.a.x + (road.b.x - road.a.x) * t, z: road.a.z + (road.b.z - road.a.z) * t }
     })
   }, [roads])
@@ -623,23 +865,46 @@ export default function GithubExploreScene({
       <hemisphereLight args={['#b9cf95', '#4a7c3f', 0.95]} />
       <directionalLight position={[6, 9, 4]} intensity={0.9} color="#fff4d6" />
 
-      <Ground bounds={bounds} />
+      <Ground bounds={groundBounds} />
       <Roads roads={roads} />
+      <Hedge posts={hedge} />
       <Streetlights positions={streetlights} />
       <Trees trees={trees} />
       {projects.map((project, i) => (
-        <Marker key={project.url} index={i} position={markers[i]} project={project} carRef={carRef} />
+        <Marker
+          key={project.url}
+          index={i}
+          position={markers[i]}
+          project={project}
+          carRef={carRef}
+          hoveredIndex={hoveredIndex}
+          onHoverChange={onHoverChange}
+        />
       ))}
       {villagerStarts.map((start, i) => (
         <Villager
-          key={start.x + ',' + start.z}
-          color={VILLAGER_COLORS[i % VILLAGER_COLORS.length]}
+          key={VILLAGERS[i].label}
+          color={VILLAGERS[i].color}
           start={start}
-          bounds={bounds}
+          bounds={villagerBounds}
           obstacles={obstacles}
+          labelRef={villagerLabelRefs[i]}
         />
       ))}
-      <Car carRef={carRef} keysRef={keysRef} markers={markers} obstacles={obstacles} onNearChange={onNearChange} />
+      <Car
+        carRef={carRef}
+        keysRef={keysRef}
+        markers={markers}
+        obstacles={obstacles}
+        driveBounds={driveBounds}
+        onNearChange={onNearChange}
+      />
+      <HouseCardAnchor
+        cardRef={houseCardRef}
+        markers={markers}
+        hoveredIndex={hoveredIndex}
+        carRef={carRef}
+      />
 
       <FrameRateGuard onTooSlow={onTooSlow} />
     </Canvas>

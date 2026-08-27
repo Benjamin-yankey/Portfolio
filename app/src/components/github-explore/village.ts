@@ -29,6 +29,9 @@ export const GRID_SPACING = 5.5
 export const HOUSE_RADIUS = 0.62
 export const TREE_RADIUS = 0.38
 export const CAR_COLLISION_RADIUS = 0.75
+/** How far inside the field's edge the hedge ring sits, so it stands *on*
+ *  the ground rather than half off it. */
+export const PERIMETER_INSET = 0.7
 
 /** A grid field rather than a single path — dozens of repos strung along
  *  one zigzag would make a corridor several hundred units long; a grid
@@ -45,13 +48,19 @@ export function buildGridPositions(count: number): Point[] {
   })
 }
 
+/** Extra ground to the south, past where the car starts. The camera trails
+ *  the car by several units, so without an apron here the opening shot is
+ *  taken from outside the hedge — filling the bottom of the frame with the
+ *  back of a hedge, which is not the establishing shot this wants. */
+const ENTRANCE_APRON = 10
+
 export function computeFieldBounds(markers: Point[]): FieldBounds {
   const xs = markers.map((m) => m.x)
   const zs = markers.map((m) => m.z)
   const minX = Math.min(0, ...xs) - 4
   const maxX = Math.max(0, ...xs) + 4
   const minZ = Math.min(...zs) - 4
-  const maxZ = Math.max(0, ...zs) + 4
+  const maxZ = Math.max(0, ...zs) + ENTRANCE_APRON
   return {
     minX,
     maxX,
@@ -120,6 +129,94 @@ export function buildStreetlightPositions(roads: RoadSegment[]): Point[] {
   }
 
   return lights
+}
+
+/** Posts for the hedge ring that closes the village in, walked along the
+ *  four edges of the field just inside its border.
+ *
+ *  The hedge exists to answer a question the terrain otherwise raises: the
+ *  ground plane is exactly field-sized, so without a visible edge the only
+ *  thing past it is void, and a car that stops at an invisible line reads as
+ *  a bug rather than a boundary. `carDriveBounds` clamps to just inside
+ *  this, so the hedge is the thing you actually come up against. */
+export function buildHedgePositions(bounds: FieldBounds): Point[] {
+  const interval = 1
+  const inset = PERIMETER_INSET
+  const minX = bounds.minX + inset
+  const maxX = bounds.maxX - inset
+  const minZ = bounds.minZ + inset
+  const maxZ = bounds.maxZ - inset
+  const posts: Point[] = []
+
+  const stepsX = Math.max(1, Math.round((maxX - minX) / interval))
+  for (let i = 0; i <= stepsX; i++) {
+    const x = minX + ((maxX - minX) * i) / stepsX
+    posts.push({ x, z: minZ }, { x, z: maxZ })
+  }
+
+  const stepsZ = Math.max(1, Math.round((maxZ - minZ) / interval))
+  // Corners are already placed by the run above, so the side runs skip both
+  // ends rather than stacking a second post inside the first.
+  for (let i = 1; i < stepsZ; i++) {
+    const z = minZ + ((maxZ - minZ) * i) / stepsZ
+    posts.push({ x: minX, z }, { x: maxX, z })
+  }
+
+  return posts
+}
+
+/** How far the ground reaches past the hedge on every side.
+ *
+ *  This exists for the camera, which trails the car by 5.5 units in whatever
+ *  direction it faces: park against the hedge and the camera is outside the
+ *  ring, so the ground has to keep going or it frames the void. It must stay
+ *  comfortably larger than that trail distance.
+ *
+ *  Clamping the camera instead — the obvious alternative — is wrong: at the
+ *  boundary it converges on the car's own position, and a camera sitting on
+ *  its own lookAt target produces a degenerate view matrix that throws every
+ *  projected billboard off screen. */
+export const GROUND_MARGIN = 9
+
+export function expandBounds(bounds: FieldBounds, margin: number): FieldBounds {
+  const minX = bounds.minX - margin
+  const maxX = bounds.maxX + margin
+  const minZ = bounds.minZ - margin
+  const maxZ = bounds.maxZ + margin
+  return {
+    minX,
+    maxX,
+    minZ,
+    maxZ,
+    centerX: (minX + maxX) / 2,
+    centerZ: (minZ + maxZ) / 2,
+    width: maxX - minX,
+    length: maxZ - minZ,
+  }
+}
+
+/** Half the car's length, scaled. `CAR_COLLISION_RADIUS` is a much smaller
+ *  disc tuned for squeezing between houses, and using it against the
+ *  perimeter let the car's nose bury itself in the hedge — a boundary you
+ *  visibly overlap doesn't read as a boundary. */
+const CAR_HALF_LENGTH = 1.4
+
+/** The rectangle the car is held inside: the hedge line, pulled in by the
+ *  car's own length so the whole body stops short of the hedge rather than
+ *  its centre point reaching it.
+ *
+ *  Note this cannot keep the *camera* inside the ring — it trails the car by
+ *  more than any sane inset — so the hedge is deliberately kept low enough
+ *  for the camera to see over it from out there. See CAM_HEIGHT and the
+ *  hedge's own height in the scene. */
+export function carDriveBounds(bounds: FieldBounds) {
+  const margin = PERIMETER_INSET + CAR_HALF_LENGTH
+  return {
+    minX: bounds.minX + margin,
+    maxX: bounds.maxX - margin,
+    minZ: bounds.minZ + margin,
+    maxZ: bounds.maxZ - margin,
+  }
 }
 
 /** Scattered trees, kept clear of the houses — computed once from a seeded

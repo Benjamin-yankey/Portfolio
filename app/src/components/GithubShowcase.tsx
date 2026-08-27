@@ -8,7 +8,7 @@ import { GithubExploreMount } from "./github-explore/GithubExploreMount";
 const STATS = [
   { value: `${githubStats.repositories}+`, label: "Repositories" },
   { value: `${githubStats.followers}`, label: "Followers" },
-  { value: `${githubStats.stars}`, label: "Stars" },
+  { value: `${githubStats.starred}`, label: "Starred" },
   { value: `${githubStats.memberSince}`, label: "On GitHub since" },
 ];
 
@@ -31,8 +31,9 @@ export function GithubShowcase() {
           as="p"
           className="mb-10 max-w-[62ch] text-[0.98rem] leading-[1.7] text-ink-soft"
         >
-          Every repository on my GitHub, not a curated few drive with the arrow
-          keys or WASD; click a marker to open that repo.
+          Every repository on my GitHub, not a curated few — one house each.
+          Drive with the arrow keys or WASD, hover a house to see which repo
+          it is, click it to open the code.
         </Reveal>
 
         <Reveal

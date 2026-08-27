@@ -4,6 +4,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { isCapableDevice, supportsWebGL } from '../../lib/webgl'
 import { createRoamState } from './roam'
 import { ExploreHint } from './ExploreHint'
+import { ExploreBillboard } from './ExploreBillboard'
 
 // Same reasoning as the Home hero's scene split: three + fiber are a large
 // chunk that should never load until the checks below say it's worth it.
@@ -27,6 +28,7 @@ export function ExploreSceneMount({ projects }: Readonly<ExploreSceneMountProps>
   const [ready, setReady] = useState(false)
   const [tooSlow, setTooSlow] = useState(false)
   const roamRef = useRef(createRoamState())
+  const billboardRef = useRef<HTMLDivElement>(null)
   const [nearIndex, setNearIndex] = useState<number | null>(null)
   const [hasInteracted, setHasInteracted] = useState(false)
 
@@ -65,12 +67,14 @@ export function ExploreSceneMount({ projects }: Readonly<ExploreSceneMountProps>
           roamRef={roamRef}
           onNearChange={setNearIndex}
           onTooSlow={() => setTooSlow(true)}
+          billboardRef={billboardRef}
         />
       </Suspense>
-      <ExploreHint
-        activeTitle={nearIndex !== null ? projects[nearIndex].title : null}
-        showHint={!hasInteracted}
+      <ExploreBillboard
+        outerRef={billboardRef}
+        project={nearIndex !== null ? projects[nearIndex] : null}
       />
+      <ExploreHint showHint={!hasInteracted} />
     </div>
   )
 }

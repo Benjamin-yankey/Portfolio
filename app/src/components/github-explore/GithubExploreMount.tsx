@@ -1,10 +1,13 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react'
 import type { GithubProject } from '../../data/githubProjects'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { isCapableDevice, supportsWebGL } from '../../lib/webgl'
 import { createCarState } from './carState'
 import { GithubExploreHint } from './GithubExploreHint'
 import { GithubExploreFallback } from './GithubExploreFallback'
+import { VillageBillboard } from './VillageBillboard'
+import { VillagerLabels } from './VillagerLabels'
+import { VILLAGERS } from './villagers'
 
 const GithubExploreScene = lazy(() => import('./GithubExploreScene'))
 
@@ -30,7 +33,16 @@ export function GithubExploreMount({ projects }: Readonly<GithubExploreMountProp
   // with it, not hijacking scroll/keyboard nav for the rest of the page.
   const activeRef = useRef(false)
   const [nearIndex, setNearIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [hasInteracted, setHasInteracted] = useState(false)
+  const houseCardRef = useRef<HTMLDivElement>(null)
+  // One stable ref object per villager. Plain objects rather than useRef in a
+  // loop (hooks can't be called in one) — the scene only ever reads
+  // `.current`, which the ref callbacks below fill in.
+  const villagerLabelRefs = useMemo(
+    () => VILLAGERS.map(() => ({ current: null as HTMLDivElement | null })),
+    [],
+  )
 
   useEffect(() => {
     if (prefersReduced || tooSlow) {
@@ -61,7 +73,14 @@ export function GithubExploreMount({ projects }: Readonly<GithubExploreMountProp
     )
   }
 
-  const activeProject = nearIndex !== null ? { ...projects[nearIndex], index: nearIndex } : null
+  // Hover wins over proximity: pointing at a house is deliberate, being
+  // parked near one is just where the driver happened to stop. Mirrors the
+  // resolution order in HouseCardAnchor, which does the same for position.
+  const activeIndex = hoveredIndex ?? nearIndex
+  const activeProject =
+    activeIndex !== null && projects[activeIndex]
+      ? { ...projects[activeIndex], index: activeIndex }
+      : null
 
   return (
     <div
@@ -94,9 +113,15 @@ export function GithubExploreMount({ projects }: Readonly<GithubExploreMountProp
           onNearChange={setNearIndex}
           onFirstInput={() => setHasInteracted(true)}
           onTooSlow={() => setTooSlow(true)}
+          houseCardRef={houseCardRef}
+          villagerLabelRefs={villagerLabelRefs}
+          hoveredIndex={hoveredIndex}
+          onHoverChange={setHoveredIndex}
         />
       </Suspense>
-      <GithubExploreHint project={activeProject} showHint={!hasInteracted} />
+      <VillageBillboard outerRef={houseCardRef} project={activeProject} />
+      <VillagerLabels refs={villagerLabelRefs} />
+      <GithubExploreHint showHint={!hasInteracted} />
     </div>
   )
 }

@@ -6,7 +6,7 @@ export interface Project {
   problem: string
   solution: string
   role: string
-  metric: string
+  keyDetail: string
 }
 
 export const projects: Project[] = [
@@ -20,7 +20,7 @@ export const projects: Project[] = [
     solution:
       'Migrated from a monolithic Jenkins pipeline to a GitOps model on ArgoCD, introducing progressive delivery — canary and blue/green rollouts — gated by automated health checks on Kubernetes.',
     role: 'Led the migration end-to-end: pipeline redesign, rollout strategy, and rollback tooling, in collaboration with two backend teams.',
-    metric: 'Reduced deployment time by 70% and eliminated release-window downtime entirely.',
+    keyDetail: 'Reduced deployment time by 70% and eliminated release-window downtime entirely.',
   },
   {
     num: '02',
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     solution:
       'Designed a modular Terraform framework with shared conventions, remote state management, and reusable modules abstracted across AWS and Azure providers.',
     role: 'Owned framework architecture and module design; wrote adoption guidelines used by three product teams.',
-    metric: 'Cut new-environment provisioning time from days to under two hours.',
+    keyDetail: 'Cut new-environment provisioning time from days to under two hours.',
   },
   {
     num: '03',
@@ -44,7 +44,7 @@ export const projects: Project[] = [
     solution:
       'Deployed Prometheus and Loki behind unified Grafana dashboards, with alert thresholds tuned to user impact and runbooks linked directly from every alert.',
     role: 'Designed the alerting taxonomy and led rollout across five services, training on-call engineers on the new dashboards.',
-    metric: 'Cut mean-time-to-detect incidents by 65%.',
+    keyDetail: 'Cut mean-time-to-detect incidents by 65%.',
   },
   {
     num: '04',
@@ -56,6 +56,6 @@ export const projects: Project[] = [
     solution:
       'Built Helm-packaged operators and ArgoCD-managed self-healing policies covering automatic pod rescheduling, node cordoning, and resource-pressure eviction.',
     role: 'Designed and implemented the self-healing policies; documented failure classes and escalation paths for the remaining edge cases.',
-    metric: 'Reduced manual incident intervention by 80%.',
+    keyDetail: 'Reduced manual incident intervention by 80%.',
   },
 ]
