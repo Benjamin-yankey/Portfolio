@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "label": "Claude",
+      "color": "#d97757"
+    },
+    {
+      "label": "ChatGPT",
+      "color": "#10a37f"
+    },
+    {
+      "label": "Copilot",
+      "color": "#8957e5"
+    },
+    {
+      "label": "Gemini",
+      "color": "#4c8bf5"
+    },
+    {
+      "label": "Cursor",
+      "color": "#4b5563"
+    },
+    {
+      "label": "Perplexity",
+      "color": "#20808d"
+    },
+    {
+      "label": "DeepSeek",
+      "color": "#1a56db"
+    },
+    {
+      "label": "Qwen",
+      "color": "#b0399b"
+    },
+    {
+      "label": "GLM",
+      "color": "#b45309"
+    }
+  ]
+}

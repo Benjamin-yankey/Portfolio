@@ -1,14 +1,11 @@
+import content from '../content/github-stats.json'
 import { githubProjects } from './githubProjects'
 
-/** Pulled from the public GitHub API for github.com/Benjamin-yankey and
- *  baked in like `githubProjects` — same reasoning: no client-side fetch,
- *  no rate limit, works offline. Update by re-querying
- *  `api.github.com/users/Benjamin-yankey` (and `/repos` for the star sum)
- *  when the numbers move. */
+/** `followers`/`starred`/`memberSince` are pulled from the public GitHub API
+ *  for github.com/Benjamin-yankey and editable via /admin. `repositories`
+ *  is deliberately not CMS-managed — it's derived from `githubProjects`
+ *  so it can't drift out of sync with the actual repo list. */
 export const githubStats = {
-  username: 'Benjamin-yankey',
+  ...content,
   repositories: githubProjects.length,
-  followers: 1,
-  starred: 0,
-  memberSince: 2022,
 }

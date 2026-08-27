@@ -1,0 +1,12 @@
+[build]
+  base = "app"
+  command = "npm run build"
+  publish = "dist"
+
+# This Netlify deployment exists only so Decap CMS (app/public/admin/) has a
+# Netlify-recognized domain to authenticate against — Netlify's OAuth
+# provider for the GitHub backend requires the CMS page to be served from a
+# site registered in a Netlify account. The public site is still served from
+# GitHub Pages via .github/workflows/deploy.yml; the root path here (built
+# with base: '/Portfolio/') will look unstyled/broken on the Netlify URL —
+# that's expected, only /admin/ needs to work here.

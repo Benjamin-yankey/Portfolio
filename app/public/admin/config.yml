@@ -1,0 +1,142 @@
+backend:
+  name: github
+  repo: Benjamin-yankey/Portfolio
+  branch: main
+  # No base_url set — defaults to Decap's Netlify-hosted OAuth provider
+  # (https://api.netlify.com). This only succeeds when the CMS page itself
+  # is loaded from a Netlify-registered domain (e.g. your-site.netlify.app),
+  # not from the GitHub Pages URL. See netlify.toml for why that mirror
+  # deployment exists.
+
+# Edits commit straight to `main`, which triggers the existing GitHub
+# Actions deploy workflow automatically.
+publish_mode: simple
+
+# Lets the CMS talk to a local `decap-server` (npm run cms) when opened
+# from localhost, instead of the `github` backend above. No OAuth needed
+# for local editing.
+local_backend: true
+
+media_folder: "app/public/images"
+public_folder: "/Portfolio/images"
+
+collections:
+  - name: content
+    label: "Site Content"
+    files:
+      - file: "app/src/content/site.json"
+        label: "Bio & Contact"
+        name: site
+        fields:
+          - { label: "Name", name: name, widget: string }
+          - { label: "Wordmark (short name, e.g. B. Yankey)", name: wordmark, widget: string }
+          - { label: "Eyebrow (small label above the headline)", name: eyebrow, widget: string }
+          - { label: "Role", name: role, widget: string }
+          - { label: "Tagline", name: tagline, widget: string }
+          - { label: "Bio", name: bio, widget: text }
+          - { label: "Email", name: email, widget: string }
+          - { label: "GitHub URL", name: github, widget: string }
+          - { label: "LinkedIn URL", name: linkedin, widget: string }
+          - { label: "Resume link (leave blank to hide the download button)", name: resumeHref, widget: string, required: false }
+          - { label: "Contact section subtext", name: contactSub, widget: text }
+          - { label: "Footer copyright line", name: footerCopy, widget: string }
+
+      - file: "app/src/content/projects.json"
+        label: "Projects"
+        name: projects
+        fields:
+          - label: "Projects"
+            name: items
+            widget: list
+            summary: "{{fields.num}} — {{fields.title}}"
+            fields:
+              - { label: "Number (e.g. 01)", name: num, widget: string }
+              - { label: "Title", name: title, widget: string }
+              - { label: "Summary (one line)", name: summary, widget: text }
+              - { label: "Tags", name: tags, widget: list }
+              - { label: "Problem", name: problem, widget: text }
+              - { label: "Solution", name: solution, widget: text }
+              - { label: "Role", name: role, widget: text }
+              - { label: "Key detail / outcome", name: keyDetail, widget: text }
+
+      - file: "app/src/content/experience.json"
+        label: "Experience"
+        name: experience
+        fields:
+          - label: "Experience"
+            name: items
+            widget: list
+            summary: "{{fields.role}} — {{fields.company}}"
+            fields:
+              - { label: "Period (e.g. Mar 2023 — Present)", name: period, widget: string }
+              - { label: "Role", name: role, widget: string }
+              - { label: "Company", name: company, widget: string }
+              - { label: "Bullets", name: bullets, widget: list }
+
+      - file: "app/src/content/skills.json"
+        label: "Skills & Certifications"
+        name: skills
+        fields:
+          - label: "Skill Categories"
+            name: skillCategories
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Category title", name: title, widget: string }
+              - { label: "Items", name: items, widget: list }
+          - label: "Certifications"
+            name: certifications
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string }
+              - { label: "Issuer", name: issuer, widget: string }
+              - { label: "Year", name: year, widget: string }
+
+      - file: "app/src/content/journal.json"
+        label: "Journal"
+        name: journal
+        fields:
+          - label: "Entries"
+            name: items
+            widget: list
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: "Date (e.g. Jun 2025)", name: date, widget: string }
+              - { label: "Title", name: title, widget: string }
+              - { label: "Excerpt", name: excerpt, widget: text }
+              - { label: "Link", name: href, widget: string }
+
+      - file: "app/src/content/github-projects.json"
+        label: "GitHub Repositories"
+        name: github-projects
+        fields:
+          - label: "Repositories"
+            name: items
+            widget: list
+            summary: "{{fields.displayName}}"
+            fields:
+              - { label: "Display name", name: displayName, widget: string }
+              - { label: "Language", name: language, widget: string }
+              - { label: "URL", name: url, widget: string }
+
+      - file: "app/src/content/github-stats.json"
+        label: "GitHub Stats"
+        name: github-stats
+        fields:
+          - { label: "Username", name: username, widget: string }
+          - { label: "Followers", name: followers, widget: number, value_type: int }
+          - { label: "Starred (repos you've starred)", name: starred, widget: number, value_type: int }
+          - { label: "Member since (year)", name: memberSince, widget: number, value_type: int }
+
+      - file: "app/src/content/villagers.json"
+        label: "GitHub Village Residents"
+        name: villagers
+        fields:
+          - label: "Villagers"
+            name: items
+            widget: list
+            summary: "{{fields.label}}"
+            fields:
+              - { label: "Name", name: label, widget: string }
+              - { label: "Color (hex, e.g. #d97757)", name: color, widget: string }

@@ -1,3 +1,5 @@
+import content from '../content/github-projects.json'
+
 export interface GithubProject {
   displayName: string
   language: string
@@ -7,48 +9,5 @@ export interface GithubProject {
 /** Every non-fork repo on github.com/Benjamin-yankey, pulled via the public
  *  GitHub API. Baked in as static data rather than fetched client-side, so
  *  this section works offline, loads instantly, and never trips GitHub's
- *  60-req/hr unauthenticated rate limit for visitors. Titles are cleaned-up
- *  repo names (most have no description set on GitHub, so there's no real
- *  copy to preserve); the language tag is real — GitHub's own detection,
- *  shown as "—" for the handful of repos with no dominant language. */
-export const githubProjects: GithubProject[] = [
-  { displayName: 'AI DevOps', language: 'Python', url: 'https://github.com/Benjamin-yankey/AI-Devops' },
-  { displayName: 'Poly Orchestrator', language: 'TypeScript', url: 'https://github.com/Benjamin-yankey/Poly-Orchestrator' },
-  { displayName: 'Artifacts', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/Artifacts' },
-  { displayName: 'School Management System', language: 'JavaScript', url: 'https://github.com/Benjamin-yankey/school-management-system-main' },
-  { displayName: 'FinOps', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/FinOps' },
-  { displayName: 'Logging & Monitoring', language: 'JavaScript', url: 'https://github.com/Benjamin-yankey/Logging-and-monitoring' },
-  { displayName: 'Monitoring', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/monitoring' },
-  { displayName: 'DataPulse', language: '—', url: 'https://github.com/Benjamin-yankey/DataPulse' },
-  { displayName: 'GitOps Lab', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/Gitops_lab' },
-  { displayName: 'Complete CI/CD Pipeline (Jenkins)', language: 'HTML', url: 'https://github.com/Benjamin-yankey/Project_Complete_CICD_Pipeline_Jenkin' },
-  { displayName: 'Docker on EC2', language: 'Python', url: 'https://github.com/Benjamin-yankey/docker-ec2-project' },
-  { displayName: 'Serverless Tasks', language: 'TypeScript', url: 'https://github.com/Benjamin-yankey/serverless-task-management' },
-  { displayName: 'Commentary Blog', language: 'JavaScript', url: 'https://github.com/Benjamin-yankey/commentary-blog' },
-  { displayName: 'Docker Lab', language: 'Python', url: 'https://github.com/Benjamin-yankey/docker-lab' },
-  { displayName: 'Flask Backend', language: 'CSS', url: 'https://github.com/Benjamin-yankey/flask-backend' },
-  { displayName: 'Data Governance & Integrity Labs', language: '—', url: 'https://github.com/Benjamin-yankey/Data-Governance-Integrity-Technical-Foundation-labs' },
-  { displayName: 'Terraform + Ansible Webapp', language: 'Jinja', url: 'https://github.com/Benjamin-yankey/terraform-ansible-webapp' },
-  { displayName: 'YAML Config Lab', language: 'Shell', url: 'https://github.com/Benjamin-yankey/yaml-config-lab' },
-  { displayName: 'IaC', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/IaC' },
-  { displayName: '3-Tier Project', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/3tier-project' },
-  { displayName: 'App', language: 'JavaScript', url: 'https://github.com/Benjamin-yankey/app' },
-  { displayName: 'AWS Automation (Bash)', language: 'Shell', url: 'https://github.com/Benjamin-yankey/Aws-Automation-Project-Creation-With-Bash' },
-  { displayName: 'Terraform AWS Infrastructure', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/terraform-aws-infrastructure' },
-  { displayName: 'OpenStack', language: 'Terraform', url: 'https://github.com/Benjamin-yankey/OpenStack' },
-  { displayName: 'Data Structures & Algorithms', language: 'Python', url: 'https://github.com/Benjamin-yankey/Data-Structures-and-Algorithm-' },
-  { displayName: 'Bash Scripting', language: 'Shell', url: 'https://github.com/Benjamin-yankey/bashScripting' },
-  { displayName: 'Git Lab Exercises', language: '—', url: 'https://github.com/Benjamin-yankey/git-lab' },
-  { displayName: 'SysAdmin Starter Pack', language: 'Shell', url: 'https://github.com/Benjamin-yankey/Mini-Challenge-The-SysAdmin-Starter-Pack' },
-  { displayName: 'Final Year Project (KNUST)', language: 'Python', url: 'https://github.com/Benjamin-yankey/Final_year-Project_KNUST' },
-  { displayName: 'Certificates', language: 'Shell', url: 'https://github.com/Benjamin-yankey/Certificates' },
-  { displayName: '50 Days Challenge', language: 'Python', url: 'https://github.com/Benjamin-yankey/50-days-challenge' },
-  { displayName: 'Mini Project', language: 'HTML', url: 'https://github.com/Benjamin-yankey/MiniProject' },
-  { displayName: 'yankey', language: 'HTML', url: 'https://github.com/Benjamin-yankey/yankey' },
-  { displayName: 'Books', language: 'HTML', url: 'https://github.com/Benjamin-yankey/Books' },
-  { displayName: 'Low-Level Programming (ALX)', language: 'C', url: 'https://github.com/Benjamin-yankey/alx-low_level_programming' },
-  { displayName: 'Systems Engineering & DevOps (ALX)', language: 'Shell', url: 'https://github.com/Benjamin-yankey/alx-system_engineering-devops' },
-  { displayName: 'Shell Variables & Expansions', language: '—', url: 'https://github.com/Benjamin-yankey/0x03-shell_variables_expansions' },
-  { displayName: 'ALX Zero Day', language: 'Shell', url: 'https://github.com/Benjamin-yankey/alx-zero_day' },
-  { displayName: 'ALX Pre-Course', language: 'Shell', url: 'https://github.com/Benjamin-yankey/alx-pre_course' },
-]
+ *  60-req/hr unauthenticated rate limit for visitors. Editable via /admin. */
+export const githubProjects: GithubProject[] = content.items

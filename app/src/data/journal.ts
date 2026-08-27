@@ -1,3 +1,5 @@
+import content from '../content/journal.json'
+
 export interface JournalEntry {
   date: string
   title: string
@@ -5,26 +7,4 @@ export interface JournalEntry {
   href: string
 }
 
-export const journalEntries: JournalEntry[] = [
-  {
-    date: 'Jun 2025',
-    title: 'Why We Moved from Jenkins to ArgoCD',
-    excerpt:
-      'A field note on our GitOps migration: what broke, what got simpler, and the rollback plan we never needed.',
-    href: '#',
-  },
-  {
-    date: 'Feb 2025',
-    title: 'Notes on Kubernetes Cost Optimization',
-    excerpt:
-      'Right-sizing requests, bin-packing nodes, and the spot-instance strategy that cut our cluster bill by a third.',
-    href: '#',
-  },
-  {
-    date: 'Oct 2024',
-    title: "Designing Alerting That Doesn't Cry Wolf",
-    excerpt:
-      'How we rebuilt our alert thresholds around user impact instead of raw metrics — and got our nights back.',
-    href: '#',
-  },
-]
+export const journalEntries: JournalEntry[] = content.items
