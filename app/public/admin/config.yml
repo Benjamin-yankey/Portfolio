@@ -37,11 +37,11 @@ collections:
           - { label: "Email", name: email, widget: string }
           - { label: "GitHub URL", name: github, widget: string }
           - { label: "LinkedIn URL", name: linkedin, widget: string }
-          - { label: "Resume link (leave blank to hide the download button)", name: resumeHref, widget: string, required: false }
+          - { label: "Résumé PDF (upload here — leave blank to hide the download button)", name: resumeHref, widget: file, required: false, media_folder: "/app/public/files", public_folder: "/Portfolio/files" }
           - { label: "Contact section subtext", name: contactSub, widget: text }
           - { label: "Footer copyright line", name: footerCopy, widget: string }
           - { label: "Portrait photo", name: portrait, widget: image }
-          - { label: "Hero video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit). When set, replaces the portrait photo with a looping background video.", name: heroVideo, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
+          - { label: "Hero video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit). When set, replaces the portrait photo with a looping background video.", name: heroVideo, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/projects.json"
         label: "Projects"
@@ -61,7 +61,7 @@ collections:
               - { label: "Role", name: role, widget: text }
               - { label: "Key detail / outcome", name: keyDetail, widget: text }
               - { label: "Screenshot", name: image, widget: image, required: false }
-              - { label: "Demo video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
+              - { label: "Demo video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/experience.json"
         label: "Experience"
@@ -124,7 +124,7 @@ collections:
               - { label: "Title", name: title, widget: string }
               - { label: "Caption", name: caption, widget: text, required: false }
               - { label: "Image", name: image, widget: image, required: false }
-              - { label: "Video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "app/public/videos", public_folder: "/Portfolio/videos" }
+              - { label: "Video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/github-projects.json"
         label: "GitHub Repositories"
