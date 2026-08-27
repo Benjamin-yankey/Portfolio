@@ -7,6 +7,7 @@ import { TopBar } from './TopBar'
 import { OverlayNav } from './OverlayNav'
 import { Footer } from './Footer'
 import { PaperGrain } from './PaperGrain'
+import { ChatBot } from './ChatBot'
 
 /**
  * Shared page chrome: the paper-grain overlay, fixed top bar, full-screen
@@ -64,6 +65,7 @@ export function Layout() {
       </main>
 
       <Footer />
+      <ChatBot />
     </>
   )
 }
