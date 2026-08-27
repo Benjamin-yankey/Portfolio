@@ -39,6 +39,9 @@ collections:
           - { label: "LinkedIn URL", name: linkedin, widget: string }
           - { label: "Résumé PDF (upload here — leave blank to hide the download button)", name: resumeHref, widget: file, required: false, media_folder: "/app/public/files", public_folder: "/Portfolio/files" }
           - { label: "Contact section subtext", name: contactSub, widget: text }
+          - { label: "Availability status badge on the Contact page (leave blank to hide)", name: availabilityStatus, widget: string, required: false }
+          - { label: "Location / timezone on the Contact page (leave blank to hide)", name: location, widget: string, required: false }
+          - { label: "Open to (e.g. Full-time, Contract, Consulting) — leave empty to hide", name: engagementTypes, widget: list, required: false }
           - { label: "Footer copyright line", name: footerCopy, widget: string }
           - { label: "Portrait photo", name: portrait, widget: image }
           - { label: "Hero video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit). When set, replaces the portrait photo with a looping background video.", name: heroVideo, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }

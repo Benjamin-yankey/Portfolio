@@ -15,6 +15,9 @@ export interface Site {
   footerCopy: string
   portrait: string
   heroVideo?: string
+  availabilityStatus?: string
+  location?: string
+  engagementTypes?: string[]
 }
 
 export const site: Site = content

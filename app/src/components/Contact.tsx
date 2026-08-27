@@ -1,5 +1,8 @@
 import { type SubmitEvent, useState } from 'react'
 import { site } from '../data/site'
+import { projects } from '../data/projects'
+import { certifications } from '../data/skills'
+import { githubStats } from '../data/githubStats'
 import { EmailIcon, GitHubIcon, LinkedInIcon } from './icons/SocialIcons'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
@@ -8,6 +11,12 @@ const INFO_CARDS = [
   { label: 'Email', value: site.email, href: `mailto:${site.email}`, Icon: EmailIcon },
   { label: 'GitHub', value: 'Benjamin-yankey', href: site.github, Icon: GitHubIcon },
   { label: 'LinkedIn', value: 'benjamin-yankey', href: site.linkedin, Icon: LinkedInIcon },
+]
+
+const STATS = [
+  { value: `${projects.length}`, label: 'Projects shipped' },
+  { value: `${certifications.length}`, label: 'Certifications' },
+  { value: `${githubStats.repositories}`, label: 'GitHub repos' },
 ]
 
 /**
@@ -40,13 +49,55 @@ export function Contact() {
 
         <Reveal
           as="p"
-          className="mb-[clamp(40px,5vw,64px)] max-w-[62ch] text-[0.98rem] leading-[1.7] text-ink-soft"
+          className="mb-6 max-w-[62ch] text-[0.98rem] leading-[1.7] text-ink-soft"
         >
           {site.contactSub}
         </Reveal>
 
+        {(site.availabilityStatus || site.location) && (
+          <Reveal as="div" className="mb-10 flex flex-wrap items-center gap-3">
+            {site.availabilityStatus && (
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/40 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-ink-soft uppercase">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-ink" aria-hidden="true" />
+                {site.availabilityStatus}
+              </span>
+            )}
+            {site.location && (
+              <span className="text-[0.85rem] text-muted">{site.location}</span>
+            )}
+          </Reveal>
+        )}
+
+        <Reveal
+          as="div"
+          depth
+          className="mb-[clamp(40px,5vw,64px)] grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-line bg-line-soft"
+        >
+          {STATS.map((stat) => (
+            <div key={stat.label} className="bg-cream px-4 py-6 text-center">
+              <p className="font-serif text-[clamp(1.5rem,2.6vw,2rem)] leading-none">{stat.value}</p>
+              <p className="mt-2 text-[11px] tracking-[0.06em] text-muted uppercase">{stat.label}</p>
+            </div>
+          ))}
+        </Reveal>
+
         <div className="grid grid-cols-[1fr_1.3fr] gap-[clamp(28px,4vw,56px)] max-[860px]:grid-cols-1">
           <Reveal as="div" depth className="flex flex-col gap-4">
+            {site.engagementTypes && site.engagementTypes.length > 0 && (
+              <div className="mb-1">
+                <span className="mb-2 block text-[11px] font-semibold tracking-[0.1em] text-muted uppercase">
+                  Open to
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {site.engagementTypes.map((type) => (
+                    <span key={type} className="tag-pill">
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {INFO_CARDS.map(({ label, value, href, Icon }) => (
               <a
                 key={label}
