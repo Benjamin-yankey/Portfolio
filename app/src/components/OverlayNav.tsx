@@ -35,7 +35,15 @@ export function OverlayNav({ isOpen, navItems, activePath, onNavigate }: Readonl
       aria-hidden={!isOpen}
       style={navStyle}
       className={[
-        'fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-cream sm:gap-10',
+        // `safe center` (with a plain `center` fallback) plus `overflow-y-auto`
+        // means that if the item list is ever taller than the viewport — a
+        // short window, a couple more nav items down the line — it scrolls
+        // instead of letting the centering push items above y=0 with no way
+        // to reach them.
+        // Top padding clears the fixed TopBar (z-60, ~100-108px tall) so a
+        // centered/scrolled item never renders underneath its opaque bar.
+        'fixed inset-0 z-50 flex flex-col items-center gap-8 overflow-y-auto bg-cream pt-[112px] pb-8 sm:gap-10 sm:pt-[124px]',
+        'justify-center-safe',
         isOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0',
       ].join(' ')}
     >
@@ -49,7 +57,11 @@ export function OverlayNav({ isOpen, navItems, activePath, onNavigate }: Readonl
                 onNavigate(item.path)
               }}
               className={[
-                'block py-[0.06em] font-serif text-[clamp(2.4rem,8vw,5.2rem)] leading-[1.08] font-normal transition-transform duration-700 ease-editorial',
+                // Bounded by vh as well as vw: at 7 items, a pure vw-based
+                // size fits wide-but-short windows (common on laptops) only
+                // by accident. min() picks whichever axis is tighter, so the
+                // list still fits without scrolling on ordinary screens.
+                'block py-[0.06em] font-serif text-[clamp(1.75rem,min(8vw,8.5vh),5.2rem)] leading-[1.08] font-normal transition-transform duration-700 ease-editorial',
                 activePath === item.path ? 'text-ink' : 'text-muted-faint',
                 isOpen ? 'translate-y-0' : 'translate-y-[110%]',
               ].join(' ')}
