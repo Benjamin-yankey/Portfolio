@@ -7,6 +7,7 @@ import { HeroSceneMount } from './hero-scene/HeroSceneMount'
 import { Reveal } from './Reveal'
 import { TechMarquee } from './TechMarquee'
 import { GithubShowcase } from './GithubShowcase'
+import { HeroLanding } from './home/HeroLanding'
 
 /**
  * The Home page, routed at `/home`. Two parts, not one centered void: the
@@ -79,6 +80,7 @@ export function Hero() {
 
       <TechMarquee />
       <GithubShowcase />
+      <HeroLanding />
     </>
   )
 }

@@ -1,8 +1,8 @@
 import type { MouseEvent } from 'react'
-import type { GalleryItem } from '../../data/gallery'
+import type { GalleryMedia } from '../../data/gallery'
 
 interface LightboxProps {
-  items: GalleryItem[]
+  items: GalleryMedia[]
   index: number
   onClose: () => void
   onNext: () => void
@@ -68,19 +68,21 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
       )}
 
       <div className="flex max-h-full w-full max-w-4xl flex-col items-center gap-5" onClick={stop}>
-        {item.video ? (
+        {item.type === 'video' ? (
           <video
-            key={item.video}
-            src={item.video}
+            key={item.src}
+            src={item.src}
+            poster={item.poster}
             controls
             autoPlay
+            loop
             playsInline
             className="max-h-[65vh] w-full rounded-2xl bg-black object-contain"
           />
         ) : (
           <img
-            key={item.image}
-            src={item.image}
+            key={item.src}
+            src={item.src}
             alt={item.title}
             className="max-h-[65vh] w-full rounded-2xl object-contain"
           />

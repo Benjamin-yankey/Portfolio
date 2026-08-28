@@ -19,6 +19,7 @@ export interface Site {
   availabilityStatus?: string
   location?: string
   engagementTypes?: string[]
+  closingVideo?: string
 }
 
 export const site: Site = content

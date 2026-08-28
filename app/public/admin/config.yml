@@ -46,6 +46,7 @@ collections:
           - { label: "Portrait photo", name: portrait, widget: image }
           - { label: "Hero video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit). When set, replaces the portrait photo with a looping background video.", name: heroVideo, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
           - { label: "Contact page hero image (separate from the portrait — shown on the split hero at the top of the Contact page)", name: contactImage, widget: image, required: false }
+          - { label: "Closing section background video (the full-screen video in the last section of the Home page, separate from the hero video above)", name: closingVideo, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
 
       - file: "app/src/content/projects.json"
         label: "Projects"
