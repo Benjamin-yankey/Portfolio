@@ -1,5 +1,6 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { site } from '../data/site'
+import { getApiStatus, postJson } from '../lib/api'
 import { answerQuestion, SUGGESTED_QUESTIONS } from '../lib/faqBot'
 
 interface ChatMessage {
@@ -8,9 +9,10 @@ interface ChatMessage {
 }
 
 /**
- * A small floating widget, not a real conversation: every reply comes from
- * `answerQuestion`'s keyword match over the site's own CMS data, computed
- * synchronously, so there's no loading state or network round-trip to show.
+ * A small floating assistant. When the API's chat is switched on, replies
+ * come from Claude, grounded in the site's own content (worker/profile.ts);
+ * otherwise — and whenever a request fails — from `answerQuestion`'s
+ * keyword match over the same data, so a visitor always gets an answer.
  */
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,18 +23,44 @@ export function ChatBot() {
     },
   ])
   const [input, setInput] = useState('')
+  const [aiEnabled, setAiEnabled] = useState(false)
+  const [thinking, setThinking] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' })
-  }, [messages])
+    if (isOpen) getApiStatus().then((status) => setAiEnabled(status.chat))
+  }, [isOpen])
 
-  function ask(question: string) {
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' })
+  }, [messages, thinking])
+
+  async function ask(question: string) {
     const trimmed = question.trim()
-    if (!trimmed) return
-    const answer = answerQuestion(trimmed)
-    setMessages((prev) => [...prev, { role: 'user', text: trimmed }, { role: 'bot', text: answer }])
+    if (!trimmed || thinking) return
+    const history = [...messages, { role: 'user' as const, text: trimmed }]
+    setMessages(history)
     setInput('')
+
+    if (!aiEnabled) {
+      setMessages([...history, { role: 'bot', text: answerQuestion(trimmed) }])
+      return
+    }
+
+    setThinking(true)
+    try {
+      const { reply } = await postJson<{ reply: string }>('/api/chat', {
+        messages: history.map((message) => ({
+          role: message.role === 'bot' ? 'assistant' : 'user',
+          content: message.text,
+        })),
+      })
+      setMessages([...history, { role: 'bot', text: reply }])
+    } catch {
+      setMessages([...history, { role: 'bot', text: answerQuestion(trimmed) }])
+    } finally {
+      setThinking(false)
+    }
   }
 
   function handleSubmit(event: FormEvent) {
@@ -55,7 +83,11 @@ export function ChatBot() {
         <div className="fixed right-6 bottom-24 z-50 flex h-[min(520px,70vh)] w-[min(360px,88vw)] flex-col overflow-hidden rounded-2xl border border-line bg-cream shadow-[0_24px_60px_rgba(26,26,26,0.22)]">
           <div className="border-b border-line px-5 py-4">
             <p className="font-serif text-[1.05rem]">Ask about {site.name}</p>
-            <p className="text-[0.78rem] text-muted">Answers pulled straight from the site.</p>
+            <p className="text-[0.78rem] text-muted">
+              {aiEnabled
+                ? 'AI answers based on this site. They can be wrong — check the pages.'
+                : 'Answers pulled straight from the site.'}
+            </p>
           </div>
 
           <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-5 py-4">
@@ -63,13 +95,18 @@ export function ChatBot() {
               <div
                 key={index}
                 className={[
-                  'max-w-[85%] rounded-2xl px-4 py-2.5 text-[0.88rem] leading-[1.5]',
+                  'max-w-[85%] rounded-2xl px-4 py-2.5 text-[0.88rem] leading-[1.5] whitespace-pre-line',
                   message.role === 'user' ? 'ml-auto bg-ink text-cream' : 'bg-surface/60 text-ink-soft',
                 ].join(' ')}
               >
                 {message.text}
               </div>
             ))}
+            {thinking && (
+              <div className="w-fit rounded-2xl bg-surface/60 px-4 py-2.5 text-[0.88rem] text-muted" role="status">
+                <span className="animate-pulse">Thinking…</span>
+              </div>
+            )}
           </div>
 
           {messages.length <= 1 && (
@@ -93,6 +130,7 @@ export function ChatBot() {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               placeholder="Ask a question…"
+              maxLength={1200}
               className="w-full rounded-full border border-line bg-surface/60 px-4 py-2.5 text-[0.88rem] outline-none transition-colors duration-300 ease-editorial focus:border-ink"
             />
             <button

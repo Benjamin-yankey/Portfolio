@@ -6,4 +6,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/Portfolio/',
   plugins: [react(), tailwindcss()],
+  server: {
+    // `npm run dev` talks to a local `npx wrangler dev` (port 8787) for the
+    // API; without it, the contact form and assistant use their fallbacks.
+    proxy: { '/api': 'http://localhost:8787' },
+  },
 })

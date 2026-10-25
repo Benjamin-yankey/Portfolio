@@ -17,10 +17,14 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors })
 
     // CORS stops other sites reading responses, but not their POSTs from
-    // running; refuse those outright. Requests with no Origin (curl, tests)
-    // still pass, subject to the rate limits.
+    // running; refuse those outright. The Worker's own origin always passes
+    // (browsers send Origin on same-origin POSTs too, and preview URLs
+    // aren't in the list), as do requests with no Origin (curl, tests),
+    // subject to the rate limits.
     const origin = request.headers.get('Origin')
-    if (origin && !isAllowedOrigin(origin, env)) return json({ error: 'forbidden-origin' }, 403, cors)
+    if (origin && origin !== url.origin && !isAllowedOrigin(origin, env)) {
+      return json({ error: 'forbidden-origin' }, 403, cors)
+    }
 
     switch (`${request.method} ${url.pathname}`) {
       case 'GET /api/health':

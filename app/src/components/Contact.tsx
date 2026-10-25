@@ -1,10 +1,12 @@
-import { type SubmitEvent, useState } from 'react'
+import { type SubmitEvent, useEffect, useState } from 'react'
 import { site } from '../data/site'
+import { ApiError, getApiStatus, postJson, type ApiStatus } from '../lib/api'
 import { projects } from '../data/projects'
 import { certifications, skillCategories } from '../data/skills'
 import { githubStats } from '../data/githubStats'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
+import { TurnstileWidget } from './TurnstileWidget'
 
 const CONTACT_GRID = [
   { label: 'Email', linkText: site.email, href: `mailto:${site.email}` },
@@ -20,10 +22,9 @@ const STATS = [
 ]
 
 /**
- * There's no backend behind this site (static Vite build, no API routes),
- * so "sending" the form can't mean posting to a server — it means handing
- * the filled-in message to the visitor's own mail client via `mailto:`,
- * which is the one submission path that actually delivers without one.
+ * The fallback whenever the API can't send (switched off, unreachable, or
+ * failing): hand the filled-in message to the visitor's own mail client
+ * via `mailto:`, which delivers without any server.
  */
 function buildMailtoHref(name: string, email: string, subject: string, message: string) {
   const body = `${message}\n\n— ${name || '(no name given)'} (${email || 'no email given'})`
@@ -36,10 +37,46 @@ export function Contact() {
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
+  // Hidden from people; bots that fill every field give themselves away.
+  const [website, setWebsite] = useState('')
+  const [api, setApi] = useState<ApiStatus | null>(null)
+  const [token, setToken] = useState('')
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [notice, setNotice] = useState('')
 
-  function handleSubmit(event: SubmitEvent) {
+  useEffect(() => {
+    getApiStatus().then(setApi)
+  }, [])
+
+  const sendsDirectly = api?.contact === true
+
+  async function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
-    window.location.href = buildMailtoHref(name, email, subject, message)
+    if (!sendsDirectly) {
+      window.location.href = buildMailtoHref(name, email, subject, message)
+      return
+    }
+    setState('sending')
+    setNotice('')
+    try {
+      await postJson('/api/contact', { name, email, subject, message, website, token })
+      setState('sent')
+      setName('')
+      setEmail('')
+      setSubject('')
+      setMessage('')
+    } catch (error) {
+      setState('error')
+      if (error instanceof ApiError && error.status === 429) {
+        setNotice('Too many messages in a short time. Please try again in a minute.')
+      } else if (error instanceof ApiError && error.status === 400) {
+        setNotice('Please check your name, a valid email, and a message of at least a few words.')
+      } else {
+        // Anything else: don't lose the message — open it in their email app.
+        setNotice("Couldn't send from here, so your email app is opening with the message instead.")
+        window.location.href = buildMailtoHref(name, email, subject, message)
+      }
+    }
   }
 
   return (
@@ -166,7 +203,7 @@ export function Contact() {
             as="form"
             depth
             onSubmit={handleSubmit}
-            className="rounded-2xl border border-line bg-surface/40 p-[clamp(20px,3vw,32px)]"
+            className="relative rounded-2xl border border-line bg-surface/40 p-[clamp(20px,3vw,32px)]"
           >
             <div className="mb-5 grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
               <label className="block">
@@ -224,14 +261,36 @@ export function Contact() {
               />
             </label>
 
+            {/* Off-screen rather than display:none, which some bots skip. */}
+            <label aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              Website
+              <input
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(event) => setWebsite(event.target.value)}
+              />
+            </label>
+
+            {sendsDirectly && api?.turnstileSiteKey && (
+              <TurnstileWidget siteKey={api.turnstileSiteKey} onToken={setToken} />
+            )}
+
             <button
               type="submit"
-              className="inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-[350ms] ease-editorial hover:-translate-y-1 hover:bg-ink-soft"
+              disabled={state === 'sending'}
+              className="inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-3.5 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-[350ms] ease-editorial hover:-translate-y-1 hover:bg-ink-soft disabled:translate-y-0 disabled:opacity-60"
             >
-              Send message <span aria-hidden="true">→</span>
+              {state === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden="true">→</span>
             </button>
-            <p className="mt-3 text-[0.8rem] text-muted">
-              Opens your email client with this message pre-filled.
+            <p role="status" className="mt-3 text-[0.8rem] text-muted">
+              {state === 'sent'
+                ? "Thanks — your message is on its way. I'll reply to the email you gave."
+                : notice ||
+                  (sendsDirectly
+                    ? 'Goes straight to my inbox; replies come from my own email.'
+                    : 'Opens your email client with this message pre-filled.')}
             </p>
           </Reveal>
         </div>
