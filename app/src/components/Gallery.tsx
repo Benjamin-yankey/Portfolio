@@ -34,7 +34,9 @@ export function Gallery() {
           <SectionHeading title="Gallery" index="05 — Gallery" />
 
           <Reveal as="p" className="mb-8 max-w-[62ch] text-[0.98rem] leading-[1.7] text-ink-soft">
-            A few photos and clips from projects, work, and along the way.
+            Every project on my GitHub, in pictures: live screens, architecture
+            diagrams, and pipeline runs. Where a repo has no screenshots, its card
+            shows the architecture or file tree straight from the code.
           </Reveal>
 
           {items.length === 0 ? (
@@ -98,6 +100,8 @@ export function Gallery() {
                         <img
                           src={item.src}
                           alt={item.title}
+                          loading="lazy"
+                          decoding="async"
                           className="aspect-[4/3] w-full object-cover"
                         />
                       )}
@@ -109,6 +113,16 @@ export function Gallery() {
                       </p>
                     )}
                     {item.caption && <p className="mt-1 text-[0.9rem] text-muted">{item.caption}</p>}
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-block text-[0.75rem] font-semibold tracking-[0.1em] text-ink-soft uppercase underline-offset-4 hover:underline"
+                      >
+                        View on GitHub <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
                   </li>
                 ))}
               </Reveal>

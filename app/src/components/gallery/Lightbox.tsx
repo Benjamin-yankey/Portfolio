@@ -98,6 +98,16 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
           {item.caption && (
             <p className="mt-2 max-w-[60ch] text-[0.9rem] text-cream/80">{item.caption}</p>
           )}
+          {item.link && (
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-block text-[0.78rem] font-semibold tracking-[0.1em] text-cream uppercase underline-offset-4 hover:underline"
+            >
+              View on GitHub <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
       </div>
     </div>

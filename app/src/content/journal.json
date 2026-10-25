@@ -1,22 +1,52 @@
 {
   "items": [
     {
-      "date": "Jun 2025",
-      "title": "Why We Moved from Jenkins to ArgoCD",
-      "excerpt": "A field note on our GitOps migration: what broke, what got simpler, and the rollback plan we never needed.",
-      "href": "#"
+      "date": "Sep 2026",
+      "title": "Every Call Through Redpanda: The Contract Behind a School Platform",
+      "excerpt": "The shared rules for the school management microservices: why Redpanda over plain Kafka, events versus request/reply, the 5-second reply timeout, and how topics are named.",
+      "href": "https://github.com/Benjamin-yankey/school-management-system-main/blob/main/backend-fixed/foundation.md"
     },
     {
-      "date": "Feb 2025",
-      "title": "Notes on Kubernetes Cost Optimization",
-      "excerpt": "Right-sizing requests, bin-packing nodes, and the spot-instance strategy that cut our cluster bill by a third.",
-      "href": "#"
+      "date": "Jun 2026",
+      "title": "ECS Fargate or EKS? Same App, Two Orchestrators",
+      "excerpt": "What deploying one storefront both ways showed about setup effort, service discovery, load balancing and cost, and the rule of thumb for choosing between them.",
+      "href": "https://github.com/Benjamin-yankey/Poly-Orchestrator#ecs-vs-eks--what-the-benchmark-shows"
     },
     {
-      "date": "Oct 2024",
-      "title": "Designing Alerting That Doesn't Cry Wolf",
-      "excerpt": "How we rebuilt our alert thresholds around user impact instead of raw metrics — and got our nights back.",
-      "href": "#"
+      "date": "Jun 2026",
+      "title": "Reading an Incident Report Written by the System Itself",
+      "excerpt": "An automated root-cause report from the self-healing stack: a 65-second API error spike, the signals it ruled out, and the restart that ended it.",
+      "href": "https://github.com/Benjamin-yankey/AI-Devops/blob/main/self-healing-system/insight.md"
+    },
+    {
+      "date": "Jun 2026",
+      "title": "A Runbook for Restoring a Database in Another Region",
+      "excerpt": "Step-by-step recovery of the FinCorp ledger from cross-region AWS Backup copies, with the targets that frame it: RTO of 30 minutes, RPO of up to a day.",
+      "href": "https://github.com/Benjamin-yankey/Artifacts/blob/main/docs/dr-runbook.md"
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Three Controls for an Immutable Supply Chain",
+      "excerpt": "CodeArtifact as the single source for every package, ECR scanning with immutable tags, and a build that refuses to ship HIGH or CRITICAL vulnerabilities.",
+      "href": "https://github.com/Benjamin-yankey/Artifacts/blob/main/docs/supply-chain-security.md"
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Zombie Assets: What an Inherited AWS Account Was Paying For",
+      "excerpt": "An idle, oversized instance, volumes attached to nothing and an orphaned Elastic IP: how to find them in Cost Explorer, what they cost, and how to stop them coming back.",
+      "href": "https://github.com/Benjamin-yankey/FinOps/blob/main/Cost-Detective-Audit/documentation/analysis/zombie-assets-findings.md"
+    },
+    {
+      "date": "Mar 2026",
+      "title": "Gating Every Deploy on Security Scans",
+      "excerpt": "How the GitOps mail pipeline chains SonarQube, OWASP Dependency-Check, Trivy, Gitleaks and an SBOM into one gate that fails the build on any High or Critical finding.",
+      "href": "https://github.com/Benjamin-yankey/Gitops_lab/blob/main/docs/SECURE-CICD-ECS.md"
+    },
+    {
+      "date": "Feb 2026",
+      "title": "Auditing an AI Hiring Model for Bias",
+      "excerpt": "A data-governance lab tracing gender, regional and institutional bias through a candidate-ranking model, and a mitigation plan from removing proxy features to fairness constraints.",
+      "href": "https://github.com/Benjamin-yankey/Data-Governance-Integrity-Technical-Foundation-labs/blob/main/TalentMatch_HireScore_Bias_Investigation_Report.pdf"
     }
   ]
 }

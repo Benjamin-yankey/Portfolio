@@ -1,6 +1,31 @@
 {
   "items": [
     {
+      "displayName": "School Management System",
+      "language": "JavaScript",
+      "url": "https://github.com/Benjamin-yankey/school-management-system-main"
+    },
+    {
+      "displayName": "Thrift Hub Storefront",
+      "language": "TypeScript",
+      "url": "https://github.com/Benjamin-yankey/Thrift-Hub"
+    },
+    {
+      "displayName": "Portfolio",
+      "language": "TypeScript",
+      "url": "https://github.com/Benjamin-yankey/Portfolio"
+    },
+    {
+      "displayName": "Thrift Hub Ledger",
+      "language": "TypeScript",
+      "url": "https://github.com/Benjamin-yankey/Hub"
+    },
+    {
+      "displayName": "Skill Lift Submission",
+      "language": "—",
+      "url": "https://github.com/Benjamin-yankey/submission"
+    },
+    {
       "displayName": "AI DevOps",
       "language": "Python",
       "url": "https://github.com/Benjamin-yankey/AI-Devops"
@@ -14,11 +39,6 @@
       "displayName": "Artifacts",
       "language": "Terraform",
       "url": "https://github.com/Benjamin-yankey/Artifacts"
-    },
-    {
-      "displayName": "School Management System",
-      "language": "JavaScript",
-      "url": "https://github.com/Benjamin-yankey/school-management-system-main"
     },
     {
       "displayName": "FinOps",

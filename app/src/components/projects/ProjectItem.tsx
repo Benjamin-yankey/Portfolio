@@ -97,12 +97,22 @@ export function ProjectItem({ project, isOpen, onToggle }: Readonly<ProjectItemP
                 {(project.video || project.image) && (
                   <div className="mb-6 max-w-[880px] overflow-hidden rounded-2xl border border-line">
                     {project.video ? (
-                      <video src={project.video} controls playsInline className="aspect-video w-full object-cover" />
+                      <video
+                        src={project.video}
+                        poster={project.image}
+                        controls
+                        playsInline
+                        className="aspect-video w-full object-cover"
+                      />
                     ) : (
+                      // Natural aspect ratio rather than a fixed 16:9 crop:
+                      // most of these are architecture diagrams, and
+                      // cropping them cuts off labels at the edges.
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="aspect-video w-full object-cover"
+                        loading="lazy"
+                        className="h-auto w-full"
                       />
                     )}
                   </div>
@@ -130,6 +140,27 @@ export function ProjectItem({ project, isOpen, onToggle }: Readonly<ProjectItemP
                 <p className="mt-6.5 border-t border-line-soft pt-5.5 font-serif text-[clamp(1.3rem,2.4vw,1.7rem)] italic">
                   {project.keyDetail}
                 </p>
+                {project.links && project.links.length > 0 && (
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {project.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2 rounded-full border border-ink px-5 py-2.5 text-[12px] font-semibold tracking-[0.1em] uppercase transition-colors duration-300 ease-editorial hover:bg-ink hover:text-cream"
+                      >
+                        {link.label}
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform duration-300 ease-editorial group-hover:translate-x-0.5"
+                        >
+                          ↗
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

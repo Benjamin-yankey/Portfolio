@@ -1,10 +1,11 @@
 import { certifications, skillCategories } from '../data/skills'
+import { githubStats } from '../data/githubStats'
 import { Tilt3D } from './Tilt3D'
 
 const STATS = [
   { value: `${certifications.length}`, label: 'Certs' },
   { value: `${skillCategories.length}`, label: 'Skills' },
-  { value: '5+', label: 'Years' },
+  { value: `${githubStats.repositories}`, label: 'Repos' },
 ]
 
 /**
@@ -29,7 +30,7 @@ export function HeroCodeCard() {
         aria-hidden="true"
         className="absolute -top-2 -right-2 z-10 rounded-full border border-line bg-cream px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.08em] text-ink uppercase shadow-[0_10px_24px_rgba(26,26,26,0.18)]"
       >
-        Reliability-first
+        Code to cloud
       </span>
 
       <div className="flex items-center gap-1.5 border-b border-white/10 px-5 py-3.5">
@@ -44,14 +45,14 @@ export function HeroCodeCard() {
       <pre className="overflow-x-auto px-5 py-5 font-mono text-[0.74rem] leading-[1.7] text-white/85">
         <code>
           <span className="text-white/40">const</span> benjamin = {'{'}
-          {'\n'}  role: [<span className="text-cream">"DevOps"</span>,{' '}
-          <span className="text-cream">"SRE"</span>],{'\n'}  stack: [
-          <span className="text-cream">"AWS"</span>,{' '}
-          <span className="text-cream">"IaC"</span>,{' '}
-          <span className="text-cream">"K8s"</span>],{'\n'}  ships: (release) =&gt;{'\n'}
-          {'    '}build(release).then(deploy),{'\n'}
+          {'\n'}  role: [<span className="text-cream">"Full-Stack"</span>,{' '}
+          <span className="text-cream">"DevOps"</span>],{'\n'}  stack: [
+          <span className="text-cream">"React"</span>,{' '}
+          <span className="text-cream">"Node"</span>,{' '}
+          <span className="text-cream">"AWS"</span>],{'\n'}  ships: (idea) =&gt;{'\n'}
+          {'    '}build(idea).then(deploy),{'\n'}
           {'}'};{'\n'}
-          {'\n'}benjamin.ships(<span className="text-cream">"reliability"</span>);<span aria-hidden="true" className="animate-cursor-blink text-cream">▊</span>
+          {'\n'}benjamin.ships(<span className="text-cream">"end-to-end"</span>);<span aria-hidden="true" className="animate-cursor-blink text-cream">▊</span>
         </code>
       </pre>
 

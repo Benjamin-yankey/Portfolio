@@ -65,7 +65,7 @@ export function Skills() {
             >
               <span className="font-serif text-[1.15rem]">{cert.name}</span>
               <span className="text-[0.85rem] text-muted">
-                {cert.issuer} · {cert.year}
+                {[cert.issuer, cert.year].filter(Boolean).join(' · ')}
               </span>
             </div>
           ))}

@@ -1,36 +1,74 @@
 {
   "skillCategories": [
     {
-      "title": "Cloud",
+      "title": "Languages",
       "items": [
-        "AWS",
-        "Azure",
-        "GCP"
+        "Python",
+        "JavaScript / TypeScript",
+        "Java",
+        "C++ / C#",
+        "SQL",
+        "Bash"
       ]
     },
     {
-      "title": "Containers & Orchestration",
+      "title": "Front-End",
+      "items": [
+        "React",
+        "Angular",
+        "Next.js",
+        "Tailwind CSS",
+        "HTML / CSS"
+      ]
+    },
+    {
+      "title": "Back-End & APIs",
+      "items": [
+        "Node.js / Express",
+        "NestJS",
+        "Flask / FastAPI",
+        "REST APIs",
+        "Kafka (Redpanda)"
+      ]
+    },
+    {
+      "title": "Databases",
+      "items": [
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+        "DynamoDB",
+        "Prisma / TypeORM"
+      ]
+    },
+    {
+      "title": "Cloud (AWS)",
+      "items": [
+        "EC2 / Auto Scaling",
+        "ECS / EKS / ECR",
+        "Lambda / API Gateway",
+        "S3 / RDS",
+        "VPC / IAM",
+        "CloudWatch / EventBridge"
+      ]
+    },
+    {
+      "title": "Containers & CI/CD",
       "items": [
         "Docker",
         "Kubernetes",
-        "Helm"
-      ]
-    },
-    {
-      "title": "IaC & Config Management",
-      "items": [
-        "Terraform",
-        "Ansible",
-        "Pulumi"
-      ]
-    },
-    {
-      "title": "CI/CD",
-      "items": [
         "Jenkins",
         "GitHub Actions",
-        "GitLab CI",
-        "ArgoCD"
+        "AWS CodePipeline",
+        "GitOps"
+      ]
+    },
+    {
+      "title": "Infrastructure as Code",
+      "items": [
+        "Terraform",
+        "CloudFormation",
+        "Ansible"
       ]
     },
     {
@@ -38,34 +76,57 @@
       "items": [
         "Prometheus",
         "Grafana",
-        "Loki / ELK",
-        "Datadog"
+        "CloudWatch",
+        "Jaeger / OpenTelemetry",
+        "ELK Stack"
       ]
     },
     {
-      "title": "Scripting & Languages",
+      "title": "Security & Quality",
       "items": [
-        "Bash",
-        "Python",
-        "Go"
+        "Trivy",
+        "Gitleaks",
+        "SonarQube",
+        "OWASP Dependency-Check",
+        "IAM / RBAC"
       ]
     }
   ],
   "certifications": [
     {
-      "name": "AWS Certified DevOps Engineer – Professional",
+      "name": "AWS Certified Cloud Practitioner",
       "issuer": "Amazon Web Services",
+      "year": "2025"
+    },
+    {
+      "name": "AWS re/Start Graduate",
+      "issuer": "Amalitech · Amazon Web Services",
+      "year": "2025"
+    },
+    {
+      "name": "Introduction to Agent Skills",
+      "issuer": "Anthropic",
+      "year": "2026"
+    },
+    {
+      "name": "NDG Linux Essentials",
+      "issuer": "Cisco Networking Academy",
       "year": "2024"
     },
     {
-      "name": "Certified Kubernetes Administrator (CKA)",
-      "issuer": "Cloud Native Computing Foundation",
-      "year": "2023"
+      "name": "NDG Linux Unhatched",
+      "issuer": "Cisco Networking Academy",
+      "year": "2024"
     },
     {
-      "name": "HashiCorp Certified: Terraform Associate",
-      "issuer": "HashiCorp",
-      "year": "2023"
+      "name": "Software Engineer Certificate",
+      "issuer": "IPMC Ghana",
+      "year": ""
+    },
+    {
+      "name": "HTML & CSS Certificate",
+      "issuer": "freeCodeCamp",
+      "year": ""
     }
   ]
 }

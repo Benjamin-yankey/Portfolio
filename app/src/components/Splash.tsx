@@ -47,9 +47,9 @@ export function Splash() {
             Before you go in.
           </Reveal>
           <Reveal as="p" delay={2} className="mb-8 text-[1.02rem] leading-[1.7] text-ink-soft">
-            A short tour of how I build and run infrastructure — projects
-            shipped, tools relied on daily, the roles behind them, notes
-            along the way, and a way to reach me.
+            A short tour of how I build software and the infrastructure it
+            runs on — projects shipped, tools relied on daily, the roles
+            behind them, notes along the way, and a way to reach me.
           </Reveal>
           <Reveal as="p" delay={2} className="mb-10 text-[0.85rem] tracking-[0.02em] text-muted">
             Inside: {STOPS.join(' · ')}

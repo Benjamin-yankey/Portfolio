@@ -7,6 +7,8 @@ export interface GalleryItem {
   date?: string
   image?: string
   video?: string
+  /** Where the item comes from — usually its GitHub repo. */
+  link?: string
 }
 
 export const galleryItems: GalleryItem[] = content.items
@@ -22,6 +24,7 @@ export interface GalleryMedia {
   caption?: string
   category?: string
   date?: string
+  link?: string
   type: 'image' | 'video'
   src: string
   /** For a video entry, the item's image (if any) doubles as its poster
@@ -31,7 +34,13 @@ export interface GalleryMedia {
 
 export function toGalleryMedia(items: GalleryItem[]): GalleryMedia[] {
   return items.flatMap((item, index) => {
-    const shared = { title: item.title, caption: item.caption, category: item.category, date: item.date }
+    const shared = {
+      title: item.title,
+      caption: item.caption,
+      category: item.category,
+      date: item.date,
+      link: item.link,
+    }
     const media: GalleryMedia[] = []
     if (item.image) {
       media.push({ key: `${index}-image`, ...shared, type: 'image', src: item.image })

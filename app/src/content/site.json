@@ -1,12 +1,12 @@
 {
-  "contactSub": "Open to DevOps, SRE, and Platform Engineering roles — and always glad to talk infrastructure, pipelines, or reliability over coffee.",
+  "contactSub": "Open to full-stack, DevOps and cloud engineering roles. Happy to talk about building a product, shipping it, or keeping it running.",
   "github": "https://github.com/Benjamin-yankey",
-  "bio": "I build CI/CD pipelines, cloud infrastructure across AWS and Azure, and infrastructure-as-code systems that make releases uneventful — in the best way. My focus is reliability, observability, and developer experience: the parts of engineering that go unnoticed when they're done right.",
-  "eyebrow": "Portfolio — DevOps / Platform Engineering",
+  "bio": "I'm a full-stack developer and DevOps engineer at Amalitech in Ghana. I build web apps end to end with React, Angular, Node.js and Python, then run them on AWS with Terraform, Docker, Kubernetes and CI/CD pipelines that test and scan every change before it ships. I studied Computer Science at KNUST and trained as a full-stack engineer through ALX, so I'm as at home reviewing a pull request as I am debugging a failed deploy.",
+  "eyebrow": "Portfolio — Full-Stack & DevOps / Cloud Engineering",
   "name": "Benjamin Yankey",
-  "tagline": "Automating infrastructure. Shipping reliably.",
+  "tagline": "Building the product and the platform it runs on.",
   "footerCopy": "© 2026 Benjamin Yankey.",
-  "role": "DevOps Engineer",
+  "role": "Full-Stack & DevOps Engineer",
   "wordmark": "B. Huey",
   "resumeHref": "https://raw.githubusercontent.com/Benjamin-yankey/Certificates/main/BenjaminResume_SoftwareDev.pdf",
   "portrait": "/Portfolio/images/portrait-cutout.webp",
@@ -14,5 +14,6 @@
   "email": "benjaminkofiyankey@gmail.com",
   "linkedin": "https://www.linkedin.com/in/benjamin-yankey-9732b4371",
   "availabilityStatus": "Open to new opportunities",
+  "location": "Kumasi, Ghana · GMT",
   "closingVideo": "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4"
 }

@@ -18,6 +18,9 @@ export function Journal() {
               <a
                 key={entry.title}
                 href={entry.href}
+                // Entries link out to write-ups on GitHub; keep the
+                // portfolio open behind them.
+                {...(/^https?:/.test(entry.href) && { target: '_blank', rel: 'noopener noreferrer' })}
                 className={[
                   'grid items-start gap-[clamp(20px,4vw,48px)] border-b border-line py-[clamp(28px,3.6vw,40px)] transition-opacity duration-300 ease-editorial hover:opacity-65 max-[860px]:grid-cols-1 max-[860px]:gap-1.5',
                   entry.image ? 'grid-cols-[72px_120px_1fr]' : 'grid-cols-[120px_1fr]',

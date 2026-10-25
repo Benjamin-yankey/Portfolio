@@ -8,7 +8,346 @@
       "title": "Thrift Hub",
       "caption": "A WebApp for selling clothes and showcasing them.",
       "image": "/Portfolio/images/whatsapp-image-2026-08-25-at-14.44.54.jpeg",
-      "video": "/Portfolio/videos/thrift-hub.mp4"
+      "video": "/Portfolio/videos/thrift-hub.mp4",
+      "category": "Full-Stack",
+      "date": "Sep 2026",
+      "link": "https://github.com/Benjamin-yankey/Thrift-Hub"
+    },
+    {
+      "title": "Geoziie International School",
+      "caption": "The live public site of the school management platform: a React front end backed by NestJS microservices.",
+      "category": "Full-Stack",
+      "date": "Sep 2026",
+      "image": "/Portfolio/images/projects/school-live.jpg",
+      "link": "https://github.com/Benjamin-yankey/school-management-system-main"
+    },
+    {
+      "title": "School Platform: Auth Service",
+      "caption": "How sign-in works across services: the auth service, JWT strategy, and request/reply over the Redpanda broker.",
+      "category": "Full-Stack",
+      "date": "Sep 2026",
+      "image": "/Portfolio/images/projects/school-auth-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/school-management-system-main"
+    },
+    {
+      "title": "Thrift Hub: Shop Ledger",
+      "caption": "Customer, purchase and balance tracking for a thrift shop, with a daily-sales view for reconciling the till and a 7-day trend.",
+      "category": "Full-Stack",
+      "date": "Aug 2026",
+      "image": "/Portfolio/images/projects/card-thrift-hub-ledger.jpg",
+      "link": "https://github.com/Benjamin-yankey/Hub"
+    },
+    {
+      "title": "MediCo Telemedicine",
+      "caption": "Front end for MediCo, a telemedicine prototype covering virtual visits, lab tests, prescriptions and a health shop.",
+      "category": "Full-Stack",
+      "date": "Sep 2024",
+      "image": "/Portfolio/images/projects/medico.jpg",
+      "link": "https://github.com/Benjamin-yankey/MiniProject"
+    },
+    {
+      "title": "Serverless Task Management",
+      "caption": "Role-based task manager with admin and member views, Cognito sign-in restricted by email domain, and email notifications on assignment.",
+      "category": "Full-Stack",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/card-serverless-tasks.jpg",
+      "link": "https://github.com/Benjamin-yankey/serverless-task-management"
+    },
+    {
+      "title": "DevLog: Developer Publishing Platform",
+      "caption": "A blogging platform for developers: rich editor, tags, nested comments and author profiles, shipped with Docker Compose and a Jenkins pipeline.",
+      "category": "Full-Stack",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/card-devlog.jpg",
+      "link": "https://github.com/Benjamin-yankey/commentary-blog"
+    },
+    {
+      "title": "This Portfolio",
+      "caption": "The site you are on: React, Vite and Three.js, with content managed in Decap CMS and deployed to GitHub Pages.",
+      "category": "Full-Stack",
+      "date": "Aug 2026",
+      "image": "/Portfolio/images/projects/portfolio.jpg",
+      "link": "https://github.com/Benjamin-yankey/Portfolio"
+    },
+    {
+      "title": "ShopNow on ECS vs EKS",
+      "caption": "One microservices storefront (Angular, Node.js, Postgres, Redis) deployed on ECS Fargate and on EKS, to compare the two orchestrators side by side.",
+      "category": "DevOps & Cloud",
+      "date": "Jun 2026",
+      "image": "/Portfolio/images/projects/card-poly-orchestrator.jpg",
+      "link": "https://github.com/Benjamin-yankey/Poly-Orchestrator"
+    },
+    {
+      "title": "TechStream Self-Healing System",
+      "caption": "Monitoring and auto-remediation for a four-tier app: Prometheus spots the anomaly, Alertmanager calls the healer, and the failing tier restarts before anyone is paged.",
+      "category": "DevOps & Cloud",
+      "date": "Jun 2026",
+      "image": "/Portfolio/images/projects/card-ai-devops.jpg",
+      "link": "https://github.com/Benjamin-yankey/AI-Devops"
+    },
+    {
+      "title": "GitOps Mail System: Architecture",
+      "caption": "Jenkins on AWS running a 19-stage pipeline with SonarQube, Gitleaks, Trivy and an SBOM, deploying to ECS Fargate.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/gitops-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/Gitops_lab"
+    },
+    {
+      "title": "GitOps Mail System: Quality Gate",
+      "caption": "SonarQube passing the quality gate, one of the checks every build must clear before it can ship.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/gitops-sonarqube.jpg",
+      "link": "https://github.com/Benjamin-yankey/Gitops_lab"
+    },
+    {
+      "title": "GitOps Mail System: The App",
+      "caption": "The Node.js mail client the pipeline deploys, running on ECS Fargate.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/gitops-app.jpg",
+      "link": "https://github.com/Benjamin-yankey/Gitops_lab"
+    },
+    {
+      "title": "FinCorp Immutable & Indestructible Pipeline",
+      "caption": "Vulnerability-gated, immutable container artifacts, plus a cross-region DR plan that restores the critical database in under 30 minutes.",
+      "category": "DevOps & Cloud",
+      "date": "Jun 2026",
+      "image": "/Portfolio/images/projects/card-fincorp-pipeline.jpg",
+      "link": "https://github.com/Benjamin-yankey/Artifacts"
+    },
+    {
+      "title": "CI/CD with Observability: Architecture",
+      "caption": "Terraform-built AWS network, Jenkins in Docker, and a Node.js app traced with OpenTelemetry and Jaeger and measured with Prometheus.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/observability-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/Logging-and-monitoring"
+    },
+    {
+      "title": "CI/CD with Observability: Grafana",
+      "caption": "The live Grafana dashboard: request rate, error rate and latency for the deployed app.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/observability-grafana.jpg",
+      "link": "https://github.com/Benjamin-yankey/Logging-and-monitoring"
+    },
+    {
+      "title": "Cost-Detective Audit: Savings",
+      "caption": "The savings summary after removing zombie resources and moving compute to Spot.",
+      "category": "DevOps & Cloud",
+      "date": "Jun 2026",
+      "image": "/Portfolio/images/projects/finops-savings.jpg",
+      "link": "https://github.com/Benjamin-yankey/FinOps"
+    },
+    {
+      "title": "Cost-Detective Audit: Cost Explorer",
+      "caption": "Untagged spend in Cost Explorer, the starting point of the audit.",
+      "category": "DevOps & Cloud",
+      "date": "Jun 2026",
+      "image": "/Portfolio/images/projects/finops-cost-explorer.jpg",
+      "link": "https://github.com/Benjamin-yankey/FinOps"
+    },
+    {
+      "title": "Jenkins Pipeline with Observability Stack",
+      "caption": "A Node.js service built and deployed by Jenkins and watched by Prometheus, Grafana, Alertmanager and Node Exporter, with CloudTrail and GuardDuty on AWS.",
+      "category": "DevOps & Cloud",
+      "date": "Mar 2026",
+      "image": "/Portfolio/images/projects/card-jenkins-observability.jpg",
+      "link": "https://github.com/Benjamin-yankey/monitoring"
+    },
+    {
+      "title": "Complete CI/CD Pipeline (Jenkins)",
+      "caption": "A Node.js app tested, containerised and deployed to EC2 by Jenkins, with the infrastructure in Terraform.",
+      "category": "DevOps & Cloud",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/jenkins-app.jpg",
+      "link": "https://github.com/Benjamin-yankey/Project_Complete_CICD_Pipeline_Jenkin"
+    },
+    {
+      "title": "3-Tier AWS Architecture",
+      "caption": "Modular Terraform for a load balancer, an auto-scaling app tier and Multi-AZ RDS across two availability zones.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/3tier-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/3tier-project"
+    },
+    {
+      "title": "Terraform + Ansible Web App",
+      "caption": "Terraform provisions the AWS infrastructure and generates the inventory; Ansible configures Nginx.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/tf-ansible-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/terraform-ansible-webapp"
+    },
+    {
+      "title": "Terraform AWS Foundation",
+      "caption": "A modular VPC, security group and EC2 build, with remote state in S3.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/iac-architecture.jpg",
+      "link": "https://github.com/Benjamin-yankey/IaC"
+    },
+    {
+      "title": "Terraform AWS Infrastructure",
+      "caption": "Apache on EC2 answering from a Terraform-built VPC, with state in S3 and locking in DynamoDB.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/tf-aws-browser.jpg",
+      "link": "https://github.com/Benjamin-yankey/terraform-aws-infrastructure"
+    },
+    {
+      "title": "Serverless API with Terraform Modules",
+      "caption": "A Python Lambda behind API Gateway, with IAM roles and CloudWatch logs, provisioned entirely from reusable Terraform modules.",
+      "category": "DevOps & Cloud",
+      "date": "Dec 2025",
+      "image": "/Portfolio/images/projects/card-serverless-terraform.jpg",
+      "link": "https://github.com/Benjamin-yankey/OpenStack"
+    },
+    {
+      "title": "Nginx Reverse Proxy & Load Balancer",
+      "caption": "Nginx in front of three health-checked Flask instances, with TLS, caching, rate limiting, gzip and a live metrics dashboard.",
+      "category": "DevOps & Cloud",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/card-nginx-proxy.jpg",
+      "link": "https://github.com/Benjamin-yankey/flask-backend"
+    },
+    {
+      "title": "Multi-Container App on EC2",
+      "caption": "A two-tier Flask and MySQL app run with Docker Compose on EC2, with Trivy image scanning in GitHub Actions.",
+      "category": "DevOps & Cloud",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/card-docker-ec2.jpg",
+      "link": "https://github.com/Benjamin-yankey/docker-ec2-project"
+    },
+    {
+      "title": "Hardened Flask Container",
+      "caption": "A Flask app containerised with secure defaults, driven by a Makefile for build, run, test and scan.",
+      "category": "DevOps & Cloud",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/card-docker-lab.jpg",
+      "link": "https://github.com/Benjamin-yankey/docker-lab"
+    },
+    {
+      "title": "Express API on Amazon RDS",
+      "caption": "A Node.js and Express service backed by a MySQL connection pool on Amazon RDS, set up to sit behind an AWS load balancer.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/card-express-rds.jpg",
+      "link": "https://github.com/Benjamin-yankey/app"
+    },
+    {
+      "title": "AWS Automation with Bash",
+      "caption": "Bash and the AWS CLI creating EC2 instances, security groups and S3 buckets, with logging and cleanup.",
+      "category": "DevOps & Cloud",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/aws-bash-ec2.jpg",
+      "link": "https://github.com/Benjamin-yankey/Aws-Automation-Project-Creation-With-Bash"
+    },
+    {
+      "title": "Weed Detection: KNUST Final Year Project",
+      "caption": "YOLO-based crop and weed detection on images, video and webcam, served by a Flask inference API to a React web app.",
+      "category": "AI & Data",
+      "date": "Sep 2025",
+      "image": "/Portfolio/images/projects/card-weed-detection.jpg",
+      "link": "https://github.com/Benjamin-yankey/Final_year-Project_KNUST"
+    },
+    {
+      "title": "Skill Lift: Meta-Skills for Agents",
+      "caption": "Kaggle Skill Lift (Track 2) entry: three meta-skills that author, refine and safety-check other agent skills.",
+      "category": "AI & Data",
+      "date": "Aug 2026",
+      "image": "/Portfolio/images/projects/card-skill-lift.jpg",
+      "link": "https://github.com/Benjamin-yankey/submission"
+    },
+    {
+      "title": "Data Governance Labs",
+      "caption": "A corrected data-flow diagram for a loan application, from a set of governance, data-quality and bias-audit reports.",
+      "category": "AI & Data",
+      "date": "Feb 2026",
+      "image": "/Portfolio/images/projects/quickloan-dataflow.jpg",
+      "link": "https://github.com/Benjamin-yankey/Data-Governance-Integrity-Technical-Foundation-labs"
+    },
+    {
+      "title": "Data Structures & Algorithms",
+      "caption": "Python practice: Kadane's algorithm, array rotation, backtracking, and searching and sorting from scratch.",
+      "category": "Labs & Learning",
+      "date": "Dec 2025",
+      "image": "/Portfolio/images/projects/card-dsa.jpg",
+      "link": "https://github.com/Benjamin-yankey/Data-Structures-and-Algorithm-"
+    },
+    {
+      "title": "50 Days of Python",
+      "caption": "A daily Python challenge: FizzBuzz, Hangman, a password generator, rock-paper-scissors and more.",
+      "category": "Labs & Learning",
+      "date": "Mar 2025",
+      "image": "/Portfolio/images/projects/card-fifty-days.jpg",
+      "link": "https://github.com/Benjamin-yankey/50-days-challenge"
+    },
+    {
+      "title": "Bash Scripting",
+      "caption": "Backups, redirection, arrays, heredocs, positional arguments and input handling, one script at a time.",
+      "category": "Labs & Learning",
+      "date": "Dec 2025",
+      "image": "/Portfolio/images/projects/card-bash-scripting.jpg",
+      "link": "https://github.com/Benjamin-yankey/bashScripting"
+    },
+    {
+      "title": "SysAdmin Starter Pack",
+      "caption": "A Bash script that sets up logs, configs and scripts folders with the right permissions.",
+      "category": "Labs & Learning",
+      "date": "Dec 2025",
+      "image": "/Portfolio/images/projects/sysadmin-run.jpg",
+      "link": "https://github.com/Benjamin-yankey/Mini-Challenge-The-SysAdmin-Starter-Pack"
+    },
+    {
+      "title": "YAML Config Lab",
+      "caption": "Writing and validating YAML application config, then converting it to JSON.",
+      "category": "Labs & Learning",
+      "date": "Jan 2026",
+      "image": "/Portfolio/images/projects/yaml-validation.jpg",
+      "link": "https://github.com/Benjamin-yankey/yaml-config-lab"
+    },
+    {
+      "title": "Git Lab",
+      "caption": "Branching, merging and pushing, from a first hands-on Git lab.",
+      "category": "Labs & Learning",
+      "date": "Dec 2025",
+      "image": "/Portfolio/images/projects/git-log.jpg",
+      "link": "https://github.com/Benjamin-yankey/git-lab"
+    },
+    {
+      "title": "ALX: Low-Level Programming",
+      "caption": "C fundamentals from the ALX Software Engineering programme: functions, loops, pointers, arrays, strings and debugging.",
+      "category": "Labs & Learning",
+      "date": "Dec 2022",
+      "image": "/Portfolio/images/projects/card-alx-c.jpg",
+      "link": "https://github.com/Benjamin-yankey/alx-low_level_programming"
+    },
+    {
+      "title": "ALX: System Engineering & DevOps",
+      "caption": "Shell basics from the ALX programme: redirections, variables and expansions, and conditionals.",
+      "category": "Labs & Learning",
+      "date": "Dec 2022",
+      "image": "/Portfolio/images/projects/card-alx-sysadmin.jpg",
+      "link": "https://github.com/Benjamin-yankey/alx-system_engineering-devops"
+    },
+    {
+      "title": "ALX: Zero Day & Pre-Course",
+      "caption": "The first repositories of the ALX Software Engineering programme, covering Git, Bash and a first C program.",
+      "category": "Labs & Learning",
+      "date": "Nov 2022",
+      "image": "/Portfolio/images/projects/card-alx-first-steps.jpg",
+      "link": "https://github.com/Benjamin-yankey/alx-zero_day"
+    },
+    {
+      "title": "First Static Pages",
+      "caption": "Early HTML, CSS and JavaScript experiments, published with GitHub Pages.",
+      "category": "Labs & Learning",
+      "date": "Sep 2023",
+      "image": "/Portfolio/images/projects/card-first-web-page.jpg",
+      "link": "https://github.com/Benjamin-yankey/Books"
     }
   ]
 }

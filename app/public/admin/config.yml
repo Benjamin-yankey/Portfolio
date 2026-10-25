@@ -67,6 +67,14 @@ collections:
               - { label: "Key detail / outcome", name: keyDetail, widget: text }
               - { label: "Screenshot", name: image, widget: image, required: false }
               - { label: "Demo video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
+              - label: "Links (code, live site, docs)"
+                name: links
+                widget: list
+                required: false
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Button label (e.g. Code, Live site)", name: label, widget: string }
+                  - { label: "URL", name: href, widget: string }
 
       - file: "app/src/content/experience.json"
         label: "Experience"
@@ -100,7 +108,7 @@ collections:
             fields:
               - { label: "Name", name: name, widget: string }
               - { label: "Issuer", name: issuer, widget: string }
-              - { label: "Year", name: year, widget: string }
+              - { label: "Year (leave blank if unknown)", name: year, widget: string, required: false }
 
       - file: "app/src/content/journal.json"
         label: "Journal"
@@ -132,6 +140,7 @@ collections:
               - { label: "Date (e.g. Jun 2025)", name: date, widget: string, required: false }
               - { label: "Image", name: image, widget: image, required: false }
               - { label: "Video (uploads commit directly to the repo — keep clips short/small; GitHub has a hard 100MB file limit)", name: video, widget: file, required: false, media_folder: "/app/public/videos", public_folder: "/Portfolio/videos" }
+              - { label: "Link (e.g. the GitHub repo) — shows a View on GitHub link", name: link, widget: string, required: false }
 
       - file: "app/src/content/github-projects.json"
         label: "GitHub Repositories"

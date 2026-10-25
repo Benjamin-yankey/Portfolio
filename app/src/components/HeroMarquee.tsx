@@ -9,11 +9,11 @@ import { useScrollDepth } from '../hooks/useScrollDepth'
 // too-short segment would leave the seam visible on screen at all times
 // instead of scrolling off both edges.
 const PHRASES = [
-  'DEVOPS ENGINEER · AWS · AZURE · GCP · ',
-  'KUBERNETES · DOCKER · TERRAFORM · ANSIBLE · ',
-  'JENKINS · ARGOCD · CI/CD PIPELINES · ',
-  'PROMETHEUS · GRAFANA · OBSERVABILITY · ',
-  'LINUX · PYTHON · BASH · SRE · ',
+  'FULL-STACK · DEVOPS · CLOUD · ',
+  'REACT · ANGULAR · NODE.JS · NESTJS · ',
+  'AWS · TERRAFORM · DOCKER · KUBERNETES · ',
+  'JENKINS · GITHUB ACTIONS · CI/CD PIPELINES · ',
+  'POSTGRESQL · PYTHON · PROMETHEUS · GRAFANA · ',
 ]
 
 // `z` scatters the rows through the scene's depth instead of leaving them

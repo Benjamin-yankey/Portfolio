@@ -32,7 +32,7 @@ const INTENTS: Intent[] = [
     answer: () =>
       certifications.length === 0
         ? 'No certifications are listed yet.'
-        : certifications.map((c) => `${c.name} (${c.issuer}, ${c.year})`).join(' · '),
+        : certifications.map((c) => `${c.name} (${[c.issuer, c.year].filter(Boolean).join(', ')})`).join(' · '),
   },
   {
     keywords: ['skill', 'skills', 'technology', 'technologies', 'stack', 'tools', 'tech'],
