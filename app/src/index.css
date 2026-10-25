@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* `dark:` follows the site's toggle (data-theme on <html>), not just the
+   OS setting. Most of dark mode is the token swap further down; this is for
+   the few things tokens can't reach, like third-party images. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 /* ---------- Self-hosted variable fonts ---------- */
 @font-face {
   font-family: 'Fraunces';
@@ -39,12 +44,43 @@
   --color-muted-faint: #b7b1a5;
   --color-line: rgba(26, 26, 26, 0.14);
   --color-line-soft: rgba(26, 26, 26, 0.08);
+  /* Raised translucent surfaces (cards, glass billboards) — white on cream,
+     a lifted dark tone in dark mode. Use as bg-surface/40 etc. */
+  --color-surface: #ffffff;
+  /* Always-dark surfaces and the light text on them — terminal cards, the
+     lightbox, captions over video. Unlike ink/cream these never swap. */
+  --color-panel: #1a1a1a;
+  --color-paper: #ece8e1;
 
   --font-serif: 'Fraunces', ui-serif, Georgia, 'Iowan Old Style', 'Times New Roman', serif;
   --font-sans:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
   --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- Dark theme ---------- */
+/* Overrides the theme tokens instead of adding dark: variants everywhere:
+   every utility reads these variables, so the whole site flips at once.
+   ink/cream swap roles (text becomes light, paper becomes dark); panel and
+   paper stay put, so surfaces that are meant to be dark in both themes do.
+   data-theme is set before first paint by the inline script in index.html. */
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-cream: #161513;
+  --color-cream-deep: #1e1d1a;
+  --color-ink: #ece8e1;
+  --color-ink-soft: #d4cfc5;
+  --color-muted: #9a948a;
+  --color-muted-faint: #6b665e;
+  --color-line: rgba(236, 232, 225, 0.16);
+  --color-line-soft: rgba(236, 232, 225, 0.09);
+  --color-surface: #2c2a26;
+  /* A step darker than the page so terminal cards still read as cards. */
+  --color-panel: #0c0c0b;
 }
 
 /* ---------- Base ---------- */

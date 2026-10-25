@@ -58,9 +58,13 @@ collections:
             summary: "{{fields.num}} — {{fields.title}}"
             fields:
               - { label: "Number (e.g. 01)", name: num, widget: string }
+              - { label: "URL slug (lowercase-with-dashes, used in /projects/<slug> — leave blank to generate from the title)", name: slug, widget: string, required: false }
               - { label: "Title", name: title, widget: string }
+              - { label: "Categories (drive the filters on the Projects page)", name: categories, widget: select, multiple: true, options: ["Full-Stack", "DevOps & Cloud"], required: false }
+              - { label: "Featured on the Home page", name: featured, widget: boolean, required: false, default: false }
               - { label: "Summary (one line)", name: summary, widget: text }
-              - { label: "Tags", name: tags, widget: list }
+              - { label: "Tags (the few headline tools shown as pills)", name: tags, widget: list }
+              - { label: "Full stack (every tool used — shown on the project page and links skills to this project)", name: stack, widget: list, required: false }
               - { label: "Problem", name: problem, widget: text }
               - { label: "Solution", name: solution, widget: text }
               - { label: "Role", name: role, widget: text }

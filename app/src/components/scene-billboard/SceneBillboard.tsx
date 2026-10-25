@@ -60,7 +60,7 @@ export function SceneBillboard({
       <div
         style={accentStyle}
         className={[
-          'absolute bottom-0 left-0 -translate-x-1/2 rounded-2xl border border-white/60 bg-white/75 p-4 shadow-[0_12px_32px_rgba(26,26,26,0.18)] backdrop-blur-md',
+          'absolute bottom-0 left-0 -translate-x-1/2 rounded-2xl border border-surface/60 bg-surface/75 p-4 shadow-[0_12px_32px_rgba(26,26,26,0.18)] backdrop-blur-md',
           'transition-[opacity,transform] duration-[400ms] ease-editorial',
           cardClassName,
           visible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-1.5 scale-95 opacity-0',

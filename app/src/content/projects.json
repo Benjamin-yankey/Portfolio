@@ -2,7 +2,13 @@
   "items": [
     {
       "num": "01",
+      "slug": "shopnow",
       "title": "ShopNow: One Storefront, ECS vs EKS",
+      "categories": [
+        "Full-Stack",
+        "DevOps & Cloud"
+      ],
+      "featured": true,
       "summary": "A microservices storefront deployed on two AWS orchestrators to settle which one fits.",
       "tags": [
         "Angular",
@@ -11,18 +17,41 @@
         "EKS",
         "Terraform"
       ],
+      "stack": [
+        "Angular",
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "Redis",
+        "JWT",
+        "Docker",
+        "Kubernetes",
+        "EKS",
+        "ECS Fargate",
+        "ECR",
+        "AWS Cloud Map",
+        "Terraform"
+      ],
       "problem": "The brief: choose between ECS Fargate and EKS for a microservices storefront, based on evidence rather than opinion. That meant running the same real app on both.",
       "solution": "Built ShopNow: an Angular storefront with Node.js products and cart services, Postgres and Redis (each service owns its database), JWT auth, a mock checkout and an admin panel. Containerised it once and deployed the same images to ECS Fargate and EKS with Terraform, then killed tasks and pods on both to compare how they heal.",
       "role": "Solo build: the application, Dockerfiles, Terraform for both clusters, Kubernetes manifests and AWS Load Balancer Controller setup, plus the written comparison and walkthrough.",
       "keyDetail": "Verdict: ECS Fargate for the fastest path to production with no control-plane cost; EKS once portability and the Kubernetes ecosystem matter.",
       "image": "/Portfolio/images/projects/diagram-poly-orchestrator.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/Poly-Orchestrator" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/Poly-Orchestrator"
+        }
       ]
     },
     {
       "num": "02",
+      "slug": "school-management",
       "title": "School Management Platform",
+      "categories": [
+        "Full-Stack"
+      ],
+      "featured": true,
       "summary": "A school's public website and back office, built on event-driven microservices.",
       "tags": [
         "React",
@@ -31,19 +60,42 @@
         "PostgreSQL",
         "GitHub Actions"
       ],
+      "stack": [
+        "React",
+        "TypeScript",
+        "NestJS",
+        "REST APIs",
+        "Redpanda (Kafka)",
+        "PostgreSQL",
+        "TypeORM",
+        "JWT",
+        "Docker",
+        "GitHub Actions"
+      ],
       "problem": "Geoziie International School needed a public website and a back office for schools, users and sign-ins, built so each part could be deployed and scaled on its own.",
       "solution": "A React front end on GitHub Pages, backed by NestJS services for auth, users, schools and notifications behind an API gateway. Services never call each other directly: everything goes through Redpanda, with events for things like welcome emails and request/reply topics (5-second timeout) for password checks and school validation. PostgreSQL with a schema per service; CI and deploys run on GitHub Actions.",
       "role": "Full-stack: designed the service contracts and topic map, built the services and the front end, and set up CI/CD.",
       "keyDetail": "No service knows another's address, only topic names and message schemas.",
       "image": "/Portfolio/images/projects/school-live.jpg",
       "links": [
-        { "label": "Live site", "href": "https://benjamin-yankey.github.io/school-management-system-main/" },
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/school-management-system-main" }
+        {
+          "label": "Live site",
+          "href": "https://benjamin-yankey.github.io/school-management-system-main/"
+        },
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/school-management-system-main"
+        }
       ]
     },
     {
       "num": "03",
+      "slug": "self-healing-system",
       "title": "TechStream Self-Healing System",
+      "categories": [
+        "DevOps & Cloud"
+      ],
+      "featured": true,
       "summary": "Monitoring that fixes the failure before it pages anyone.",
       "tags": [
         "Python",
@@ -52,23 +104,57 @@
         "AWS Lambda",
         "Terraform"
       ],
+      "stack": [
+        "Python",
+        "Flask",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Prometheus",
+        "Grafana",
+        "Alertmanager",
+        "EC2 Auto Scaling",
+        "CloudWatch",
+        "EventBridge",
+        "AWS Lambda",
+        "DevOps Guru",
+        "Terraform"
+      ],
       "problem": "Engineers were being paged for failures with known fixes, like an API throwing 5xx errors or a worker falling behind its queue. Time to resolution depended on how fast a person could respond.",
       "solution": "Instrumented a four-tier task manager (Flask API, worker, Postgres, Redis) with golden-signal metrics. Prometheus fires when API errors pass 5% or the queue passes 50 jobs; Alertmanager calls a healer that restarts only that tier while data persists. Chaos scripts inject the failures, and an AI root-cause step correlates signals across tiers. The AWS version runs on CloudWatch, EventBridge, Lambda with SSM, and DevOps Guru, all in Terraform.",
       "role": "Designed and built the whole loop: instrumentation, alert rules, remediation service, chaos scripts, Grafana dashboards and the AWS Terraform.",
       "keyDetail": "Two failure modes go from alert to automatic restart with no human in the loop and no task data lost.",
       "image": "/Portfolio/images/projects/diagram-ai-devops.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/AI-Devops" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/AI-Devops"
+        }
       ]
     },
     {
       "num": "04",
+      "slug": "thrift-hub",
       "title": "Thrift Hub",
+      "categories": [
+        "Full-Stack"
+      ],
       "summary": "A storefront and a customer ledger for a thrift shop.",
       "tags": [
         "Next.js",
         "React",
         "Express",
+        "Prisma",
+        "PostgreSQL"
+      ],
+      "stack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Node.js",
+        "Express",
+        "REST APIs",
         "Prisma",
         "PostgreSQL"
       ],
@@ -79,13 +165,24 @@
       "image": "/Portfolio/images/whatsapp-image-2026-08-25-at-14.44.54.jpeg",
       "video": "/Portfolio/videos/thrift-hub.mp4",
       "links": [
-        { "label": "Storefront code", "href": "https://github.com/Benjamin-yankey/Thrift-Hub" },
-        { "label": "Ledger code", "href": "https://github.com/Benjamin-yankey/Hub" }
+        {
+          "label": "Storefront code",
+          "href": "https://github.com/Benjamin-yankey/Thrift-Hub"
+        },
+        {
+          "label": "Ledger code",
+          "href": "https://github.com/Benjamin-yankey/Hub"
+        }
       ]
     },
     {
       "num": "05",
+      "slug": "gitops-mail",
       "title": "GitOps Mail System",
+      "categories": [
+        "Full-Stack",
+        "DevOps & Cloud"
+      ],
       "summary": "A mail app whose real feature is the 19-stage pipeline that ships it.",
       "tags": [
         "Node.js",
@@ -94,18 +191,39 @@
         "Trivy",
         "ECS Fargate"
       ],
+      "stack": [
+        "Node.js",
+        "Express",
+        "Jenkins",
+        "SonarQube",
+        "Gitleaks",
+        "OWASP Dependency-Check",
+        "Trivy",
+        "Docker",
+        "ECR",
+        "ECS Fargate",
+        "Terraform"
+      ],
       "problem": "Shipping fast is easy. Shipping without leaked secrets, vulnerable dependencies or unscanned images takes checks that shouldn't depend on someone remembering to run them.",
       "solution": "Built a Node.js and Express mail client (folders, stars, search, live counts), then a Jenkins pipeline that runs unit tests, SonarQube with a quality gate, Gitleaks, dependency audits, an SBOM and a Trivy image scan. A security gate blocks the release on any finding; clean builds push to ECR and roll out to ECS Fargate. Infrastructure is Terraform.",
       "role": "Built the app, the pipeline and the Terraform modules, and wrote the runbook and walkthrough.",
       "keyDetail": "Nothing reaches production without passing code, secret, dependency and image scans.",
       "image": "/Portfolio/images/projects/gitops-architecture.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/Gitops_lab" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/Gitops_lab"
+        }
       ]
     },
     {
       "num": "06",
+      "slug": "serverless-tasks",
       "title": "Serverless Task Management",
+      "categories": [
+        "Full-Stack",
+        "DevOps & Cloud"
+      ],
       "summary": "A role-based task manager with no servers to run.",
       "tags": [
         "React",
@@ -114,18 +232,38 @@
         "DynamoDB",
         "Cognito"
       ],
+      "stack": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "AWS Lambda",
+        "API Gateway",
+        "DynamoDB",
+        "Cognito",
+        "SNS",
+        "SES",
+        "Amplify",
+        "Terraform"
+      ],
       "problem": "A team needed admins to create and assign tasks and members to track their own, with sign-up limited to company email addresses.",
       "solution": "A React and TypeScript front end on Amplify; Lambda functions behind API Gateway with Cognito authorizers; DynamoDB for tasks; SNS and SES emails when work is assigned. Cognito enforces email verification and the company domains, with Google and GitHub sign-in. Everything is provisioned with Terraform.",
       "role": "Built the front end, the Lambda API, the auth flow and the Terraform.",
       "keyDetail": "Pay-per-request from end to end: when nobody is using it, nothing is running.",
       "image": "/Portfolio/images/projects/diagram-serverless-tasks.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/serverless-task-management" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/serverless-task-management"
+        }
       ]
     },
     {
       "num": "07",
+      "slug": "fincorp-pipeline",
       "title": "FinCorp Immutable & Indestructible Pipeline",
+      "categories": [
+        "DevOps & Cloud"
+      ],
       "summary": "A supply chain that only ships clean images, and a database that survives losing a region.",
       "tags": [
         "CodePipeline",
@@ -134,18 +272,39 @@
         "RDS",
         "Terraform"
       ],
+      "stack": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "RDS",
+        "CodeArtifact",
+        "CodePipeline",
+        "CodeBuild",
+        "ECR",
+        "Docker",
+        "AWS Backup",
+        "VPC",
+        "Terraform"
+      ],
       "problem": "A fintech brief with two requirements: every container artifact must be immutable and vulnerability-gated, and the critical database must be restorable in another region within 30 minutes.",
       "solution": "All packages come through CodeArtifact as an audited proxy. CodePipeline and CodeBuild test and build a FastAPI double-entry ledger, push to ECR with scan-on-push and immutable tags, and fail on HIGH or CRITICAL findings; images replicate to the DR region. AWS Backup copies daily RDS Postgres snapshots to us-west-2, and a seeded canary dataset proves each restore is intact.",
       "role": "Built the Terraform modules (network, CodeArtifact, ECR, CI/CD, RDS, backup), the pipeline, the ledger service and the DR runbook.",
       "keyDetail": "A runbook that restores the critical database in a second region with a 30-minute recovery target.",
       "image": "/Portfolio/images/projects/diagram-fincorp-pipeline.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/Artifacts" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/Artifacts"
+        }
       ]
     },
     {
       "num": "08",
+      "slug": "cicd-observability",
       "title": "CI/CD with Full Observability",
+      "categories": [
+        "DevOps & Cloud"
+      ],
       "summary": "A Jenkins pipeline to EC2, with metrics, traces and alerts on the running app.",
       "tags": [
         "Jenkins",
@@ -154,18 +313,40 @@
         "Grafana",
         "Jaeger"
       ],
+      "stack": [
+        "Node.js",
+        "Express",
+        "Jenkins",
+        "Docker",
+        "Trivy",
+        "EC2",
+        "VPC",
+        "Terraform",
+        "Prometheus",
+        "Grafana",
+        "Jaeger",
+        "OpenTelemetry",
+        "CloudTrail"
+      ],
       "problem": "A deployed service is only half done if nobody can see how it's behaving, or where a slow request spent its time.",
       "solution": "Terraform provisions the network and two EC2 hosts; Jenkins runs in Docker and tests, audits, builds, Trivy-scans and deploys a Node.js app over SSH. The app is hardened (Helmet, rate limits, input validation, non-root container) and exports traces through OpenTelemetry to Jaeger and metrics to Prometheus and Grafana, with CloudTrail auditing the account.",
       "role": "Built the pipeline, infrastructure, app hardening and the observability stack.",
       "keyDetail": "Alerts fire when error rate passes 5% or latency passes 300 ms for ten minutes.",
       "image": "/Portfolio/images/projects/observability-architecture.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/Logging-and-monitoring" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/Logging-and-monitoring"
+        }
       ]
     },
     {
       "num": "09",
+      "slug": "cost-detective",
       "title": "Cost-Detective Audit",
+      "categories": [
+        "DevOps & Cloud"
+      ],
       "summary": "Finding, fixing and fencing off the waste in an inherited AWS account.",
       "tags": [
         "Terraform",
@@ -174,13 +355,28 @@
         "AWS Budgets",
         "Spot"
       ],
+      "stack": [
+        "Python",
+        "Bash",
+        "Terraform",
+        "AWS Lambda",
+        "AWS Config",
+        "AWS Budgets",
+        "SNS",
+        "EC2 Auto Scaling",
+        "Spot Instances",
+        "Cost Explorer"
+      ],
       "problem": "An inherited AWS account with runaway spend: idle and untagged instances, unattached volumes, stray Elastic IPs, and no guardrails.",
       "solution": "Recreated the waste with Terraform, then cleaned it up: a Python EBS garbage collector (dry-run by default), a NAT gateway analyser, AWS Budgets alerts at 80%, 100% and forecast, and AWS Config rules backed by a tag-enforcer Lambda that stops non-compliant resources. Rebuilt compute as a mixed-instances Auto Scaling group running Spot above a small On-Demand base, on gp3 with IMDSv2.",
       "role": "Ran the audit and wrote the findings; built the cleanup scripts, governance and the cost-aware architecture.",
       "keyDetail": "About $80 a month of zombie resources in the sandbox, found, removed, and blocked from coming back.",
       "image": "/Portfolio/images/projects/finops-savings.jpg",
       "links": [
-        { "label": "Code", "href": "https://github.com/Benjamin-yankey/FinOps" }
+        {
+          "label": "Code",
+          "href": "https://github.com/Benjamin-yankey/FinOps"
+        }
       ]
     }
   ]

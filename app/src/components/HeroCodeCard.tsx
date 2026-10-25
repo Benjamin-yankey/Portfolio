@@ -24,7 +24,7 @@ export function HeroCodeCard() {
       lift={16}
       perspective={1400}
       className="group w-[clamp(280px,22vw,340px)]"
-      planeClassName="relative rounded-2xl bg-ink shadow-[0_30px_70px_rgba(26,26,26,0.35)]"
+      planeClassName="relative rounded-2xl border border-white/[0.06] bg-panel shadow-[0_30px_70px_rgba(26,26,26,0.35)]"
     >
       <span
         aria-hidden="true"
@@ -45,21 +45,21 @@ export function HeroCodeCard() {
       <pre className="overflow-x-auto px-5 py-5 font-mono text-[0.74rem] leading-[1.7] text-white/85">
         <code>
           <span className="text-white/40">const</span> benjamin = {'{'}
-          {'\n'}  role: [<span className="text-cream">"Full-Stack"</span>,{' '}
-          <span className="text-cream">"DevOps"</span>],{'\n'}  stack: [
-          <span className="text-cream">"React"</span>,{' '}
-          <span className="text-cream">"Node"</span>,{' '}
-          <span className="text-cream">"AWS"</span>],{'\n'}  ships: (idea) =&gt;{'\n'}
+          {'\n'}  role: [<span className="text-paper">"Full-Stack"</span>,{' '}
+          <span className="text-paper">"DevOps"</span>],{'\n'}  stack: [
+          <span className="text-paper">"React"</span>,{' '}
+          <span className="text-paper">"Node"</span>,{' '}
+          <span className="text-paper">"AWS"</span>],{'\n'}  ships: (idea) =&gt;{'\n'}
           {'    '}build(idea).then(deploy),{'\n'}
           {'}'};{'\n'}
-          {'\n'}benjamin.ships(<span className="text-cream">"end-to-end"</span>);<span aria-hidden="true" className="animate-cursor-blink text-cream">▊</span>
+          {'\n'}benjamin.ships(<span className="text-paper">"end-to-end"</span>);<span aria-hidden="true" className="animate-cursor-blink text-paper">▊</span>
         </code>
       </pre>
 
       <div className="grid grid-cols-3 gap-px border-t border-white/10 bg-white/10">
         {STATS.map((stat) => (
-          <div key={stat.label} className="bg-ink px-3 py-4 text-center">
-            <p className="font-serif text-[1.3rem] leading-none text-cream">{stat.value}</p>
+          <div key={stat.label} className="bg-panel px-3 py-4 text-center">
+            <p className="font-serif text-[1.3rem] leading-none text-paper">{stat.value}</p>
             <p className="mt-1.5 text-[10px] tracking-[0.08em] text-white/45 uppercase">
               {stat.label}
             </p>

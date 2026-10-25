@@ -2,12 +2,14 @@ import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { navItems } from '../data/nav'
 import { site } from '../data/site'
-import { useOverlayNav } from '../hooks/useOverlayNav'
+import { useCommandPalette } from '../hooks/useCommandPalette'
+import { useDisclosure } from '../hooks/useDisclosure'
 import { TopBar } from './TopBar'
 import { OverlayNav } from './OverlayNav'
 import { Footer } from './Footer'
 import { PaperGrain } from './PaperGrain'
 import { ChatBot } from './ChatBot'
+import { CommandPalette } from './CommandPalette'
 
 /**
  * Shared page chrome: the paper-grain overlay, fixed top bar, full-screen
@@ -16,7 +18,8 @@ import { ChatBot } from './ChatBot'
  * `<Outlet>` and this is the only thing that persists across navigations.
  */
 export function Layout() {
-  const { isOpen, toggle, close } = useOverlayNav()
+  const { isOpen, toggle, close } = useDisclosure()
+  const search = useCommandPalette()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -27,12 +30,21 @@ export function Layout() {
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'instant' })
   }, [location.pathname])
 
+  // Nested pages (/projects/:slug) belong to their parent section for the
+  // nav's active state.
+  const section = navItems.find(
+    (item) => location.pathname === item.path || location.pathname.startsWith(`${item.path}/`),
+  )
+
   useEffect(() => {
     const current = navItems.find((item) => item.path === location.pathname)
+    // Nested pages set their own title. Effects run child-first, so setting
+    // one here would overwrite it.
+    if (!current) return
     // The hub route (Home) gets the site's "front door" title; every other
     // page gets its own name ahead of the wordmark.
     document.title =
-      current && current.path !== navItems[0].path
+      current.path !== navItems[0].path
         ? `${current.label} — ${site.wordmark}`
         : `${site.wordmark} — ${site.role}`
   }, [location.pathname])
@@ -52,11 +64,19 @@ export function Layout() {
     <>
       <PaperGrain />
 
-      <TopBar isOpen={isOpen} onToggle={toggle} />
+      <TopBar
+        isOpen={isOpen}
+        onToggle={toggle}
+        onSearch={() => {
+          // One full-screen layer at a time: both lock body scroll.
+          close()
+          search.open()
+        }}
+      />
       <OverlayNav
         isOpen={isOpen}
         navItems={navItems}
-        activePath={location.pathname}
+        activePath={section?.path ?? location.pathname}
         onNavigate={handleNavigate}
       />
 
@@ -66,6 +86,7 @@ export function Layout() {
 
       <Footer />
       <ChatBot />
+      <CommandPalette isOpen={search.isOpen} onClose={search.close} />
     </>
   )
 }

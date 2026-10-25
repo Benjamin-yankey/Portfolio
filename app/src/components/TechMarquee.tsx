@@ -22,7 +22,7 @@ export function TechMarquee() {
       >
         <div className="animate-marquee-left flex w-max gap-3" style={{ animationDuration: '48s' }}>
           {SEGMENT.map((tech, i) => (
-            <span key={`${tech}-${i}`} className="tag-pill shrink-0 bg-white/40">
+            <span key={`${tech}-${i}`} className="tag-pill shrink-0 bg-surface/40">
               {tech}
             </span>
           ))}

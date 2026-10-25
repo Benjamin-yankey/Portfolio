@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
 /**
- * Drives the full-screen overlay nav: open/close state, Escape-to-close,
- * and locking body scroll while open — the same behavior as the original
- * vanilla-JS `nav-open` / `nav-open-lock` body classes.
+ * Open/close state for a full-screen layer (the overlay nav, the search
+ * palette): Escape-to-close and locking body scroll while open — the same
+ * behavior as the original vanilla-JS `nav-open` / `nav-open-lock` body
+ * classes.
  */
-export function useOverlayNav() {
+export function useDisclosure() {
   const [isOpen, setIsOpen] = useState(false)
 
   const open = useCallback(() => setIsOpen(true), [])

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 /**
- * Index-based sibling to `useOverlayNav`: same open/close/Escape/scroll-lock
+ * Index-based sibling to `useDisclosure`: same open/close/Escape/scroll-lock
  * shape, extended with wrapping Prev/Next over `count` items (the *filtered*
  * count — the caller passes however many items are currently visible, so
  * navigation always stays inside what's actually on screen).

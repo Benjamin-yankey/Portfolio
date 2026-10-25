@@ -64,7 +64,7 @@ export function ChatBot() {
                 key={index}
                 className={[
                   'max-w-[85%] rounded-2xl px-4 py-2.5 text-[0.88rem] leading-[1.5]',
-                  message.role === 'user' ? 'ml-auto bg-ink text-cream' : 'bg-white/60 text-ink-soft',
+                  message.role === 'user' ? 'ml-auto bg-ink text-cream' : 'bg-surface/60 text-ink-soft',
                 ].join(' ')}
               >
                 {message.text}
@@ -93,7 +93,7 @@ export function ChatBot() {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               placeholder="Ask a question…"
-              className="w-full rounded-full border border-line bg-white/60 px-4 py-2.5 text-[0.88rem] outline-none transition-colors duration-300 ease-editorial focus:border-ink"
+              className="w-full rounded-full border border-line bg-surface/60 px-4 py-2.5 text-[0.88rem] outline-none transition-colors duration-300 ease-editorial focus:border-ink"
             />
             <button
               type="submit"

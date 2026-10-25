@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { Splash } from './components/Splash'
 import { Hero } from './components/Hero'
 import { Projects } from './components/projects/Projects'
+import { ProjectPage } from './components/projects/ProjectPage'
 import { Skills } from './components/Skills'
 import { Experience } from './components/Experience'
 import { Journal } from './components/Journal'
@@ -17,6 +18,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="home" element={<Hero />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="projects/:slug" element={<ProjectPage />} />
           <Route path="skills" element={<Skills />} />
           <Route path="experience" element={<Experience />} />
           <Route path="journal" element={<Journal />} />

@@ -5,7 +5,7 @@ interface GithubExploreHintProps {
 
 function Key({ children }: Readonly<{ children: string }>) {
   return (
-    <kbd className="inline-flex min-w-[1.55rem] items-center justify-center rounded-[5px] border border-ink/15 border-b-2 bg-white/80 px-1 py-0.5 font-sans text-[0.7rem] font-semibold text-ink-soft">
+    <kbd className="inline-flex min-w-[1.55rem] items-center justify-center rounded-[5px] border border-ink/15 border-b-2 bg-surface/80 px-1 py-0.5 font-sans text-[0.7rem] font-semibold text-ink-soft">
       {children}
     </kbd>
   )
@@ -33,7 +33,7 @@ export function GithubExploreHint({ showHint }: Readonly<GithubExploreHintProps>
           gets covered by it. The opening call to action takes the bottom
           *left*, so the two never meet. */}
       <div className="pointer-events-none absolute right-0 bottom-0 z-30 p-4 sm:p-5">
-        <div className="flex flex-col gap-2 rounded-2xl border border-white/50 bg-white/55 px-3.5 py-3 shadow-[0_8px_24px_rgba(26,26,26,0.1)] backdrop-blur-md">
+        <div className="flex flex-col gap-2 rounded-2xl border border-surface/50 bg-surface/55 px-3.5 py-3 shadow-[0_8px_24px_rgba(26,26,26,0.1)] backdrop-blur-md">
           <span className="flex items-center gap-2 text-[0.72rem] text-ink-soft">
             <span className="flex gap-1">
               <Key>W</Key>
@@ -62,7 +62,7 @@ export function GithubExploreHint({ showHint }: Readonly<GithubExploreHintProps>
           showHint ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0',
         ].join(' ')}
       >
-        <span className="flex items-center gap-2.5 rounded-full border border-white/60 bg-white/75 py-2.5 pr-5 pl-4 text-[0.82rem] text-ink shadow-[0_10px_28px_rgba(26,26,26,0.16)] backdrop-blur-md">
+        <span className="flex items-center gap-2.5 rounded-full border border-surface/60 bg-surface/75 py-2.5 pr-5 pl-4 text-[0.82rem] text-ink shadow-[0_10px_28px_rgba(26,26,26,0.16)] backdrop-blur-md">
           <span className="flex gap-1">
             <Key>W</Key>
             <Key>A</Key>

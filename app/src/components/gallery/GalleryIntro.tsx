@@ -103,29 +103,29 @@ export function GalleryIntro() {
 
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/5 to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-panel/60 via-panel/5 to-transparent"
       />
 
       <div
         className={[
-          'container-page relative z-10 pb-[clamp(40px,6vw,72px)] text-cream transition-all duration-500 ease-editorial',
+          'container-page relative z-10 pb-[clamp(40px,6vw,72px)] text-paper transition-all duration-500 ease-editorial',
           mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
         ].join(' ')}
       >
-        <p className="eyebrow mb-4 text-cream/70">Gallery — Behind the scenes</p>
+        <p className="eyebrow mb-4 text-paper/70">Gallery — Behind the scenes</p>
         <h1 className="mb-5 max-w-[16ch] font-serif text-[clamp(2.4rem,6vw,4.4rem)] leading-[1.05] tracking-[-0.01em]">
           Moments from the work
         </h1>
-        <p className="mb-8 min-h-[3.4em] max-w-[56ch] text-[1.02rem] leading-[1.7] text-cream/85">
+        <p className="mb-8 min-h-[3.4em] max-w-[56ch] text-[1.02rem] leading-[1.7] text-paper/85">
           {displayed}
           {!done && (
-            <span className="ml-[2px] inline-block h-[1em] w-[2px] translate-y-[2px] animate-cursor-blink bg-cream align-middle" />
+            <span className="ml-[2px] inline-block h-[1em] w-[2px] translate-y-[2px] animate-cursor-blink bg-paper align-middle" />
           )}
         </p>
         <button
           type="button"
           onClick={scrollToGrid}
-          className="inline-flex items-center gap-2.5 rounded-full border border-cream/40 px-6 py-3 text-[13px] font-semibold tracking-[0.1em] text-cream uppercase transition-all duration-300 ease-editorial hover:-translate-y-1 hover:border-cream hover:bg-cream hover:text-ink"
+          className="inline-flex items-center gap-2.5 rounded-full border border-paper/40 px-6 py-3 text-[13px] font-semibold tracking-[0.1em] text-paper uppercase transition-all duration-300 ease-editorial hover:-translate-y-1 hover:border-paper hover:bg-paper hover:text-panel"
         >
           See the gallery <span aria-hidden="true">↓</span>
         </button>

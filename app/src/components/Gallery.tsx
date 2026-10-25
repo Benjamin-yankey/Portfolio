@@ -1,29 +1,91 @@
 import { useMemo, useState } from 'react'
-import { galleryItems, toGalleryMedia } from '../data/gallery'
+import { useSearchParams } from 'react-router-dom'
+import { galleryItems, toGalleryMedia, type GalleryMedia } from '../data/gallery'
 import { useLightbox } from '../hooks/useLightbox'
+import { FilterChips } from './FilterChips'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
-import { Tilt3D } from './Tilt3D'
 import { GalleryIntro } from './gallery/GalleryIntro'
+import { GalleryTile } from './gallery/GalleryTile'
 import { Lightbox } from './gallery/Lightbox'
 
 const ALL = 'All'
+/** Group for items saved without a category. */
+const OTHER = 'Other'
+/** Tiles per category before "Show all" in the grouped view. */
+const GROUP_PREVIEW = 6
+/** Tiles per batch when one category is selected. */
+const PAGE_SIZE = 12
 
+interface Group {
+  title: string
+  total: number
+  shown: GalleryMedia[]
+}
+
+const OUTLINE_BUTTON =
+  'rounded-full border border-ink px-6 py-3 text-[12px] font-semibold tracking-[0.1em] uppercase transition-colors duration-300 ease-editorial hover:bg-ink hover:text-cream'
+
+/**
+ * "All" shows one section per category, each cut to a short preview;
+ * picking a category shows just that one in batches. The filter lives in
+ * the URL (?category=…) like the Projects filter.
+ */
 export function Gallery() {
   const items = useMemo(() => toGalleryMedia(galleryItems), [])
+  const categories = useMemo(
+    () => Array.from(new Set(items.map((item) => item.category).filter((c): c is string => Boolean(c)))),
+    [items],
+  )
 
-  const categories = useMemo(() => {
-    const found = new Set(
-      items.map((item) => item.category).filter((category): category is string => Boolean(category)),
-    )
-    return [ALL, ...Array.from(found)]
-  }, [items])
+  const [params, setParams] = useSearchParams()
+  const requested = params.get('category')
+  const active = requested && categories.includes(requested) ? requested : ALL
 
-  const [activeCategory, setActiveCategory] = useState(ALL)
-  const filtered =
-    activeCategory === ALL ? items : items.filter((item) => item.category === activeCategory)
+  const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set())
+  const [pageLimit, setPageLimit] = useState(PAGE_SIZE)
 
-  const lightbox = useLightbox(filtered.length)
+  const groups: Group[] =
+    active === ALL
+      ? [...categories, OTHER]
+          .map((title) => {
+            const all = items.filter((item) => (item.category ?? OTHER) === title)
+            return { title, total: all.length, shown: expanded.has(title) ? all : all.slice(0, GROUP_PREVIEW) }
+          })
+          .filter((group) => group.total > 0)
+      : (() => {
+          const all = items.filter((item) => item.category === active)
+          return [{ title: active, total: all.length, shown: all.slice(0, pageLimit) }]
+        })()
+
+  // The lightbox steps through exactly what's on screen, in on-screen order;
+  // each group's tiles start at its offset in that flat list.
+  const visible = groups.flatMap((group) => group.shown)
+  const starts = groups.map((_, i) => groups.slice(0, i).reduce((n, group) => n + group.shown.length, 0))
+  const lightbox = useLightbox(visible.length)
+
+  function selectCategory(value: string) {
+    const next = new URLSearchParams(params)
+    if (value === ALL) next.delete('category')
+    else next.set('category', value)
+    setParams(next, { replace: true })
+    setPageLimit(PAGE_SIZE)
+  }
+
+  function toggleGroup(title: string) {
+    setExpanded((current) => {
+      const next = new Set(current)
+      if (next.has(title)) next.delete(title)
+      else next.add(title)
+      return next
+    })
+  }
+
+  const options = [ALL, ...categories].map((value) => ({
+    value,
+    label: value,
+    count: value === ALL ? items.length : items.filter((item) => item.category === value).length,
+  }))
 
   return (
     <>
@@ -45,94 +107,76 @@ export function Gallery() {
             </p>
           ) : (
             <>
-              {categories.length > 2 && (
-                <Reveal as="div" className="mb-8 flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      type="button"
-                      onClick={() => setActiveCategory(category)}
-                      className={[
-                        'tag-pill transition-colors duration-300 ease-editorial',
-                        activeCategory === category ? 'border-ink bg-ink text-cream' : 'hover:border-ink',
-                      ].join(' ')}
-                    >
-                      {category}
-                    </button>
-                  ))}
+              {categories.length > 1 && (
+                <Reveal as="div" className="mb-[clamp(40px,5vw,56px)]">
+                  <FilterChips
+                    label="Filter gallery by category"
+                    options={options}
+                    active={active}
+                    onChange={selectCategory}
+                  />
                 </Reveal>
               )}
 
-              <Reveal
-                as="ul"
-                depth
-                className="grid grid-cols-3 gap-[clamp(20px,3vw,32px)] max-[860px]:grid-cols-2 max-[560px]:grid-cols-1"
-              >
-                {filtered.map((item, index) => (
-                  <li key={item.key}>
-                    <Tilt3D
-                      as="button"
-                      type="button"
-                      onClick={() => lightbox.open(index)}
-                      maxTilt={4}
-                      lift={12}
-                      className="block w-full text-left"
-                      planeClassName="relative overflow-hidden rounded-2xl border border-line"
-                    >
-                      {item.type === 'video' ? (
-                        <>
-                          <video
-                            src={item.src}
-                            poster={item.poster}
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="aspect-[4/3] w-full object-cover"
-                          />
-                          <span className="absolute inset-0 flex items-center justify-center">
-                            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink/80 text-cream">
-                              <PlayIcon />
-                            </span>
-                          </span>
-                        </>
-                      ) : (
-                        <img
-                          src={item.src}
-                          alt={item.title}
-                          loading="lazy"
-                          decoding="async"
-                          className="aspect-[4/3] w-full object-cover"
-                        />
-                      )}
-                    </Tilt3D>
-                    <p className="mt-3 font-serif text-[1.05rem]">{item.title}</p>
-                    {(item.category || item.date) && (
-                      <p className="mt-0.5 text-[0.78rem] tracking-[0.04em] text-muted uppercase">
-                        {[item.category, item.date].filter(Boolean).join(' · ')}
-                      </p>
-                    )}
-                    {item.caption && <p className="mt-1 text-[0.9rem] text-muted">{item.caption}</p>}
-                    {item.link && (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-2 inline-block text-[0.75rem] font-semibold tracking-[0.1em] text-ink-soft uppercase underline-offset-4 hover:underline"
+              {groups.map((group, groupIndex) => {
+                const start = starts[groupIndex]
+                return (
+                  <div key={group.title} className="mb-[clamp(56px,7vw,88px)] last:mb-0">
+                    {active === ALL && (
+                      <Reveal
+                        as="div"
+                        className="mb-6 flex items-baseline justify-between gap-4 border-b border-line pb-3"
                       >
-                        View on GitHub <span aria-hidden="true">↗</span>
-                      </a>
+                        <h3 className="font-serif text-[clamp(1.4rem,2.6vw,1.9rem)]">
+                          {group.title}
+                          <span className="ml-2.5 align-middle text-[0.8rem] font-sans text-muted">
+                            {group.total}
+                          </span>
+                        </h3>
+                        {group.total > GROUP_PREVIEW && (
+                          <button
+                            type="button"
+                            onClick={() => toggleGroup(group.title)}
+                            aria-expanded={expanded.has(group.title)}
+                            className="text-[12px] font-semibold tracking-[0.1em] text-ink-soft uppercase underline-offset-4 hover:text-ink hover:underline"
+                          >
+                            {expanded.has(group.title) ? 'Show fewer' : `Show all ${group.total}`}
+                          </button>
+                        )}
+                      </Reveal>
                     )}
-                  </li>
-                ))}
-              </Reveal>
+
+                    <Reveal
+                      as="ul"
+                      depth
+                      className="grid grid-cols-3 gap-[clamp(20px,3vw,32px)] max-[860px]:grid-cols-2 max-[560px]:grid-cols-1"
+                    >
+                      {group.shown.map((item, i) => (
+                        <GalleryTile key={item.key} item={item} onOpen={() => lightbox.open(start + i)} />
+                      ))}
+                    </Reveal>
+
+                    {active !== ALL && group.total > group.shown.length && (
+                      <div className="mt-10 flex justify-center">
+                        <button
+                          type="button"
+                          onClick={() => setPageLimit((limit) => limit + PAGE_SIZE)}
+                          className={OUTLINE_BUTTON}
+                        >
+                          Show more ({group.total - group.shown.length} left)
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </>
           )}
         </div>
 
         {lightbox.index !== null && (
           <Lightbox
-            items={filtered}
+            items={visible}
             index={lightbox.index}
             onClose={lightbox.close}
             onNext={lightbox.next}
@@ -141,13 +185,5 @@ export function Gallery() {
         )}
       </section>
     </>
-  )
-}
-
-function PlayIcon() {
-  return (
-    <svg width={18} height={18} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M8 5v14l11-7z" />
-    </svg>
   )
 }

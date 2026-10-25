@@ -1,8 +1,9 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import type { Mesh, ShaderMaterial } from 'three'
 import { Color, DoubleSide, Vector2 } from 'three'
 import { FrameRateGuard } from '../FrameRateGuard'
+import { useThemeColor } from '../../hooks/useTheme'
 
 // Segment counts set the wireframe's line density. High enough to read as a
 // surveyed grid, low enough that the whole mesh stays a few thousand verts —
@@ -11,9 +12,6 @@ import { FrameRateGuard } from '../FrameRateGuard'
 const SEGMENTS_X = 64
 const SEGMENTS_Y = 44
 
-// Ink, matching --color-ink. Passed as a uniform rather than set as a
-// material color so the fragment shader can fade it by elevation.
-const INK = '#1a1a1a'
 
 const vertexShader = /* glsl */ `
   uniform float uTime;
@@ -72,6 +70,10 @@ function Terrain() {
   const mesh = useRef<Mesh>(null)
   const material = useRef<ShaderMaterial>(null)
   const { viewport } = useThree()
+  // The --color-ink token, so the mesh follows the theme. Passed as a
+  // uniform rather than set as a material color so the fragment shader can
+  // fade it by elevation.
+  const ink = useThemeColor('--color-ink')
 
   // Built once and mutated in place each frame. Rebuilding the uniforms
   // object would hand the material a new reference and force a shader
@@ -80,7 +82,7 @@ function Terrain() {
     () => ({
       uTime: { value: 0 },
       uPointer: { value: new Vector2(0, 0) },
-      uColor: { value: new Color(INK) },
+      uColor: { value: new Color() },
       // Low enough that the mesh stays atmosphere. It sits behind the
       // marquee type, and the moment it competes with that type for
       // attention the hero has two subjects and reads as neither.
@@ -88,6 +90,10 @@ function Terrain() {
     }),
     [],
   )
+
+  useEffect(() => {
+    uniforms.uColor.value.set(ink)
+  }, [ink, uniforms])
 
   useFrame((state, delta) => {
     if (!material.current) return

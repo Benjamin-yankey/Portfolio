@@ -29,13 +29,13 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
       aria-modal="true"
       aria-label={item.title}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-panel/95 p-6 backdrop-blur-sm"
     >
       <button
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full border border-cream/30 text-cream transition-colors duration-300 ease-editorial hover:border-cream hover:bg-cream hover:text-ink"
+        className="absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full border border-paper/30 text-paper transition-colors duration-300 ease-editorial hover:border-paper hover:bg-paper hover:text-panel"
       >
         <CloseIcon />
       </button>
@@ -49,7 +49,7 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
               onPrev()
             }}
             aria-label="Previous"
-            className="absolute top-1/2 left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-cream/30 text-cream transition-colors duration-300 ease-editorial hover:border-cream hover:bg-cream hover:text-ink sm:left-8"
+            className="absolute top-1/2 left-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-paper/30 text-paper transition-colors duration-300 ease-editorial hover:border-paper hover:bg-paper hover:text-panel sm:left-8"
           >
             <ChevronIcon direction="left" />
           </button>
@@ -60,7 +60,7 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
               onNext()
             }}
             aria-label="Next"
-            className="absolute top-1/2 right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-cream/30 text-cream transition-colors duration-300 ease-editorial hover:border-cream hover:bg-cream hover:text-ink sm:right-8"
+            className="absolute top-1/2 right-4 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-paper/30 text-paper transition-colors duration-300 ease-editorial hover:border-paper hover:bg-paper hover:text-panel sm:right-8"
           >
             <ChevronIcon direction="right" />
           </button>
@@ -88,22 +88,22 @@ export function Lightbox({ items, index, onClose, onNext, onPrev }: Readonly<Lig
           />
         )}
 
-        <div className="text-center text-cream">
+        <div className="text-center text-paper">
           <p className="font-serif text-[1.3rem]">{item.title}</p>
           {(item.category || item.date) && (
-            <p className="mt-1 text-[0.78rem] tracking-[0.08em] text-cream/60 uppercase">
+            <p className="mt-1 text-[0.78rem] tracking-[0.08em] text-paper/60 uppercase">
               {[item.category, item.date].filter(Boolean).join(' · ')}
             </p>
           )}
           {item.caption && (
-            <p className="mt-2 max-w-[60ch] text-[0.9rem] text-cream/80">{item.caption}</p>
+            <p className="mt-2 max-w-[60ch] text-[0.9rem] text-paper/80">{item.caption}</p>
           )}
           {item.link && (
             <a
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block text-[0.78rem] font-semibold tracking-[0.1em] text-cream uppercase underline-offset-4 hover:underline"
+              className="mt-3 inline-block text-[0.78rem] font-semibold tracking-[0.1em] text-paper uppercase underline-offset-4 hover:underline"
             >
               View on GitHub <span aria-hidden="true">↗</span>
             </a>

@@ -50,7 +50,7 @@ export function GithubShowcase() {
             lift={14}
             perspective={1800}
             className="group"
-            planeClassName="rounded-2xl border border-line bg-white/40 p-[clamp(20px,3vw,32px)]"
+            planeClassName="rounded-2xl border border-line bg-surface/40 p-[clamp(20px,3vw,32px)]"
           >
             <div className="mb-5 flex items-center justify-between">
               <span className="eyebrow">@{githubStats.username}</span>
@@ -64,7 +64,9 @@ export function GithubShowcase() {
             <img
               src={`https://ghchart.rshah.org/1a1a1a/${githubStats.username}`}
               alt={`${githubStats.username}'s GitHub contribution graph`}
-              className="w-full"
+              // The chart's empty days are a fixed light grey; inverting it
+              // in dark mode turns those dark and the active days light.
+              className="w-full dark:invert"
               loading="lazy"
             />
           </Tilt3D>

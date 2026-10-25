@@ -54,9 +54,9 @@ export function Contact() {
         <Reveal
           as="div"
           depth
-          className="flex flex-col justify-center gap-6 bg-ink px-[clamp(24px,6vw,72px)] pt-[140px] pb-[clamp(56px,8vw,96px)] text-cream max-[760px]:pt-[120px]"
+          className="flex flex-col justify-center gap-6 bg-panel px-[clamp(24px,6vw,72px)] pt-[140px] pb-[clamp(56px,8vw,96px)] text-paper max-[760px]:pt-[120px]"
         >
-          <span className="text-[11px] font-semibold tracking-[0.18em] text-cream/60 uppercase">
+          <span className="text-[11px] font-semibold tracking-[0.18em] text-paper/60 uppercase">
             Contact
           </span>
           <h1 className="font-serif text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.08]">
@@ -85,7 +85,7 @@ export function Contact() {
         {(site.availabilityStatus || site.location) && (
           <Reveal as="div" className="mb-10 flex flex-wrap items-center gap-3">
             {site.availabilityStatus && (
-              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/40 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-ink-soft uppercase">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/40 px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-ink-soft uppercase">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-ink" aria-hidden="true" />
                 {site.availabilityStatus}
               </span>
@@ -166,7 +166,7 @@ export function Contact() {
             as="form"
             depth
             onSubmit={handleSubmit}
-            className="rounded-2xl border border-line bg-white/40 p-[clamp(20px,3vw,32px)]"
+            className="rounded-2xl border border-line bg-surface/40 p-[clamp(20px,3vw,32px)]"
           >
             <div className="mb-5 grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
               <label className="block">

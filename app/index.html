@@ -4,6 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ece8e1" />
+    <script>
+      // Set the theme before first paint so dark-mode visitors never see a
+      // flash of the light page. src/lib/theme.ts takes over after load.
+      (function () {
+        var theme
+        try {
+          theme = localStorage.getItem('theme')
+        } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.dataset.theme = theme
+        if (theme === 'dark') {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#161513')
+        }
+      })()
+    </script>
     <title>Benjamin Yankey — Full-Stack &amp; DevOps Engineer</title>
     <meta
       name="description"

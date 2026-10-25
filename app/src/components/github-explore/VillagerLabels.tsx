@@ -27,7 +27,7 @@ export function VillagerLabels({ refs }: Readonly<VillagerLabelsProps>) {
         >
           <span
             style={{ borderBottomColor: villager.color }}
-            className="absolute bottom-0 left-0 -translate-x-1/2 rounded-full border border-b-2 border-white/60 bg-white/75 px-2.5 py-1 text-[0.68rem] font-semibold tracking-[0.04em] whitespace-nowrap text-ink-soft shadow-[0_6px_16px_rgba(26,26,26,0.14)] backdrop-blur-sm"
+            className="absolute bottom-0 left-0 -translate-x-1/2 rounded-full border border-b-2 border-surface/60 bg-surface/75 px-2.5 py-1 text-[0.68rem] font-semibold tracking-[0.04em] whitespace-nowrap text-ink-soft shadow-[0_6px_16px_rgba(26,26,26,0.14)] backdrop-blur-sm"
           >
             {villager.label}
           </span>

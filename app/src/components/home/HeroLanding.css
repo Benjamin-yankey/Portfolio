@@ -55,7 +55,7 @@
   background: linear-gradient(
     to top,
     var(--color-cream) 0%,
-    rgba(236, 232, 225, 0.85) 50%,
+    color-mix(in srgb, var(--color-cream) 85%, transparent) 50%,
     transparent 100%
   );
 }
@@ -73,7 +73,7 @@
   align-items: center;
   gap: 8px;
   border: 1px solid var(--color-line);
-  background: rgba(236, 232, 225, 0.82);
+  background: color-mix(in srgb, var(--color-cream) 82%, transparent);
   border-radius: 999px;
   padding: 8px 16px;
   font-size: 11px;
@@ -154,7 +154,7 @@
 }
 
 .hl-tag-pill {
-  background: rgba(255, 255, 255, 0.55);
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
 }
 
 /* ---------- Desktop ---------- */

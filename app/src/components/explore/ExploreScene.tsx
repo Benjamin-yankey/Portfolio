@@ -1,14 +1,17 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import type { Group, Mesh, ShaderMaterial } from 'three'
 import { Color, DoubleSide, Vector3 } from 'three'
 import type { Project } from '../../data/projects'
 import { FrameRateGuard } from '../FrameRateGuard'
+import { useThemeColor } from '../../hooks/useTheme'
 import { writeAnchor } from '../scene-billboard/anchor'
 import { waveHeight, WAVE_HEIGHT_GLSL } from './waveHeight'
 import { buildMarkerPositions, isArrived, lerp, setWalkTarget, WALK_SPEED, MARKER_RADIUS, type Point, type RoamState } from './roam'
 
-const INK = '#1a1a1a'
+/** The figure, markers and wireframe ground are drawn in the --color-ink
+ *  token, so they follow the theme. */
+const INK_TOKEN = '--color-ink'
 const GROUND_SEGMENTS_X = 18
 const GROUND_SEGMENTS_Z = 12
 /** Height above the figure's feet that the billboard is anchored to — just
@@ -37,10 +40,15 @@ function Ground({ markers, roamRef }: Readonly<GroundProps>) {
     return { width: 9, length: maxZ - minZ, centerZ: (minZ + maxZ) / 2 }
   }, [markers])
 
+  const ink = useThemeColor(INK_TOKEN)
   const uniforms = useMemo(
-    () => ({ uTime: { value: 0 }, uOffsetZ: { value: centerZ }, uColor: { value: new Color(INK) } }),
+    () => ({ uTime: { value: 0 }, uOffsetZ: { value: centerZ }, uColor: { value: new Color() } }),
     [centerZ],
   )
+
+  useEffect(() => {
+    uniforms.uColor.value.set(ink)
+  }, [ink, uniforms])
 
   useFrame((state) => {
     if (material.current) material.current.uniforms.uTime.value = state.clock.getElapsedTime()
@@ -115,6 +123,7 @@ interface MarkerProps {
 /** A project's stop on the ground. Clicking one walks straight to it;
  *  otherwise it just pulses gently once the avatar wanders close enough. */
 function Marker({ index, position, roamRef }: Readonly<MarkerProps>) {
+  const ink = useThemeColor(INK_TOKEN)
   const group = useRef<Group>(null)
   const ring = useRef<Mesh>(null)
 
@@ -139,11 +148,11 @@ function Marker({ index, position, roamRef }: Readonly<MarkerProps>) {
     <group ref={group} onPointerDown={handlePointerDown}>
       <mesh position={[0, 0.25, 0]}>
         <cylinderGeometry args={[0.3, 0.38, 0.5, 16]} />
-        <meshStandardMaterial color={INK} transparent opacity={0.85} />
+        <meshStandardMaterial color={ink} transparent opacity={0.85} />
       </mesh>
       <mesh ref={ring} position={[0, 0.53, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.28, 0.03, 8, 24]} />
-        <meshStandardMaterial color={INK} transparent opacity={0.7} />
+        <meshStandardMaterial color={ink} transparent opacity={0.7} />
       </mesh>
     </group>
   )
@@ -163,6 +172,7 @@ interface AvatarProps {
  *  rides above its head, since all four are defined in terms of the same
  *  live position. */
 function Avatar({ markers, roamRef, onNearChange, billboardRef }: Readonly<AvatarProps>) {
+  const ink = useThemeColor(INK_TOKEN)
   const group = useRef<Group>(null)
   const leftHip = useRef<Group>(null)
   const rightHip = useRef<Group>(null)
@@ -231,22 +241,22 @@ function Avatar({ markers, roamRef, onNearChange, billboardRef }: Readonly<Avata
     <group ref={group}>
       <mesh position={[0, 1.5, 0]}>
         <sphereGeometry args={[0.3, 16, 16]} />
-        <meshStandardMaterial color={INK} />
+        <meshStandardMaterial color={ink} />
       </mesh>
       <mesh position={[0, 0.95, 0]}>
         <capsuleGeometry args={[0.26, 0.65, 4, 8]} />
-        <meshStandardMaterial color={INK} />
+        <meshStandardMaterial color={ink} />
       </mesh>
       <group ref={leftHip} position={[-0.13, 0.85, 0]}>
         <mesh position={[0, -0.4, 0]}>
           <boxGeometry args={[0.15, 0.8, 0.15]} />
-          <meshStandardMaterial color={INK} />
+          <meshStandardMaterial color={ink} />
         </mesh>
       </group>
       <group ref={rightHip} position={[0.13, 0.85, 0]}>
         <mesh position={[0, -0.4, 0]}>
           <boxGeometry args={[0.15, 0.8, 0.15]} />
-          <meshStandardMaterial color={INK} />
+          <meshStandardMaterial color={ink} />
         </mesh>
       </group>
     </group>

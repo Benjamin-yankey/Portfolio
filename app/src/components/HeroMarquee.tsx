@@ -47,11 +47,11 @@ function MarqueeRow({ phrase, direction, size, duration, z, opacity }: Readonly<
         className={`flex shrink-0 ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'}`}
         style={{ animationDuration: duration }}
       >
-        <span className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-black`}>
+        <span className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-ink`}>
           {segment}
         </span>
         <span
-          className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-black`}
+          className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-ink`}
           aria-hidden="true"
         >
           {segment}
