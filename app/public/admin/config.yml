@@ -125,8 +125,9 @@ collections:
             fields:
               - { label: "Date (e.g. Jun 2025)", name: date, widget: string }
               - { label: "Title", name: title, widget: string }
+              - { label: "Article slug (publishes the matching Journal article at /journal/<slug> — leave blank to link out instead)", name: slug, widget: string, required: false }
               - { label: "Excerpt", name: excerpt, widget: text }
-              - { label: "Link", name: href, widget: string }
+              - { label: "Original / external link", name: href, widget: string }
               - { label: "Cover image", name: image, widget: image, required: false }
 
       - file: "app/src/content/gallery.json"
@@ -179,3 +180,17 @@ collections:
             fields:
               - { label: "Name", name: label, widget: string }
               - { label: "Color (hex, e.g. #d97757)", name: color, widget: string }
+
+  # The bodies of on-site journal articles. A file's name is its slug: set
+  # the same slug on the article's entry in "Site Content → Journal".
+  - name: journal-articles
+    label: "Journal articles"
+    folder: "app/src/content/journal"
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: title
+    slug: "{{slug}}"
+    fields:
+      - { label: "Slug (file name, lowercase-with-dashes)", name: title, widget: string }
+      - { label: "Article", name: body, widget: markdown }

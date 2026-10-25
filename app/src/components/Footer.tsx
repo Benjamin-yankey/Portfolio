@@ -3,7 +3,7 @@ import { GitHubIcon, LinkedInIcon, EmailIcon } from './icons/SocialIcons'
 
 export function Footer() {
   return (
-    <footer className="py-[clamp(32px,5vw,48px)]">
+    <footer className="py-[clamp(32px,5vw,48px)] print:hidden">
       <div className="container-page flex flex-wrap items-center justify-between gap-4">
         <p className="text-[0.82rem] text-muted">{site.footerCopy}</p>
         <div className="flex gap-5">

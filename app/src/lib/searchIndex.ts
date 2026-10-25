@@ -65,7 +65,7 @@ const journalItems: SearchItem[] = journalEntries.map((entry) => ({
   title: entry.title,
   subtitle: entry.date,
   keywords: entry.excerpt,
-  action: { kind: 'external', href: entry.href },
+  action: entry.slug ? { kind: 'navigate', to: `/journal/${entry.slug}` } : { kind: 'external', href: entry.href },
 }))
 
 const repoItems: SearchItem[] = githubProjects.map((repo) => ({

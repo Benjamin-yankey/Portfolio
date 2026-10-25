@@ -12,7 +12,7 @@ interface TopBarProps {
 /** Fixed top bar: wordmark on the left; search, theme and the menu toggle on the right. */
 export function TopBar({ isOpen, onToggle, onSearch }: Readonly<TopBarProps>) {
   return (
-    <header className="fixed inset-x-0 top-0 z-[60] flex items-center justify-between bg-cream px-6 py-5 sm:px-14 sm:py-6">
+    <header className="fixed inset-x-0 top-0 z-[60] print:hidden flex items-center justify-between bg-cream px-6 py-5 sm:px-14 sm:py-6">
       <Link
         to="/home"
         className="font-serif text-xl leading-none tracking-[0.04em]"

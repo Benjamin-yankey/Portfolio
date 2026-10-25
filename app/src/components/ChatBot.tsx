@@ -74,13 +74,13 @@ export function ChatBot() {
         type="button"
         onClick={() => setIsOpen((open) => !open)}
         aria-label={isOpen ? 'Close chat' : 'Ask a question'}
-        className="fixed right-6 bottom-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-ink text-cream shadow-[0_12px_28px_rgba(26,26,26,0.28)] transition-transform duration-300 ease-editorial hover:-translate-y-1"
+        className="fixed right-6 bottom-6 z-50 print:hidden flex h-14 w-14 items-center justify-center rounded-full bg-ink text-cream shadow-[0_12px_28px_rgba(26,26,26,0.28)] transition-transform duration-300 ease-editorial hover:-translate-y-1"
       >
         {isOpen ? <CloseIcon /> : <ChatIcon />}
       </button>
 
       {isOpen && (
-        <div className="fixed right-6 bottom-24 z-50 flex h-[min(520px,70vh)] w-[min(360px,88vw)] flex-col overflow-hidden rounded-2xl border border-line bg-cream shadow-[0_24px_60px_rgba(26,26,26,0.22)]">
+        <div className="fixed right-6 bottom-24 z-50 print:hidden flex h-[min(520px,70vh)] w-[min(360px,88vw)] flex-col overflow-hidden rounded-2xl border border-line bg-cream shadow-[0_24px_60px_rgba(26,26,26,0.22)]">
           <div className="border-b border-line px-5 py-4">
             <p className="font-serif text-[1.05rem]">Ask about {site.name}</p>
             <p className="text-[0.78rem] text-muted">
