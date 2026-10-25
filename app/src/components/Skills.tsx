@@ -46,10 +46,12 @@ export function Skills() {
                   certifications block below, which shares the same grid
                   edge. This way the hover surface bleeds outward while the
                   type stays flush. It sits at Z 0, behind the raised
-                  content, so DOM order alone keeps the stacking right. */}
+                  content — but with reduced motion the content isn't
+                  raised and this would cover the skill links, so it never
+                  takes pointer events. */}
               <span
                 aria-hidden="true"
-                className="absolute -inset-x-5 -inset-y-4 rounded-2xl bg-surface/0 opacity-0 shadow-[0_24px_60px_rgba(26,26,26,0.13)] transition-all duration-500 ease-editorial group-hover:bg-surface/30 group-hover:opacity-100"
+                className="pointer-events-none absolute -inset-x-5 -inset-y-4 rounded-2xl bg-surface/0 opacity-0 shadow-[0_24px_60px_rgba(26,26,26,0.13)] transition-all duration-500 ease-editorial group-hover:bg-surface/30 group-hover:opacity-100"
               />
 
               <h3 className="layer-3d mb-4.5 border-b border-line pb-3.5 font-serif text-[1.3rem] font-normal group-hover:[--layer-z:34px]">
