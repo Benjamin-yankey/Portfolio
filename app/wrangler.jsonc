@@ -1,15 +1,45 @@
-// Cloudflare deploy: an assets-only Worker (Cloudflare Pages now runs on
-// Workers static assets). `npm run deploy:cloudflare` builds cf-dist/ and
-// deploys it; cloudflare/_redirects and _headers do the routing.
+// Cloudflare deploy: the static site (cf-dist/) plus a small Worker for the
+// API (worker/), which backs the contact form and the site assistant.
+// `npm run deploy:cloudflare` builds and deploys both; cloudflare/_redirects
+// and _headers do the static routing.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "benjamin-yankey-portfolio",
+  "account_id": "1b8a0f1883f9c73aa3440719d6224776",
   "compatibility_date": "2026-10-25",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./cf-dist",
+    "binding": "ASSETS",
+    // Only the API reaches the Worker; every other path is served straight
+    // from the static files, so _redirects and 404 handling keep applying.
+    "run_worker_first": ["/api/*"],
     // Unknown paths get the nearest 404.html: /Portfolio/404.html inside the
     // site (it hands the path to the app), cloudflare/404.html elsewhere.
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  "preview_urls": true,
+  "observability": { "enabled": true },
+  "vars": {
+    // Model for the site assistant. Opus 5.5 is the default; a cheaper model
+    // such as claude-haiku-5-5 can be swapped in here without code changes.
+    "CHAT_MODEL": "claude-opus-5-5",
+    "CONTACT_TO": "benjaminkofiyankey@gmail.com",
+    // Resend's shared sender works without a domain, but only delivers to
+    // the Resend account's own address. Use a verified domain to change it.
+    "CONTACT_FROM": "Portfolio contact form <onboarding@resend.dev>",
+    // Sites allowed to call the API from the browser (the GitHub Pages copy
+    // of the site calls this Worker cross-origin).
+    "ALLOWED_ORIGINS": "https://benjamin-yankey.github.io,https://benjamin-yankey-portfolio.hueywork.workers.dev,http://localhost:5173,http://localhost:4173",
+    // Public Turnstile site key; leave empty to skip the challenge.
+    "TURNSTILE_SITE_KEY": ""
+  },
+  // Per-IP limits so a public endpoint can't run up the API bill.
+  "ratelimits": [
+    { "name": "CHAT_LIMITER", "namespace_id": "1001", "simple": { "limit": 8, "period": 60 } },
+    { "name": "CONTACT_LIMITER", "namespace_id": "1002", "simple": { "limit": 3, "period": 60 } }
+  ]
+  // Secrets (wrangler secret put <NAME>): ANTHROPIC_API_KEY, RESEND_API_KEY,
+  // TURNSTILE_SECRET_KEY. Each feature reports itself off until its secret is set.
 }
