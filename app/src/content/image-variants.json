@@ -1,0 +1,232 @@
+{
+  "/Portfolio/images/projects/3tier-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/3tier-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/aws-bash-ec2.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/aws-bash-ec2-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-ai-devops.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-ai-devops-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-alx-c.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-alx-c-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-alx-first-steps.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-alx-first-steps-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-alx-sysadmin.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-alx-sysadmin-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-bash-scripting.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-bash-scripting-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-devlog.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-devlog-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-docker-ec2.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-docker-ec2-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-docker-lab.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-docker-lab-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-dsa.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-dsa-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-express-rds.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-express-rds-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-fifty-days.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-fifty-days-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-fincorp-pipeline.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-fincorp-pipeline-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-first-web-page.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-first-web-page-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-jenkins-observability.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-jenkins-observability-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-nginx-proxy.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-nginx-proxy-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-poly-orchestrator.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-poly-orchestrator-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-serverless-tasks.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-serverless-tasks-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-serverless-terraform.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-serverless-terraform-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-skill-lift.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-skill-lift-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-thrift-hub-ledger.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-thrift-hub-ledger-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/card-weed-detection.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/card-weed-detection-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/diagram-ai-devops.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/diagram-ai-devops-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/diagram-fincorp-pipeline.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/diagram-fincorp-pipeline-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/diagram-poly-orchestrator.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/diagram-poly-orchestrator-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/diagram-serverless-tasks.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/diagram-serverless-tasks-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/finops-cost-explorer.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/finops-cost-explorer-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/finops-savings.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/finops-savings-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/git-log.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/git-log-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/gitops-app.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/gitops-app-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/gitops-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/gitops-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/gitops-sonarqube.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/gitops-sonarqube-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/iac-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/iac-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/jenkins-app.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/jenkins-app-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/medico.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/medico-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/observability-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/observability-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/observability-grafana.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/observability-grafana-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/portfolio.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/portfolio-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/quickloan-dataflow.jpg": {
+    "width": 1244,
+    "small": "/Portfolio/images/projects/quickloan-dataflow-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/school-auth-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/school-auth-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/school-live.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/school-live-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/sysadmin-run.jpg": {
+    "width": 1164,
+    "small": "/Portfolio/images/projects/sysadmin-run-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/tf-ansible-architecture.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/tf-ansible-architecture-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/tf-aws-browser.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/tf-aws-browser-800.jpg",
+    "smallWidth": 800
+  },
+  "/Portfolio/images/projects/yaml-validation.jpg": {
+    "width": 1600,
+    "small": "/Portfolio/images/projects/yaml-validation-800.jpg",
+    "smallWidth": 800
+  }
+}

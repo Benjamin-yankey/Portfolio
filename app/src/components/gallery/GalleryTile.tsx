@@ -1,4 +1,5 @@
 import type { GalleryMedia } from '../../data/gallery'
+import { responsiveImage } from '../../lib/images'
 import { Tilt3D } from '../Tilt3D'
 
 interface GalleryTileProps {
@@ -41,7 +42,7 @@ export function GalleryTile({ item, onOpen, showLink = true }: Readonly<GalleryT
           </>
         ) : (
           <img
-            src={item.src}
+            {...responsiveImage(item.src, '(max-width: 560px) 92vw, (max-width: 860px) 46vw, 360px')}
             alt={item.title}
             loading="lazy"
             decoding="async"

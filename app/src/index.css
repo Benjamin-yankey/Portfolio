@@ -40,8 +40,11 @@
   --color-cream-deep: #e1dacd;
   --color-ink: #1a1a1a;
   --color-ink-soft: #2c2a26;
-  --color-muted: #9c968c;
-  --color-muted-faint: #b7b1a5;
+  /* Same warm grey as before, darkened to meet WCAG AA on cream: muted is
+     4.6:1 (body text), muted-faint 3.1:1 (large text and decoration only —
+     the inactive menu links and bullet dashes). */
+  --color-muted: #6b6760;
+  --color-muted-faint: #88827a;
   --color-line: rgba(26, 26, 26, 0.14);
   --color-line-soft: rgba(26, 26, 26, 0.08);
   /* Raised translucent surfaces (cards, glass billboards) — white on cream,

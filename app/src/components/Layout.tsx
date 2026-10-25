@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { navItems } from '../data/nav'
 import { site } from '../data/site'
@@ -81,7 +81,11 @@ export function Layout() {
       />
 
       <main>
-        <Outlet />
+        {/* Pages are code-split (see App.tsx). The fallback holds the page's
+            height so the footer doesn't flash up while a page loads. */}
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <Footer />

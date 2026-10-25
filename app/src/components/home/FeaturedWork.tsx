@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { featuredProjects } from '../../data/projects'
+import { responsiveImage } from '../../lib/images'
 import { projectHref } from '../../lib/routes'
 import { Reveal } from '../Reveal'
 import { Tilt3D } from '../Tilt3D'
@@ -41,7 +42,7 @@ export function FeaturedWork() {
                 <span className="block aspect-[16/10] overflow-hidden border-b border-line bg-cream-deep">
                   {project.image && (
                     <img
-                      src={project.image}
+                      {...responsiveImage(project.image, '(max-width: 640px) 92vw, (max-width: 960px) 46vw, 360px')}
                       alt=""
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"

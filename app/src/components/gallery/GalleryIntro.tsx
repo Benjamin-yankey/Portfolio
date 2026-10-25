@@ -20,6 +20,11 @@ const INTRO_COPY =
  * which reads as the scrub lagging behind the pointer. Tracking one target
  * and only starting the next seek once `seeked` fires for the last one
  * keeps the video always chasing the *latest* pointer position instead.
+ *
+ * The clip is also encoded for scrubbing: a keyframe every 12 frames (half
+ * a second), so no seek decodes more than that. Re-encode a replacement the
+ * same way, e.g. `ffmpeg -i in.mp4 -an -c:v libx264 -crf 25 -g 12
+ * -keyint_min 12 -sc_threshold 0 -movflags +faststart out.mp4`.
  */
 export function GalleryIntro() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -91,6 +96,7 @@ export function GalleryIntro() {
         ref={videoRef}
         onSeeked={handleSeeked}
         src="/Portfolio/videos/gallery-intro.mp4"
+        poster="/Portfolio/videos/gallery-intro-poster.jpg"
         aria-hidden="true"
         tabIndex={-1}
         autoPlay={!prefersReducedMotion}

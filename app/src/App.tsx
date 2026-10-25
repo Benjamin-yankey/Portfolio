@@ -1,14 +1,22 @@
+import { type ComponentType, lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Splash } from './components/Splash'
-import { Hero } from './components/Hero'
-import { Projects } from './components/projects/Projects'
-import { ProjectPage } from './components/projects/ProjectPage'
-import { Skills } from './components/Skills'
-import { Experience } from './components/Experience'
-import { Journal } from './components/Journal'
-import { Gallery } from './components/Gallery'
-import { Contact } from './components/Contact'
+
+/** A page loaded on first visit to its route, so the entry bundle stays small. */
+function page<Name extends string>(load: () => Promise<Record<Name, ComponentType>>, name: Name) {
+  return lazy(() => load().then((module) => ({ default: module[name] })))
+}
+
+const Hero = page(() => import('./components/Hero'), 'Hero')
+const Projects = page(() => import('./components/projects/Projects'), 'Projects')
+const ProjectPage = page(() => import('./components/projects/ProjectPage'), 'ProjectPage')
+const Skills = page(() => import('./components/Skills'), 'Skills')
+const Experience = page(() => import('./components/Experience'), 'Experience')
+const Journal = page(() => import('./components/Journal'), 'Journal')
+const Gallery = page(() => import('./components/Gallery'), 'Gallery')
+const Contact = page(() => import('./components/Contact'), 'Contact')
+const NotFound = page(() => import('./components/NotFound'), 'NotFound')
 
 function App() {
   return (
@@ -24,6 +32,7 @@ function App() {
           <Route path="journal" element={<Journal />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

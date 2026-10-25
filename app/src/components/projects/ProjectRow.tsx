@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import type { Project } from '../../data/projects'
 import { usePointerTilt } from '../../hooks/usePointerTilt'
+import { responsiveImage } from '../../lib/images'
 import { projectHref } from '../../lib/routes'
 
 interface ProjectRowProps {
@@ -51,7 +52,7 @@ export function ProjectRow({ project }: Readonly<ProjectRowProps>) {
         <span className="layer-3d aspect-[16/10] overflow-hidden rounded-xl border border-line bg-cream-deep group-hover:[--layer-z:24px] max-[860px]:hidden">
           {project.image && (
             <img
-              src={project.image}
+              {...responsiveImage(project.image, '200px')}
               alt=""
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-500 ease-editorial group-hover:scale-[1.04]"
@@ -72,7 +73,7 @@ export function ProjectRow({ project }: Readonly<ProjectRowProps>) {
 
 function ArrowIcon() {
   return (
-    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
       <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
