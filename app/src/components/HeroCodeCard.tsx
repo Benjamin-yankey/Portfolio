@@ -37,14 +37,14 @@ export function HeroCodeCard() {
         <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-        <span className="ml-2 truncate font-mono text-[11px] tracking-[0.02em] text-white/40">
+        <span className="ml-2 truncate font-mono text-[11px] tracking-[0.02em] text-white/60">
           ~/benjamin/portfolio
         </span>
       </div>
 
       <pre className="overflow-x-auto px-5 py-5 font-mono text-[0.74rem] leading-[1.7] text-white/85">
         <code>
-          <span className="text-white/40">const</span> benjamin = {'{'}
+          <span className="text-white/60">const</span> benjamin = {'{'}
           {'\n'}  role: [<span className="text-paper">"Full-Stack"</span>,{' '}
           <span className="text-paper">"DevOps"</span>],{'\n'}  stack: [
           <span className="text-paper">"React"</span>,{' '}
@@ -60,7 +60,7 @@ export function HeroCodeCard() {
         {STATS.map((stat) => (
           <div key={stat.label} className="bg-panel px-3 py-4 text-center">
             <p className="font-serif text-[1.3rem] leading-none text-paper">{stat.value}</p>
-            <p className="mt-1.5 text-[10px] tracking-[0.08em] text-white/45 uppercase">
+            <p className="mt-1.5 text-[10px] tracking-[0.08em] text-white/60 uppercase">
               {stat.label}
             </p>
           </div>

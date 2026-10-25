@@ -6,7 +6,7 @@ import { site } from '../data/site'
 import { certifications, skillCategories } from '../data/skills'
 import { projectHref } from '../lib/routes'
 
-/** How many projects the one-page résumé lists. */
+/** How many projects the résumé lists. */
 const RESUME_PROJECTS = 6
 
 const HEADING = 'mb-3 border-b border-line pb-2 text-[11px] font-semibold tracking-[0.16em] text-muted uppercase print:mb-2'

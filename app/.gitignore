@@ -30,3 +30,8 @@ cf-dist
 # Local Worker secrets (see .dev.vars.example)
 .dev.vars
 .env.local
+
+# Test and audit output
+playwright-report
+test-results
+.lighthouseci

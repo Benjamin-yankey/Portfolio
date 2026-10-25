@@ -160,8 +160,9 @@
   @page {
     margin: 14mm 16mm;
   }
-  body {
-    font-size: 10.5pt;
+  /* Sizes are in rem, so this scales all type down to paper size. */
+  html {
+    font-size: 11.5px;
   }
 }
 

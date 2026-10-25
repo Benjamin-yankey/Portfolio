@@ -47,15 +47,18 @@ function MarqueeRow({ phrase, direction, size, duration, z, opacity }: Readonly<
         className={`flex shrink-0 ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'}`}
         style={{ animationDuration: duration }}
       >
-        <span className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-ink`}>
-          {segment}
-        </span>
+        {/* The words are CSS content, not text: they're pure texture at
+            16% opacity, and as real text they'd count as unreadable copy in
+            contrast checks (screen readers already skip them — the whole
+            marquee is aria-hidden). */}
         <span
-          className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight text-ink`}
-          aria-hidden="true"
-        >
-          {segment}
-        </span>
+          data-text={segment}
+          className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight whitespace-pre text-ink before:content-[attr(data-text)]`}
+        />
+        <span
+          data-text={segment}
+          className={`font-serif ${size} pr-16 leading-none font-semibold tracking-tight whitespace-pre text-ink before:content-[attr(data-text)]`}
+        />
       </div>
     </div>
   )
