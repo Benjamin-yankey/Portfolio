@@ -20,7 +20,7 @@ const STOPS = navItems.slice(1).map((item) => item.label)
  */
 export function Splash() {
   useEffect(() => {
-    document.title = `${site.wordmark} — ${site.role}`
+    document.title = `${site.name} — ${site.role}`
   }, [])
 
   return (

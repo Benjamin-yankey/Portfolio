@@ -1,0 +1,15 @@
+# Secrets for `npx wrangler dev`. Copy to .dev.vars (git-ignored) and fill in
+# the ones you want to test; each feature stays off while its key is empty.
+# In production, set them with `npx wrangler secret put <NAME>`.
+
+# Site assistant (console.anthropic.com → API keys)
+ANTHROPIC_API_KEY=
+
+# Contact form email delivery (resend.com → API keys)
+RESEND_API_KEY=
+
+# Contact form spam check (dashboard → Turnstile). Cloudflare's test keys:
+# site 1x00000000000000000000AA with secret 1x0000000000000000000000000000000AA
+# always pass; secret 2x0000000000000000000000000000000AA always fails.
+TURNSTILE_SECRET_KEY=
+TURNSTILE_SITE_KEY=

@@ -1,7 +1,7 @@
 // Assembles the Cloudflare upload from the regular build: the site in
 // cf-dist/Portfolio/ (matching the /Portfolio/ base it's built with), plus the
 // routing files from cloudflare/ at the root. Run after `vite build`.
-import { cpSync, existsSync, rmSync } from 'node:fs'
+import { cpSync, existsSync, rmSync, writeFileSync } from 'node:fs'
 
 const OUT = 'cf-dist'
 
@@ -16,5 +16,10 @@ const skipJunk = (src) => !src.endsWith('.DS_Store')
 rmSync(OUT, { recursive: true, force: true })
 cpSync('dist', `${OUT}/Portfolio`, { recursive: true, filter: skipJunk })
 cpSync('cloudflare', OUT, { recursive: true, filter: skipJunk })
+
+// Here the site owns the domain root, so it can publish robots.txt (GitHub
+// Pages can't: the root there belongs to the user site).
+const siteUrl = (process.env.SITE_URL || 'https://benjamin-yankey-portfolio.hueywork.workers.dev').replace(/\/$/, '')
+writeFileSync(`${OUT}/robots.txt`, `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/Portfolio/sitemap.xml\n`)
 
 console.log(`Cloudflare bundle ready in ${OUT}/`)

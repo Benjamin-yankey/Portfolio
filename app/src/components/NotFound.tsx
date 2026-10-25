@@ -9,7 +9,7 @@ export function NotFound() {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    document.title = `Page not found — ${site.wordmark}`
+    document.title = `Page not found — ${site.name}`
   }, [])
 
   return (

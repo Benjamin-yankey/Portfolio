@@ -2,20 +2,8 @@
 # /Portfolio/ (its GitHub Pages path, which the CMS also bakes into image
 # URLs), so the Cloudflare bundle keeps it in that folder and the bare domain
 # forwards to it.
+#
+# Every route is a real pre-rendered file (scripts/prerender.mjs), so no
+# rewrites are needed — and none should be added for /Portfolio/*: Cloudflare
+# applies these rules even when a file matches, so they'd shadow those pages.
 /  /Portfolio/  302
-
-# Client-side routes get the app shell with a 200 instead of the 404.html
-# round-trip GitHub Pages needs. They're listed one by one because Cloudflare
-# applies these rules even when a real file matches, so a catch-all like
-# /Portfolio/* would also swallow /Portfolio/assets/*. Keep in sync with the
-# routes in src/App.tsx.
-/Portfolio/home        /Portfolio/  200
-/Portfolio/projects    /Portfolio/  200
-/Portfolio/skills      /Portfolio/  200
-/Portfolio/experience  /Portfolio/  200
-/Portfolio/journal     /Portfolio/  200
-/Portfolio/gallery     /Portfolio/  200
-/Portfolio/contact     /Portfolio/  200
-
-# Dynamic rules go after the static ones.
-/Portfolio/projects/*  /Portfolio/  200

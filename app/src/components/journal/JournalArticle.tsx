@@ -21,7 +21,7 @@ export function JournalArticle() {
 
   useEffect(() => {
     if (!entry?.slug) return
-    document.title = `${entry.title} — ${site.wordmark}`
+    document.title = `${entry.title} — ${site.name}`
     let cancelled = false
     setHtml(null)
     setFailed(false)

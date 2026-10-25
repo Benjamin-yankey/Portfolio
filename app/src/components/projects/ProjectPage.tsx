@@ -17,7 +17,7 @@ export function ProjectPage() {
   const lightbox = useLightbox(media.length)
 
   useEffect(() => {
-    if (project) document.title = `${project.title} — ${site.wordmark}`
+    if (project) document.title = `${project.title} — ${site.name}`
   }, [project])
 
   if (!project) return <Navigate to="/projects" replace />

@@ -30,27 +30,28 @@ export function Layout() {
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'instant' })
   }, [location.pathname])
 
+  // Pre-rendered pages are served at /projects/ etc.; match them like /projects.
+  const pathname = location.pathname.replace(/(.)\/+$/, '$1')
+
   // Nested pages (/projects/:slug) belong to their parent section for the
   // nav's active state.
-  const section = navItems.find(
-    (item) => location.pathname === item.path || location.pathname.startsWith(`${item.path}/`),
-  )
+  const section = navItems.find((item) => pathname === item.path || pathname.startsWith(`${item.path}/`))
 
   useEffect(() => {
-    const current = navItems.find((item) => item.path === location.pathname)
+    const current = navItems.find((item) => item.path === pathname)
     // Nested pages set their own title. Effects run child-first, so setting
     // one here would overwrite it.
     if (!current) return
     // The hub route (Home) gets the site's "front door" title; every other
-    // page gets its own name ahead of the wordmark.
+    // page gets its own name ahead of the site owner's.
     document.title =
       current.path !== navItems[0].path
-        ? `${current.label} — ${site.wordmark}`
-        : `${site.wordmark} — ${site.role}`
-  }, [location.pathname])
+        ? `${current.label} — ${site.name}`
+        : `${site.name} — ${site.role}`
+  }, [pathname])
 
   function handleNavigate(path: string) {
-    if (path === location.pathname) {
+    if (path === pathname) {
       close()
       return
     }
@@ -76,7 +77,7 @@ export function Layout() {
       <OverlayNav
         isOpen={isOpen}
         navItems={navItems}
-        activePath={section?.path ?? location.pathname}
+        activePath={section?.path ?? pathname}
         onNavigate={handleNavigate}
       />
 

@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "cms": "GIT_REPO_DIRECTORY=.. decap-server",
-    "build": "tsc -b && vite build",
-    "build:cloudflare": "npm run build && node scripts/bundle-cloudflare.mjs",
+    "build": "tsc -b && vite build && node scripts/prerender.mjs",
+    "build:cloudflare": "SITE_URL=https://benjamin-yankey-portfolio.hueywork.workers.dev npm run build && node scripts/bundle-cloudflare.mjs",
     "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
     "lint": "oxlint",
     "preview": "vite preview"
