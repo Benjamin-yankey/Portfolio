@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           # 22.18+ runs the TypeScript import in scripts/prerender.mjs natively.
           node-version: 24
