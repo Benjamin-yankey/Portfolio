@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Cloudflare Pages upload bundle (npm run build:cloudflare)
+# Cloudflare upload bundle (npm run build:cloudflare)
 cf-dist
 .wrangler

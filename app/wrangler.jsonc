@@ -1,0 +1,15 @@
+// Cloudflare deploy: an assets-only Worker (Cloudflare Pages now runs on
+// Workers static assets). `npm run deploy:cloudflare` builds cf-dist/ and
+// deploys it; cloudflare/_redirects and _headers do the routing.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "benjamin-yankey-portfolio",
+  "compatibility_date": "2026-10-25",
+  "assets": {
+    "directory": "./cf-dist",
+    // Unknown paths get the nearest 404.html: /Portfolio/404.html inside the
+    // site (it hands the path to the app), cloudflare/404.html elsewhere.
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

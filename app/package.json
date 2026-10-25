@@ -8,7 +8,7 @@
     "cms": "GIT_REPO_DIRECTORY=.. decap-server",
     "build": "tsc -b && vite build",
     "build:cloudflare": "npm run build && node scripts/bundle-cloudflare.mjs",
-    "deploy:cloudflare": "npm run build:cloudflare && wrangler pages deploy cf-dist --project-name=benjamin-yankey-portfolio --branch=main",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
     "lint": "oxlint",
     "preview": "vite preview"
   },

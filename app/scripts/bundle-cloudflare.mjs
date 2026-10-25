@@ -1,6 +1,6 @@
-// Assembles the Cloudflare Pages upload from the regular build: the site in
+// Assembles the Cloudflare upload from the regular build: the site in
 // cf-dist/Portfolio/ (matching the /Portfolio/ base it's built with), plus the
-// Pages config files from cloudflare/ at the root. Run after `vite build`.
+// routing files from cloudflare/ at the root. Run after `vite build`.
 import { cpSync, existsSync, rmSync } from 'node:fs'
 
 const OUT = 'cf-dist'
