@@ -4,8 +4,10 @@ A React + Vite site (`app/`) with a small Cloudflare Worker API (`app/worker/`) 
 
 It's published in two places:
 
-- **GitHub Pages** — <https://benjamin-yankey.github.io/Portfolio/> (`.github/workflows/deploy.yml`)
-- **Cloudflare** — <https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/> (`.github/workflows/deploy-cloudflare.yml`), plus a preview URL for every pull request
+- **GitHub Pages** — <https://benjamin-yankey.github.io/Portfolio/>
+- **Cloudflare** — <https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/>, plus a preview URL for every pull request
+
+Both come from one pipeline, `.github/workflows/pipeline.yml`. Every push to `main` and every pull request is checked first — lint, type-check, build, end-to-end tests, Lighthouse — and only if that passes does it deploy: to both sites for `main`, to a Cloudflare preview for a pull request.
 
 ## Editing content
 
@@ -14,7 +16,7 @@ Open the editor on either copy of the site:
 - <https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/admin/>
 - <https://benjamin-yankey.github.io/Portfolio/admin/>
 
-Saving commits to `main`, which redeploys both sites. There are three ways in:
+Saving commits to `main`, which runs the pipeline and redeploys both sites a few minutes later. There are three ways in:
 
 - **Sign In with GitHub** — needs the one-time OAuth app setup below.
 - **Sign In Using Access Token** — works now. Create a [fine-grained token](https://github.com/settings/personal-access-tokens/new) for `Benjamin-yankey/Portfolio` with **Contents: Read and write** and paste it in.
@@ -41,7 +43,7 @@ All commands run in `app/`.
 | `npm run sync:github` | Refresh the repo list and GitHub stats (also runs weekly). |
 | `node scripts/make-image-variants.mjs` | Make 800px copies of new images in `public/images/projects/` (macOS). |
 
-CI (`.github/workflows/ci.yml`) runs lint, type-checks, the build, the end-to-end tests and Lighthouse on every pull request.
+To rerun the pipeline by hand: GitHub → Actions → Pipeline → Run workflow.
 
 ## Switching features on
 

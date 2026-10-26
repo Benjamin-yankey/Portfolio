@@ -9,7 +9,8 @@ backend:
   base_url: https://benjamin-yankey-portfolio.hueywork.workers.dev
   auth_endpoint: api/auth
 
-# Edits commit straight to `main`, which triggers the deploy workflows.
+# Edits commit straight to `main`, which runs the pipeline: checks, then
+# both deploys.
 publish_mode: simple
 
 # Opened from the local dev server (npm run dev → /Portfolio/admin/), the
