@@ -1,6 +1,11 @@
 {
   "items": [
     {
+      "displayName": "Portfolio",
+      "language": "HTML",
+      "url": "https://github.com/Benjamin-yankey/Portfolio"
+    },
+    {
       "displayName": "School Management System",
       "language": "JavaScript",
       "url": "https://github.com/Benjamin-yankey/school-management-system-main"
@@ -11,9 +16,9 @@
       "url": "https://github.com/Benjamin-yankey/Thrift-Hub"
     },
     {
-      "displayName": "Portfolio",
-      "language": "TypeScript",
-      "url": "https://github.com/Benjamin-yankey/Portfolio"
+      "displayName": "Certificates",
+      "language": "Shell",
+      "url": "https://github.com/Benjamin-yankey/Certificates"
     },
     {
       "displayName": "Thrift Hub Ledger",
@@ -51,14 +56,14 @@
       "url": "https://github.com/Benjamin-yankey/Logging-and-monitoring"
     },
     {
-      "displayName": "Monitoring",
-      "language": "Terraform",
-      "url": "https://github.com/Benjamin-yankey/monitoring"
-    },
-    {
       "displayName": "DataPulse",
       "language": "—",
       "url": "https://github.com/Benjamin-yankey/DataPulse"
+    },
+    {
+      "displayName": "Monitoring",
+      "language": "Terraform",
+      "url": "https://github.com/Benjamin-yankey/monitoring"
     },
     {
       "displayName": "GitOps Lab",
@@ -164,11 +169,6 @@
       "displayName": "Final Year Project (KNUST)",
       "language": "Python",
       "url": "https://github.com/Benjamin-yankey/Final_year-Project_KNUST"
-    },
-    {
-      "displayName": "Certificates",
-      "language": "Shell",
-      "url": "https://github.com/Benjamin-yankey/Certificates"
     },
     {
       "displayName": "50 Days Challenge",
