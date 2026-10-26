@@ -2,20 +2,21 @@ backend:
   name: github
   repo: Benjamin-yankey/Portfolio
   branch: main
-  # No base_url set — defaults to Decap's Netlify-hosted OAuth provider
-  # (https://api.netlify.com). This only succeeds when the CMS page itself
-  # is loaded from a Netlify-registered domain (e.g. your-site.netlify.app),
-  # not from the GitHub Pages URL. See netlify.toml for why that mirror
-  # deployment exists.
+  # "Sign In with GitHub" goes through the site's Cloudflare Worker
+  # (app/worker/auth.ts), so the editor works on both the Cloudflare and
+  # GitHub Pages copies of the site. "Sign In Using Access Token" works
+  # without it, with a GitHub token that can write to this repo.
+  base_url: https://benjamin-yankey-portfolio.hueywork.workers.dev
+  auth_endpoint: api/auth
 
-# Edits commit straight to `main`, which triggers the existing GitHub
-# Actions deploy workflow automatically.
+# Edits commit straight to `main`, which triggers the deploy workflows.
 publish_mode: simple
 
-# Lets the CMS talk to a local `decap-server` (npm run cms) when opened
-# from localhost, instead of the `github` backend above. No OAuth needed
-# for local editing.
-local_backend: true
+# Opened from the local dev server (npm run dev → /Portfolio/admin/), the
+# editor can also work on this repo's files directly ("Work with Local
+# Repository") — no sign-in needed.
+
+site_url: https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/
 
 media_folder: "app/public/images"
 public_folder: "/Portfolio/images"

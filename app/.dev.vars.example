@@ -13,3 +13,8 @@ RESEND_API_KEY=
 # always pass; secret 2x0000000000000000000000000000000AA always fails.
 TURNSTILE_SECRET_KEY=
 TURNSTILE_SITE_KEY=
+
+# CMS "Sign In with GitHub" (a GitHub OAuth app; see the README). For local
+# testing the app's callback URL must be http://localhost:8787/api/callback.
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=

@@ -1,3 +1,4 @@
+import { handleAuthCallback, handleAuthStart } from './auth'
 import { handleChat } from './chat'
 import { handleContact } from './contact'
 import { corsHeaders, isAllowedOrigin, json } from './http'
@@ -41,6 +42,11 @@ export default {
         return handleChat(request, env, cors)
       case 'POST /api/contact':
         return handleContact(request, env, cors)
+      // CMS sign-in (worker/auth.ts) — opened in a popup, not called with fetch.
+      case 'GET /api/auth':
+        return handleAuthStart(request, env)
+      case 'GET /api/callback':
+        return handleAuthCallback(request, env)
       default:
         return json({ error: 'not-found' }, 404, cors)
     }

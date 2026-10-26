@@ -1,11 +1,31 @@
 # Benjamin Yankey — Portfolio
 
-A React + Vite site (`app/`) with a small Cloudflare Worker API (`app/worker/`) for the contact form and the site assistant. Content lives in `app/src/content/` and is editable through Decap CMS at `/Portfolio/admin/`.
+A React + Vite site (`app/`) with a small Cloudflare Worker API (`app/worker/`) for the contact form and the site assistant. Content lives in `app/src/content/` and is editable in the browser through [Sveltia CMS](https://github.com/sveltia/sveltia-cms) — see [Editing content](#editing-content).
 
 It's published in two places:
 
 - **GitHub Pages** — <https://benjamin-yankey.github.io/Portfolio/> (`.github/workflows/deploy.yml`)
 - **Cloudflare** — <https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/> (`.github/workflows/deploy-cloudflare.yml`), plus a preview URL for every pull request
+
+## Editing content
+
+Open the editor on either copy of the site:
+
+- <https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/admin/>
+- <https://benjamin-yankey.github.io/Portfolio/admin/>
+
+Saving commits to `main`, which redeploys both sites. There are three ways in:
+
+- **Sign In with GitHub** — needs the one-time OAuth app setup below.
+- **Sign In Using Access Token** — works now. Create a [fine-grained token](https://github.com/settings/personal-access-tokens/new) for `Benjamin-yankey/Portfolio` with **Contents: Read and write** and paste it in.
+- **Work with Local Repository** — from `npm run dev` at <http://localhost:5173/Portfolio/admin/>, in Chrome or Edge: edits your local checkout directly, no sign-in.
+
+**Setting up GitHub sign-in (once):** GitHub → Settings → Developer settings → OAuth Apps → New OAuth App, with
+
+- Homepage URL: `https://benjamin-yankey-portfolio.hueywork.workers.dev/Portfolio/`
+- Authorization callback URL: `https://benjamin-yankey-portfolio.hueywork.workers.dev/api/callback`
+
+then copy the Client ID, generate a client secret, and in `app/` run `npx wrangler secret put GITHUB_CLIENT_ID` and `npx wrangler secret put GITHUB_CLIENT_SECRET`. The sign-in flow lives in `app/worker/auth.ts`; the editor's fields are defined in `app/public/admin/config.yml`.
 
 ## Working on it
 
@@ -29,6 +49,7 @@ Everything works without these; each feature falls back until its key exists.
 
 | Feature | Where | What to add |
 | --- | --- | --- |
+| CMS "Sign In with GitHub" | `npx wrangler secret put GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | A GitHub OAuth app — see [Editing content](#editing-content). |
 | Automatic Cloudflare deploys and PR previews | GitHub → Settings → Secrets → Actions | `CLOUDFLARE_API_TOKEN` (Cloudflare → My Profile → API Tokens → "Edit Cloudflare Workers" template) |
 | AI site assistant | `npx wrangler secret put ANTHROPIC_API_KEY` | An Anthropic API key. Model: `CHAT_MODEL` in `app/wrangler.jsonc`. |
 | Contact form email | `npx wrangler secret put RESEND_API_KEY` | A [Resend](https://resend.com) API key. Without a verified domain it only delivers to the Resend account's own address; set `CONTACT_TO` / `CONTACT_FROM` in `app/wrangler.jsonc`. |

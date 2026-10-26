@@ -1,11 +1,23 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Content Manager</title>
+    <meta name="robots" content="noindex" />
+    <title>Content Manager — Benjamin Yankey</title>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Sveltia CMS, a drop-in replacement for Decap CMS that reads the same
+         config.yml. Pinned, with an integrity hash so a tampered copy won't
+         run on a page that handles GitHub tokens. To upgrade, change the
+         version and the hash (`curl -s <url> | openssl dgst -sha384 -binary
+         | openssl base64 -A`; releases:
+         https://github.com/sveltia/sveltia-cms/releases) and check the
+         editor still loads. -->
+    <script
+      src="https://unpkg.com/@sveltia/cms@0.235.1/dist/sveltia-cms.js"
+      integrity="sha384-0buNFRS4cnwrZfClZMgBYxOTaefGGJltRCRnsKTgLl+q0sOGWcd8sgJpgwr1oKUl"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
