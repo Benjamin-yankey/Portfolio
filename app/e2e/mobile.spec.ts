@@ -1,6 +1,11 @@
+import { journal, projects } from './content'
 import { expect, test } from './fixtures'
 
-for (const path of ['home', 'projects', 'projects/shopnow', 'skills', 'gallery', 'journal/ecs-vs-eks', 'resume']) {
+const article = journal.find((entry) => entry.slug)
+const paths = ['home', 'projects', `projects/${projects[0].slug}`, 'skills', 'gallery', 'resume']
+if (article) paths.push(`journal/${article.slug}`)
+
+for (const path of paths) {
   test(`${path} fits the screen without sideways scrolling`, async ({ page }) => {
     await page.goto(path)
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
