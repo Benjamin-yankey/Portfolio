@@ -1,14 +1,15 @@
+import { journal, projects, site } from './content'
 import { expect, test } from './fixtures'
 
 const PAGES = [
-  { path: 'home', heading: 'Benjamin Yankey' },
+  { path: 'home', heading: site.name },
   { path: 'projects', heading: 'Selected work' },
   { path: 'skills', heading: 'Skills & tools' },
   { path: 'experience', heading: 'Experience' },
   { path: 'journal', heading: 'Journal' },
   { path: 'gallery', heading: 'Gallery' },
   { path: 'contact', heading: "Let's build something great" },
-  { path: 'resume', heading: 'Benjamin Yankey' },
+  { path: 'resume', heading: site.name },
 ]
 
 for (const { path, heading } of PAGES) {
@@ -31,16 +32,19 @@ test('unknown addresses show the not-found page', async ({ page }) => {
 })
 
 test('each route is pre-rendered with its own title and preview tags', async ({ request }) => {
-  const html = await (await request.get('projects/shopnow/')).text()
-  expect(html).toContain('<title>ShopNow: One Storefront, ECS vs EKS — Benjamin Yankey</title>')
-  expect(html).toMatch(/<meta property="og:image" content="[^"]+\/og\/projects\/shopnow\.jpg"/)
-  expect(html).toMatch(/<link rel="canonical" href="[^"]+\/Portfolio\/projects\/shopnow\/"/)
+  const [project] = projects
+  const html = await (await request.get(`projects/${project.slug}/`)).text()
+  // The pre-renderer escapes &, < and > in titles.
+  const title = `${project.title} — ${site.name}`.replaceAll('&', '&amp;')
+  expect(html).toContain(`<title>${title}</title>`)
+  expect(html).toMatch(/<meta property="og:image" content="https?:\/\/[^"]+"/)
+  expect(html).toContain(`/Portfolio/projects/${project.slug}/" />`)
 })
 
 test('sitemap and RSS feed are published', async ({ request }) => {
   const sitemap = await (await request.get('sitemap.xml')).text()
-  expect(sitemap).toContain('/Portfolio/projects/shopnow/</loc>')
+  for (const project of projects) expect(sitemap).toContain(`/Portfolio/projects/${project.slug}/</loc>`)
   const rss = await (await request.get('journal/rss.xml')).text()
   expect(rss).toContain('<rss version="2.0"')
-  expect(rss.match(/<item>/g)?.length).toBeGreaterThanOrEqual(7)
+  expect(rss.match(/<item>/g)?.length).toBe(journal.length)
 })

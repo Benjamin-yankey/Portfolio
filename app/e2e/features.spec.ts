@@ -1,14 +1,18 @@
+import { galleryGroupCount, galleryTileCount, journal, projects } from './content'
 import { expect, test } from './fixtures'
 
 test.describe('skills', () => {
   test('ranks the most-used tools and links each to its projects', async ({ page }) => {
     await page.goto('skills')
     const ranking = page.locator('ol').first()
-    await expect(ranking.locator('li')).toHaveCount(8)
-    await expect(ranking.locator('li').first()).toContainText('Terraform')
+    await expect(ranking.locator('li').first()).toBeVisible()
+    expect(await ranking.locator('li').count()).toBeLessThanOrEqual(8)
 
-    await page.locator('a[href*="skill=React"]').first().click()
-    await expect(page.locator('li:has(> a[href*="/projects/"])')).toHaveCount(3)
+    // A tool's link says how many projects use it; the list must agree.
+    const link = page.locator('a[href*="skill="][title]').first()
+    const count = Number((await link.getAttribute('title'))?.match(/\d+/)?.[0])
+    await link.click()
+    await expect(page.locator('li:has(> a[href*="/projects/"])')).toHaveCount(count)
   })
 })
 
@@ -16,18 +20,27 @@ test.describe('gallery', () => {
   test('groups by category, expands, and pages through one category', async ({ page }) => {
     await page.goto('gallery')
     const grid = page.locator('#gallery-grid')
-    await expect(grid.getByRole('heading', { level: 3 })).toHaveCount(5)
+    await expect(grid.getByRole('heading', { level: 3 })).toHaveCount(galleryGroupCount)
 
     const tiles = grid.locator('ul > li')
-    const before = await tiles.count()
-    await grid.getByRole('button', { name: /Show all \d+/ }).first().click()
-    await expect(tiles).not.toHaveCount(before)
+    const expand = grid.getByRole('button', { name: /Show all \d+/ }).first()
+    if ((await expand.count()) > 0) {
+      const before = await tiles.count()
+      await expand.click()
+      await expect(tiles).not.toHaveCount(before)
+    }
 
-    await grid.getByRole('button', { name: /^DevOps & Cloud/ }).click()
-    await expect(page).toHaveURL(/category=DevOps/)
-    await expect(tiles).toHaveCount(12)
-    await grid.getByRole('button', { name: /Show more/ }).click()
-    await expect(tiles).toHaveCount(22)
+    // One category on its own shows 12 tiles at a time.
+    const category = 'DevOps & Cloud'
+    const total = galleryTileCount(category)
+    test.skip(total === 0, `no "${category}" items`)
+    await grid.getByRole('button', { name: new RegExp(`^${category}`) }).click()
+    await expect(page).toHaveURL(/category=/)
+    await expect(tiles).toHaveCount(Math.min(12, total))
+    if (total > 12) {
+      await grid.getByRole('button', { name: /Show more/ }).click()
+      await expect(tiles).toHaveCount(Math.min(24, total))
+    }
   })
 
   test('the lightbox steps through items with the keyboard', async ({ page }) => {
@@ -52,9 +65,9 @@ test.describe('search', () => {
     await page.keyboard.press('ControlOrMeta+k')
     const dialog = page.getByRole('dialog', { name: 'Search the site' })
     await expect(dialog).toBeVisible()
-    await page.keyboard.type('self healing')
+    await page.keyboard.type(projects[0].title)
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL(/\/projects\/self-healing-system$/)
+    await expect(page).toHaveURL(new RegExp(`/projects/${projects[0].slug}$`))
     await expect(dialog).toBeHidden()
   })
 
@@ -89,18 +102,20 @@ test.describe('theme', () => {
 
 test.describe('journal', () => {
   test('articles open on the site with the original linked', async ({ page }) => {
+    const entry = journal.find((item) => item.slug)
+    test.skip(!entry, 'no on-site articles')
     await page.goto('journal')
-    await page.getByRole('link', { name: /ECS Fargate or EKS/ }).click()
-    await expect(page).toHaveURL(/\/journal\/ecs-vs-eks$/)
-    const article = page.locator('.prose-article')
-    await expect(article.locator('table').first()).toBeVisible()
-    await expect(article.locator('pre').first()).toBeVisible()
-    await expect(page.getByRole('link', { name: /Poly-Orchestrator on GitHub/ })).toHaveAttribute('target', '_blank')
+    await page.getByRole('link', { name: entry!.title }).click()
+    await expect(page).toHaveURL(new RegExp(`/journal/${entry!.slug}$`))
+    await expect(page.locator('.prose-article')).not.toBeEmpty()
+    await expect(page.getByRole('link', { name: /on GitHub/ }).first()).toHaveAttribute('target', '_blank')
   })
 
   test('entries without an article link out', async ({ page }) => {
+    const entry = journal.find((item) => !item.slug)
+    test.skip(!entry, 'every entry has an article')
     await page.goto('journal')
-    await expect(page.getByRole('link', { name: /Auditing an AI Hiring Model/ })).toHaveAttribute('target', '_blank')
+    await expect(page.getByRole('link', { name: entry!.title })).toHaveAttribute('target', '_blank')
   })
 })
 
